@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import Firebase
 import Foundation
+import FirebaseAuth
 
 
 class AuthViewModel: NSObject, ObservableObject {

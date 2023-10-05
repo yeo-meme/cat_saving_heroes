@@ -8,12 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        VStack {
-           MainTabVeiw()
+        Group {
+            if (viewModel.userSession != nil) {
+                MainTabVeiw()
+            } else {
+                LoginView()
+            }
         }
-        .padding()
     }
 }
 

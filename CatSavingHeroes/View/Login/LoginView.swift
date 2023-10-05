@@ -29,6 +29,8 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             VStack{
+                
+               
                 VStack(alignment: .leading, spacing: 30){
                     Spacer()
                     
@@ -117,7 +119,7 @@ struct LoginView: View {
                 Spacer()
             }//: VStack
             .sheet(isPresented: $showingSignUpView) {
-                // SignUpView(isViewPresented: $isViewPresented).environment(\.managedObjectContext, self.managedObjectContext)
+                SignUpView(isViewPresented: $isViewPresented).environment(\.managedObjectContext, self.managedObjectContext)
             }
             .onAppear{
                 if let savedUserID = UserDefaults.standard.string(forKey: "email") {
