@@ -7,49 +7,58 @@
 
 import SwiftUI
 
-struct MainTabVeiw: View {
+struct MainTabView: View {
+    @Binding var presentSideMenu: Bool
+    
+    
     var body: some View {
-        TabView {
-            // Tab 1
-            
-            VStack{
-                Text("Tab 1")
-                Button(action: {
-                    AuthViewModel.shared.signOut()
-                }, label: {
-                    Text("로그아웃")
-                })
-            }
-          
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Home")
-                }
-            
-            // Tab 2
-            Text("Tab 2")
-                .tabItem {
-                    Image(systemName: "heart.fill")
-                    Text("Favorites")
-                }
-            
-            // Tab 3
-            Text("Tab 3")
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profile")
-                }
-            
-            // Tab 4
-            Text("Tab 4")
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Save")
-                }
-        }
+   
+
+            // MainSideTabView()
+        
+        VStack{}
+        
+        // TabView {
+        //     // Tab 1
+        //     
+        //     VStack{
+        //         Text("Tab 1")
+        //         Button(action: {
+        //             AuthViewModel.shared.signOut()
+        //         }, label: {
+        //             Text("로그아웃")
+        //         })
+        //     }
+        //   
+        //         .tabItem {
+        //             Image(systemName: "house.fill")
+        //             Text("Home")
+        //         }
+        //     
+        //     // Tab 2
+        //     Text("Tab 2")
+        //         .tabItem {
+        //             Image(systemName: "heart.fill")
+        //             Text("Favorites")
+        //         }
+        //     
+        //     // Tab 3
+        //     Text("Tab 3")
+        //         .tabItem {
+        //             Image(systemName: "person.fill")
+        //             Text("Profile")
+        //         }
+        //     
+        //     // Tab 4
+        //     Text("Tab 4")
+        //         .tabItem {
+        //             Image(systemName: "person.fill")
+        //             Text("Save")
+        //         }
+        // }
     }
 }
 
-#Preview {
-    MainTabVeiw()
-}
+// #Preview {
+//     MainTabVeiw()
+// }
