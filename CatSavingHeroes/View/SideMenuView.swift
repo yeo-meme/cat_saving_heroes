@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 enum SideMenuRowType: Int, CaseIterable{
     case home = 0
@@ -16,9 +17,9 @@ enum SideMenuRowType: Int, CaseIterable{
     var title: String{
         switch self {
         case .home:
-            return "Home"
+            return "dd"
         case .favorite:
-            return "Favorite"
+            return "내 저장"
         case .chat:
             return "Chat"
         case .profile:
@@ -41,7 +42,7 @@ enum SideMenuRowType: Int, CaseIterable{
 }
 
 struct SideMenuView: View {
-    
+    @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
     
@@ -82,28 +83,73 @@ struct SideMenuView: View {
     }
     
     func ProfileImageView() -> some View{
-        VStack(alignment: .center){
+        ZStack {
+            VStack(alignment: .leading){
+                Text("여메메")
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.black)
+                
+                HStack{
+                    VStack{
+                        Text("2")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.blue.opacity(0.3))
+                        Text("나의 돌봄")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.5))
+                        
+                    }
+                    VStack{
+                        Text("6")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.blue.opacity(0.3))
+                        Text("저장")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.5))
+                        
+                    }
+                    VStack{
+                        Text("8")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.blue.opacity(0.3))
+                        Text("댓글")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.5))
+                        
+                    }
+                }
+               
+            }
+            .padding(.trailing, 100)
             HStack{
                 Spacer()
-                Image("profile-image")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 50)
-                            .stroke(.purple.opacity(0.5), lineWidth: 10)
-                    )
-                    .cornerRadius(50)
-                Spacer()
+                
+                if let imageUrl = viewModel.currentUser?.profileImageUrl {
+                    KFImage(URL(string:imageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80,height: 80)
+                        .clipShape(Circle())
+                        .padding(10)
+                } else {
+                    Image("profile1")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(50)
+                }
+              
+                
+                
+            
+                // Image("profile-image")
+                //     .resizable()
+                //     .aspectRatio(contentMode: .fill)
+                //     .frame(width: 80, height: 80)
+                //     .cornerRadius(50)
             }
+            .padding(.trailing, 30)
             
-            Text("Muhammad Abbas")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundColor(.black)
-            
-            Text("IOS Developer")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.black.opacity(0.5))
         }
     }
     

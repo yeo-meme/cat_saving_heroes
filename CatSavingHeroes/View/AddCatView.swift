@@ -1,5 +1,5 @@
 //
-//  FavoriteView.swift
+//  AddCat.swift
 //  SideMenuSwiftUI
 //
 //  Created by Zeeshan Suleman on 04/03/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FavoriteView: View {
+struct AddCatView: View {
     
     @Binding var presentSideMenu: Bool
     
@@ -25,7 +25,7 @@ struct FavoriteView: View {
             }
             
             Spacer()
-            Text("Favorite View")
+            Text("Chat View")
             Spacer()
         }
         .padding(.horizontal, 24)

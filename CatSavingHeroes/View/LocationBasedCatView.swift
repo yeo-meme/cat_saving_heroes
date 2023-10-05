@@ -1,5 +1,5 @@
 //
-//  ProfileView.swift
+//  FavoriteView.swift
 //  SideMenuSwiftUI
 //
 //  Created by Zeeshan Suleman on 04/03/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct LocationBasedCatView: View {
     
     @Binding var presentSideMenu: Bool
     
@@ -25,7 +25,7 @@ struct ProfileView: View {
             }
             
             Spacer()
-            Text("Profile View")
+            Text("Favorite View")
             Spacer()
         }
         .padding(.horizontal, 24)

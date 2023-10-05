@@ -1,5 +1,5 @@
 //
-//  MainTabVeiw.swift
+//  SaveView.swift
 //  CatSavingHeroes
 //
 //  Created by yeomim kim on 2023/10/05.
@@ -7,17 +7,12 @@
 
 import SwiftUI
 
-struct MainTabView: View {
+struct SaveView: View {
     @Binding var presentSideMenu: Bool
     
-    
     var body: some View {
-   
-        VStack{}
-       
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-// #Preview {
-//     MainTabVeiw()
-// }
+

@@ -11,18 +11,8 @@ struct SideMenu: View {
     @Binding var isShowing: Bool
     var content: AnyView
     var edgeTransition: AnyTransition = .move(edge: .trailing)
- 
     
     var body: some View {
-        let drag = DragGesture()
-                    .onEnded {
-                        if $0.translation.width < -100 {
-                            withAnimation {
-                                self.isShowing = false
-                            }
-                        }
-                    }
-        
         
         GeometryReader { geometry in
         ZStack(alignment: .bottom) {
@@ -41,12 +31,9 @@ struct SideMenu: View {
                         .background(
                             Color.clear
                         )
-                        
                 }
                    
             }
-        .gesture(drag)
-           
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ChatView.swift
+//  LocationView.swift
 //  SideMenuSwiftUI
 //
 //  Created by Zeeshan Suleman on 04/03/2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatView: View {
+struct RecordLocationView: View {
     
     @Binding var presentSideMenu: Bool
     
@@ -25,7 +25,7 @@ struct ChatView: View {
             }
             
             Spacer()
-            Text("Chat View")
+            Text("Profile View")
             Spacer()
         }
         .padding(.horizontal, 24)

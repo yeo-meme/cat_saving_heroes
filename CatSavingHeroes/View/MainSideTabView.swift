@@ -12,6 +12,8 @@ struct MainSideTabView: View {
     @State var selectedSideMenuTab = 0
     
     var body: some View {
+  
+        
         ZStack{
             TabView(selection: $selectedSideMenuTab) {
                 NavigationView {
@@ -25,7 +27,6 @@ struct MainSideTabView: View {
                                     Image(systemName: "line.horizontal.3")
                                 }
                             )
-                       
                 }
                 .tabItem {
                     Image(systemName: "house.fill")
@@ -33,31 +34,39 @@ struct MainSideTabView: View {
                 }
                 .tag(0)
                 
-                FavoriteView(presentSideMenu: $presentSideMenu)
+                LocationBasedCatView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "heart.fill")
-                        Text("Favorites")
+                        Text("주변냥")
                     }
                     .tag(1)
                 
-                ChatView(presentSideMenu: $presentSideMenu)
+                AddCatView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "message.fill")
-                        Text("Chat")
+                        Text("냥이추가")
                     }
                     .tag(2)
                 
-                ProfileView(presentSideMenu: $presentSideMenu)
+                RecordLocationView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "person.fill")
-                        Text("Profile")
+                        Text("동선기록")
                     }
                     .tag(3)
+                
+                // SaveView(presentSideMenu: $presentSideMenu)
+                //     .tabItem {
+                //         Image(systemName: "person.fill")
+                //         Text("저장")
+                //     }
+                //     .tag(4)
             }
 
                 SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
                    
         }
+        
    
     }
 }
