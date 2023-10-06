@@ -10,6 +10,7 @@ import FirebaseFirestore
 import Firebase
 import Foundation
 import FirebaseAuth
+import FirebaseCore
 
 
 class AuthViewModel: NSObject, ObservableObject {

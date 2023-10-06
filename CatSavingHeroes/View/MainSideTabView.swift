@@ -48,7 +48,7 @@ struct MainSideTabView: View {
                     }
                     .tag(2)
                 
-                RecordLocationView(presentSideMenu: $presentSideMenu)
+                LocationFollowView()
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("동선기록")
