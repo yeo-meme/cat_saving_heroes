@@ -8,35 +8,53 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import SlidingTabView
 
 
 struct LocationFollowView: View {
     @StateObject var model = Model()
       
+    @State private var tabIndex = 0
     var body: some View {
-      VStack(alignment: .center, spacing: 20) {
-        Text("Location Tracker")
-          .font(.largeTitle)
-          .fontWeight(.bold)
-          .padding(EdgeInsets(top: 50, leading: 50, bottom: 0, trailing: 50))
-
-        Button(
-          action: { model.startStopLocationTracking() },
-          label: {
-            VStack {
-              Image(systemName: model.isLocationTrackingEnabled ? "stop" : "location")
-              Text(model.isLocationTrackingEnabled ? "Stop" : "Start")
+        
+        
+        VStack{
+            SlidingTabView(selection: $tabIndex, tabs: ["기록하기","기록보기"], selectionBarColor: .green)
+            
+            Spacer()
+            
+            if tabIndex == 0 {
+                Text("Home")
+            } else if tabIndex == 1 {
+                HeroCalendarView()
             }
-          })
-        .font(.title)
-        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-
-        Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
-          MapPin(coordinate: pin.coordinate, tint: .red)
+            
+            Spacer()
         }
-        .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
-      }
-    }
+    
+          }
+      // VStack(alignment: .center, spacing: 20) {
+      //   Text("Location Tracker")
+      //     .font(.largeTitle)
+      //     .fontWeight(.bold)
+      //     .padding(EdgeInsets(top: 50, leading: 50, bottom: 0, trailing: 50))
+      // 
+      //   Button(
+      //     action: { model.startStopLocationTracking() },
+      //     label: {
+      //       VStack {
+      //         Image(systemName: model.isLocationTrackingEnabled ? "stop" : "location")
+      //         Text(model.isLocationTrackingEnabled ? "Stop" : "Start")
+      //       }
+      //     })
+      //   .font(.title)
+      //   .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+      // 
+      //   Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
+      //     MapPin(coordinate: pin.coordinate, tint: .red)
+      //   }
+      //   .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20))
+      // }
     }
 
 extension LocationFollowView {
