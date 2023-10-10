@@ -56,6 +56,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Binding var userLocation: CLLocationCoordinate2D?
     @Binding var locations: [CLLocationCoordinate2D]
     
+    var previousLocation: CLLocation?
     
     init(userLocation: Binding<CLLocationCoordinate2D?>, locations: Binding<[CLLocationCoordinate2D]>) {
         mgr = CLLocationManager()  // Initialize mgr here before calling
@@ -105,6 +106,8 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             appendPin(location: currentLocation)
             updateRegion(location: currentLocation)
             coordinates = locations.map { $0.coordinate }
+          
+            // distanceTraveled(currentLocation)
         }
         
         //Realm data
@@ -123,6 +126,19 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         guard let addressLct = locations.first else {
                 return
             }
+        
+        guard let resentLocation = locations.first else {
+               return
+           }
+        
+        if let previousLocation = previousLocation {
+            // 이전 위치와 현재 위치 간의 거리 계산
+                   let distance = previousLocation.distance(from: resentLocation)
+                   print("이동한 거리: \(distance) 미터")
+        }
+        //이동한 거리
+        previousLocation = location
+   
         
         let geocoder = CLGeocoder()
             geocoder.reverseGeocodeLocation(addressLct) { (placemarks, error) in
@@ -144,6 +160,16 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
     }
     
+    func addressConverter(location: CLLocation){
+        
+    }
+    
+    //이동한 거리
+    //TODO: 함수로 뺴기 
+    func distanceTraveled(location: CLLocation) {
+     
+        
+    }
     func appendPin(location: CLLocation) {
         pins.append(PinLocation(coordinate: location.coordinate))
         print("뉴 경로:\(pins)")
