@@ -11,7 +11,7 @@ import MapKit
 
 
 struct TrackingHeroView: View {
-    // @StateObject private var model = Model() 
+    // @StateObject private var model = Model()
     @EnvironmentObject var model: Model
     @State private var isRecording = false
     

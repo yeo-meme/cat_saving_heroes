@@ -86,7 +86,9 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     //     mgr.delegate = self
     //     
     // }
-    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
     func startUpdatingLocation() {
         mgr.startUpdatingLocation()
     }
@@ -108,19 +110,38 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         //Realm data
         if let newLocation = locations.last?.coordinate {
             lastLocation = newLocation
+           
             print("new Location:\(lastLocation)")
+            
         }
         
-       
-        // if let newLocation = locations.last?.coordinate {
-        //     lastLocation = newLocation
-        //     print("new Location:\(lastLocation)")
-        // 
-        // }
-        // if let location = locations.last?.coordinate {
-        //     self.userLocation = location
-        //     self.locations.append(location)
-        // }
+        if let location = locations.last?.coordinate {
+        self.userLocation = location
+        self.locations.append(location)
+        }
+        
+        guard let addressLct = locations.first else {
+                return
+            }
+        
+        let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(addressLct) { (placemarks, error) in
+                if let error = error {
+                    print("주소를 가져오는 중 오류 발생: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let placemark = placemarks?.first {
+                    // 주소 정보는 placemark에 있습니다.
+                    if let address = placemark.name,
+                       let city = placemark.locality,
+                       let state = placemark.administrativeArea,
+                       let postalCode = placemark.postalCode,
+                       let country = placemark.country {
+                        print("주소: \(address), \(city), \(state) \(postalCode), \(country)")
+                    }
+                }
+            }
     }
     
     func appendPin(location: CLLocation) {
