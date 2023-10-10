@@ -31,10 +31,11 @@ import MapKit
 //         }
 //     }
 // }
+
 struct LocationBasedCatView: View {
-    // @EnvironmentObject var locationManager: LocationManager
+    // @EnvironmentObject var locationManager: Model
     @State private var isRecording = false
-    // @State private var locationRecords: [LocationRecord] = []
+    @State private var locationRecords: [LocationRecord] = []
 
     @Binding var presentSideMenu: Bool
     
@@ -43,24 +44,24 @@ struct LocationBasedCatView: View {
             HStack{
                 HStack{
                     Button(action: {
-                        // 위치 기록을 Realm에 저장
-                        // if isRecording {
-                        //     
-                        //     // 위치 기록을 Realm에 저장
-                        //     let locationRecord = LocationRecord()
-                        //     locationRecord.latitude = locationManager.lastLocation.latitude
-                        //     locationRecord.longitude = locationManager.lastLocation.longitude
-                        //     
-                        //     do {
-                        //         let realm = try Realm()
-                        //         try realm.write {
-                        //             realm.add(locationRecord)
-                        //         }
-                        //         print("realm기록하였음")
-                        //     } catch {
-                        //         print("Error saving location: \(error.localizedDescription)")
-                        //     }
-                        // }
+                        //위치 기록을 Realm에 저장
+                        if isRecording {
+                            
+                            // 위치 기록을 Realm에 저장
+                            let locationRecord = LocationRecord()
+                            // locationRecord.latitude = locationManager.lastLocation.latitude
+                            // locationRecord.longitude = locationManager.lastLocation.longitude
+                            
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    realm.add(locationRecord)
+                                }
+                                print("realm기록하였음")
+                            } catch {
+                                print("Error saving location: \(error.localizedDescription)")
+                            }
+                        }
                     }) {
                         Text("장소추가")
                             .font(.headline)
@@ -72,7 +73,7 @@ struct LocationBasedCatView: View {
                     
                     
                     Button {
-                        // fetchLocationRecords()
+                        fetchLocationRecords()
                     } label: {
                         Text("불러오기")
                     }
@@ -85,17 +86,16 @@ struct LocationBasedCatView: View {
         .padding(.horizontal, 24)
     }
     
-    // func fetchLocationRecords() {
-    //     do {
-    //         let realm = try Realm()
-    //         let locationRecords = realm.objects(LocationRecord.self)
-    //         print("불러오기 : \(locationRecords)")
-    //     } catch {
-    //         print("Error fetching location records: \(error.localizedDescription)")
-    //     }
-    // }
+    func fetchLocationRecords() {
+        do {
+            let realm = try Realm()
+            let locationRecords = realm.objects(LocationRecord.self)
+            print("불러오기 : \(locationRecords)")
+        } catch {
+            print("Error fetching location records: \(error.localizedDescription)")
+        }
+    }
 }
-
 
 
 

@@ -9,24 +9,50 @@ import SwiftUI
 import Charts
 
 struct AddCatView: View {
-    
-//     @Binding var presentSideMenu: Bool
-//     let data = ["파이","진우","여미미"]
+    @State private var catName = ""
+    @State private var catAge = ""
+    @State private var catGender = ""
+    @State private var catMemo = ""
+    @State private var selectedImage: UIImage?
+    @State private var isImagePickerPresented = false
+
     var body: some View {
-        VStack{}
+        NavigationView {
+                Form {
+                    Section(header: Text("Cat Information")) {
+                        TextField("Name", text: $catName)
+                        TextField("Age", text: $catAge)
+                        TextField("Gender", text: $catGender)
+                        TextEditor(text: $catMemo)
+                    }
+                    
+                    // Section(header: Text("Cat Photo")) {
+                    //     if let image = selectedImage {
+                    //         Image(uiImage: image)
+                    //             .resizable()
+                    //             .aspectRatio(contentMode: .fit)
+                    //             .frame(height: 200)
+                    //     } else {
+                    //         Text("No Photo Selected")
+                    //     }
+                    //     
+                    //     Button("Select Photo") {
+                    //         isImagePickerPresented.toggle()
+                    //     }
+                    //     .sheet(isPresented: $isImagePickerPresented) {
+                    //         ImagePicker(selectedImage: $selectedImage)
+                    //     }
+                    // }
+                    
+                    Section {
+                        Button(action: {
+                            // Save cat information and photo here
+                        }) {
+                            Text("Add Cat")
+                        }
+                    }
+                }
+        }
     }
 }
-// struct Posting: Identifiable {
-//   let name: String
-//   let count: Int
-//   
-//   var id: String { name }
-// }
-// 
-// let postings: [Posting] = [
-//   .init(name: "Green", count: 250),
-//   .init(name: "James", count: 100),
-//   .init(name: "Tony", count: 70)
-// ]
-// 
-// 
+
