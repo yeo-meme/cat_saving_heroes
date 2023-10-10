@@ -6,28 +6,27 @@
 //
 
 import SwiftUI
+import Charts
 
 struct AddCatView: View {
     
-    @Binding var presentSideMenu: Bool
-    
+//     @Binding var presentSideMenu: Bool
+//     let data = ["파이","진우","여미미"]
     var body: some View {
-        VStack{
-            HStack{
-                Button{
-                    presentSideMenu.toggle()
-                } label: {
-                    Image("menu")
-                        .resizable()
-                        .frame(width: 32, height: 32)
-                }
-                Spacer()
-            }
-            
-            Spacer()
-            Text("Chat View")
-            Spacer()
-        }
-        .padding(.horizontal, 24)
+        VStack{}
     }
 }
+// struct Posting: Identifiable {
+//   let name: String
+//   let count: Int
+//   
+//   var id: String { name }
+// }
+// 
+// let postings: [Posting] = [
+//   .init(name: "Green", count: 250),
+//   .init(name: "James", count: 100),
+//   .init(name: "Tony", count: 70)
+// ]
+// 
+// 

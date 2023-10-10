@@ -37,11 +37,11 @@ struct MainSideTabView: View {
                 LocationBasedCatView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "heart.fill")
-                        Text("주변냥")
+                        Text("주변돌봄")
                     }
                     .tag(1)
                 
-                AddCatView(presentSideMenu: $presentSideMenu)
+                AddCatView()
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이추가")
@@ -51,7 +51,7 @@ struct MainSideTabView: View {
                 LocationFollowView()
                     .tabItem {
                         Image(systemName: "person.fill")
-                        Text("동선기록")
+                        Text("영웅업무")
                     }
                     .tag(3)
                 

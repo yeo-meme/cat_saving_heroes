@@ -12,6 +12,7 @@ import FirebaseCore
 
 @main
 struct CatSavingHeroesApp: App {
+    // @StateObject private var locationManager = LocationManager() // 환경 객체
     
     init() {
         FirebaseApp.configure()
@@ -28,6 +29,7 @@ struct CatSavingHeroesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environmentObject(AuthViewModel.shared)
+                // .environmentObject(locationManager) // 환경 객체 공유
         }
     }
 }

@@ -71,7 +71,21 @@ extension HeroCalendarViewController: UICalendarViewDelegate, UICalendarSelectio
             // 2월 14일인 경우 "사랑" 텍스트 표시
             return .customView {
                 let label = UILabel()
-                label.text = "사랑"
+                label.text = "아이스크림"
+                let label1 = UILabel()
+                label1.text = "먹으면추워"
+
+                // UILabel의 폰트 및 크기 설정
+                let fontSize: CGFloat = 8.0
+                let font = UIFont.systemFont(ofSize: fontSize)
+                let attributes = [NSAttributedString.Key.font: font]
+
+                let attributedText = NSAttributedString(string: label.text ?? "", attributes: attributes)
+                label.attributedText = attributedText
+
+                // UILabel의 크기 설정
+                let labelSize = attributedText.size()
+                label.frame = CGRect(x: 20, y: 20, width: labelSize.width, height: labelSize.height)
                 label.textAlignment = .center
                 return label
             }
