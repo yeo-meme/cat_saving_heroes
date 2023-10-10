@@ -12,22 +12,27 @@ import MapKit
 
 //Uikit을 변형해주는 코드
 struct HeroTrackViewWrapper: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> TrackingViewController {
-        return TrackingViewController()
+    func updateUIViewController(_ uiViewController: TrackingViewController, context: Context) {
+        
     }
 
-    func updateUIViewController(_ uiViewController: TrackingViewController, context: Context) {
-        // Update the view controller if needed
+    func makeUIViewController(context: Context) -> TrackingViewController {
+        let trackingViewController = TrackingViewController()
+        return trackingViewController
     }
 }
-
+// 
 struct HeroTrackView: View {
+
     var body: some View {
         NavigationView {
            
-            HeroTrackViewWrapper()
+            VStack {
+                HeroTrackViewWrapper()
+                    
+            }
                 .navigationBarTitle("Hero Track")
         }
     }
 }
-
+// 

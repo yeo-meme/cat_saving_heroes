@@ -8,16 +8,33 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SwiftUI
 
 class TrackingViewController: UIViewController {
     // 
-    // @IBOutlet weak var lbl: UILabel!
-    // @IBOutlet weak var lbl3: UILabel!
-    // @IBOutlet weak var lbl2: UILabel!
+    @IBOutlet weak var lbl: UILabel!
+    @IBOutlet weak var lbl3: UILabel!
+    @IBOutlet weak var lbl2: UILabel!
     var previousCoordinate: CLLocationCoordinate2D?
     var trackData: TrackData = TrackData()
+    @State private var isShowingUIKitView = false
+    // @State private var mapView = MKMapView()
+    // @IBOutlet weak var mapView: MKMapView!
     
-    @IBOutlet weak var mapView: MKMapView!
+    lazy var mapView: MKMapView = {
+        let map = MKMapView()
+        map.translatesAutoresizingMaskIntoConstraints = false // 필요에
+        self.mapView.mapType = MKMapType.standard
+        
+        mapView.showsUserLocation = true
+        
+        self.mapView.setUserTrackingMode(.follow, animated: true)
+        
+        self.mapView.isZoomEnabled = true
+        self.mapView.delegate = self
+        self.locationManager.startUpdatingLocation()
+        return map
+    }()
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -31,7 +48,7 @@ class TrackingViewController: UIViewController {
 
         
         getLocationUsagePermission()
-        
+        // 
         // self.mapView.mapType = MKMapType.standard
         // 
         // mapView.showsUserLocation = true
@@ -40,10 +57,18 @@ class TrackingViewController: UIViewController {
         // 
         // self.mapView.isZoomEnabled = true
         // self.mapView.delegate = self
-        
+        // 
         self.trackData.date = Date()
+        setCalendar()
     }
+    fileprivate func setCalendar() {
+         // mapView.delegate = self
 
+        view.addSubview(mapView)
+         // let dateSelection = UICalendarSelectionSingleDate(delegate: self)
+         // dateView.selectionBehavior = dateSelection
+     }
+    
     
     @IBAction func stopTracking(_ sender: Any) {
         self.locationManager.stopUpdatingLocation()
@@ -56,7 +81,28 @@ class TrackingViewController: UIViewController {
     }
 
 
+    func setupButton() {
+        // 버튼을 생성합니다.
+        let button = UIButton(type: .system)
+        button.setTitle("Show Track", for: .normal)
+        button.addTarget(self, action: #selector(showTrackView), for: .touchUpInside)
+        
+        // 버튼을 뷰에 추가합니다.
+        self.view.addSubview(button)
+        
+        // 버튼의 레이아웃을 설정합니다.
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+    }
     
+    @objc func showTrackView() {
+        // ShowView를 호스팅하기 위한 UIHostingController를 생성합니다.
+        // let showView = UIHostingController(rootView: ShowViewController())
+        print("버튼 ")
+        self.isShowingUIKitView.toggle()
+    
+    }
     
     /*
     // MARK: - Navigation
@@ -118,7 +164,7 @@ extension TrackingViewController: CLLocationManagerDelegate {
             points.append(point2)
             
             let lineDraw = MKPolyline(coordinates: points, count: points.count)
-            // self.mapView.addOverlay(lineDraw)
+            self.mapView.addOverlay(lineDraw)
         }
         self.previousCoordinate = location.coordinate
         

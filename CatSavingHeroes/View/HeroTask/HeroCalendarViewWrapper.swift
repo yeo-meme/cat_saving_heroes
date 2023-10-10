@@ -25,7 +25,7 @@ struct HeroCalendarView: View {
         NavigationView {
            
             HeroCalendarViewWrapper()
-                .navigationBarTitle("Hero Track")
+                .navigationBarTitle("Hero Calendar")
         }
     }
 }

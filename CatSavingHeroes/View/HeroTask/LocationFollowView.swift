@@ -24,7 +24,8 @@ struct LocationFollowView: View {
             Spacer()
             
             if tabIndex == 0 {
-                HeroTrackView()
+                TrackingHeroView()
+                
             } else if tabIndex == 1 {
                 HeroCalendarView()
             }
