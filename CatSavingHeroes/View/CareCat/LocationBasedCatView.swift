@@ -33,7 +33,7 @@ import MapKit
 // }
 
 struct LocationBasedCatView: View {
-    // @EnvironmentObject var locationManager: Model
+    @EnvironmentObject var locationManager: Model
     @State private var isRecording = false
     @State private var locationRecords: [LocationRecord] = []
 
@@ -45,23 +45,22 @@ struct LocationBasedCatView: View {
                 HStack{
                     Button(action: {
                         //위치 기록을 Realm에 저장
-                        if isRecording {
                             
                             // 위치 기록을 Realm에 저장
                             let locationRecord = LocationRecord()
-                            // locationRecord.latitude = locationManager.lastLocation.latitude
-                            // locationRecord.longitude = locationManager.lastLocation.longitude
-                            
-                            do {
+                            locationRecord.latitude = locationManager.lastLocation.latitude
+                            locationRecord.longitude = locationManager.lastLocation.longitude
+
+                        print("뭐지 : \(locationManager.lastLocation.latitude)")
+                        do {
                                 let realm = try Realm()
                                 try realm.write {
                                     realm.add(locationRecord)
+                                    print("realm기록하였음: Latitude: \(locationRecord.latitude), Longitude: \(locationRecord.longitude)")
                                 }
-                                print("realm기록하였음")
                             } catch {
                                 print("Error saving location: \(error.localizedDescription)")
                             }
-                        }
                     }) {
                         Text("장소추가")
                             .font(.headline)
@@ -91,6 +90,15 @@ struct LocationBasedCatView: View {
             let realm = try Realm()
             let locationRecords = realm.objects(LocationRecord.self)
             print("불러오기 : \(locationRecords)")
+            // 검색된 LocationRecord 객체의 값을 가져옵니다.
+            for locationRecord in locationRecords {
+                let latitude = locationRecord.latitude
+                let longitude = locationRecord.longitude
+                let timestamp = locationRecord.timestamp
+                
+                // 여기에서 가져온 값들을 사용하거나 출력할 수 있습니다.
+                print("불러오기 Latitude: \(latitude), Longitude: \(longitude), Timestamp: \(timestamp)")
+            }
         } catch {
             print("Error fetching location records: \(error.localizedDescription)")
         }
