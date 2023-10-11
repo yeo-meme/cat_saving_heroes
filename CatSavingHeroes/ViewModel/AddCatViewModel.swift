@@ -29,15 +29,38 @@ class AddCatViewModel: ObservableObject {
     
     init() {
         do {
+            
+            // let realm = try Realm()
+            // try! realm.write {
+            //     realm.delete(realm.objects(Cat.self))
+            // }
+            
             // Realm 데이터베이스 객체 생성
-            let config = Realm.Configuration(schemaVersion: 2) // 버전 번호를 새로운 숫자로 업데이트
-            let realm = try! Realm(configuration: config)
+            // let config = Realm.Configuration(schemaVersion: 2) // 버전 번호를 새로운 숫자로 업데이트
+            // let realm = try! Realm(configuration: config)
 
             // Cat 모델의 모든 객체 삭제
             // try! realm.write {
             //     realm.delete(realm.objects(Cat.self))
             // }
+            // cats = realm.objects(Cat.self)
+            // let config = Realm.Configuration()
+
+            // if let currentSchemaVersion = config.schemaVersion {
+            //     print("Current Realm Schema Version: \(currentSchemaVersion)")
+            // } else {
+            //     print("Realm Configuration does not have a schema version.")
+            // }
+        
+            // let config = Realm.Configuration(
+            //     schemaVersion: 0, // 스키마 버전을 0으로 설정
+            //     deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
+            // )
+            // Realm.Configuration.defaultConfiguration = config
+            // 
+            let realm = try Realm()
             cats = realm.objects(Cat.self)
+      
         } catch {
             print("Error initializing Realm: \(error)")
         }

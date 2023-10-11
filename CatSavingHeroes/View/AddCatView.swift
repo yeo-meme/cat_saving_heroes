@@ -121,7 +121,7 @@ struct AddCatView: View {
                               action: {
                     // isIndicatorAnimating = true
                     catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo)
-                    
+                    // RealmHelper.shared.createCat(name: catName, age: catAge, gender: catGender, memo: catMemo)
                     catViewModel.catImageUpload(selectedImage!) { success in
                         if success {
                             // isIndicatorAnimating = false
