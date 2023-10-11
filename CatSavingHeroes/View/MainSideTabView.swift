@@ -10,7 +10,7 @@ import SwiftUI
 struct MainSideTabView: View {
     @State var presentSideMenu = false
     @State var selectedSideMenuTab = 0
-    
+    @State var catModel = AddCatViewModel()
     var body: some View {
   
         
@@ -41,7 +41,7 @@ struct MainSideTabView: View {
                     }
                     .tag(1)
                 
-                AddCatView()
+                AddCatView(catViewModel: catModel)
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이추가")
@@ -72,6 +72,6 @@ struct MainSideTabView: View {
 }
 
 
-#Preview {
-    MainSideTabView()
-}
+// #Preview {
+//     MainSideTabView(catModel: $catModel)
+// }

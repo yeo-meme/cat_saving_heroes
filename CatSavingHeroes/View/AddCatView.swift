@@ -8,11 +8,13 @@
 import SwiftUI
 import Charts
 
+
 struct AddCatView: View {
     @State private var catName = ""
     @State private var catAge = ""
     @State private var catGender = ""
     @State private var catMemo = ""
+    @State private var catAddress = ""
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
     
@@ -22,11 +24,14 @@ struct AddCatView: View {
     
     let genders = ["남아", "여아"]
     @State private var selectedAge: Int = 0
-        let ageRange = 1...30 // 1부터 30까지의 범위
-
+    let ageRange = 1...30 // 1부터 30까지의 범위
+    @EnvironmentObject var viewModel : AuthViewModel
+    @ObservedObject var catViewModel: AddCatViewModel
+    
     var body: some View {
         NavigationView {
-                ScrollView{
+            ScrollView{
+                VStack{
                     VStack{
                         VStack(alignment: .leading, spacing: 8) {
                             HStack{ Spacer() }
@@ -74,6 +79,7 @@ struct AddCatView: View {
                                 
                                 TextField("이름", text: $catName)
                                 TextField("Age", text: $catAge)
+                                TextField("발견동네", text: $catAddress)
                                 Picker("성별", selection: $catGender) {
                                     ForEach(genders, id: \.self) { gender in
                                         Text(gender).tag(gender)
@@ -88,7 +94,16 @@ struct AddCatView: View {
                                 .pickerStyle(.automatic)
                             }
                             
-                            
+                            Button(action: {
+                               
+                                catViewModel.loadCats()
+                            }, label: {
+                                VStack{
+                                    Text("불러오기")
+                                    }
+                                }
+                                
+                            )
                             
                             Section(header: Text("필요한 메모를 남겨보세요")) {
                                 
@@ -98,20 +113,25 @@ struct AddCatView: View {
                             
                         }
                         .frame(height: 300)
-                        .scrollDisabled(true)
-                    }//: ScrollView
-                        
-                        CapsuleButton(text: "완료", disabled: catImage == nil, isAnimating: isIndicatorAnimating,
-                                      action: {
-                            isIndicatorAnimating = true
-                            // viewModel.uploadProfileImage(selectedImage!) { success in
-                            //     if success {
-                            //     } else {
-                            //     }
-                            // }
-                        })
-                    }
+                        // .scrollDisabled(true)
+                    }//:VStack
+                }//: ScrollView
                 
+                CapsuleButton(text: "완료", disabled: catImage == nil, isAnimating: isIndicatorAnimating,
+                              action: {
+                    // isIndicatorAnimating = true
+                    catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo)
+                    
+                    catViewModel.catImageUpload(selectedImage!) { success in
+                        if success {
+                            // isIndicatorAnimating = false
+                        } else {
+                            print("고양이 사진 등록 않됐음")
+                        }
+                    }
+                })
+            }
+            
         }
     }
     
@@ -119,6 +139,7 @@ struct AddCatView: View {
         guard let selectedImage = selectedImage else {return}
         catImage = Image(uiImage: selectedImage)
     }
-
+    
 }
+
 
