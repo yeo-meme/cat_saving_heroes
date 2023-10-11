@@ -19,6 +19,8 @@ class CatRealmModel: Object {
 }
 
 
+
+
 class CareRealmModel: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var state: String = ""

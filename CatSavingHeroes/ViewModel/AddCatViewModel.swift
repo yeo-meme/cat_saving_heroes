@@ -22,11 +22,13 @@ import RealmSwift
 
 class AddCatViewModel: ObservableObject {
     @Published var cats: Results<CatRealmModel>?
-    
+    @Published var catId:String = ""
+    var catArr: [Cat] = []
     var preUserId: String {
         return AuthViewModel.shared.currentUser?.uid ?? ""
     }
     
+    static let shared = AddCatViewModel()
     init() {
         do {
             
@@ -77,6 +79,8 @@ class AddCatViewModel: ObservableObject {
                 cat.gender = gender
                 cat.memo = memo
                 realm.add(cat)
+                
+                print("고양이 데이터 \(cat.name)")
             }
         } catch {
             print("Error saving cat: \(error)")
@@ -89,13 +93,24 @@ class AddCatViewModel: ObservableObject {
             cats = realm.objects(CatRealmModel.self)
             print("Loaded \(cats?.count ?? 0) cats:")
                        cats?.forEach { cat in
+                          
+                           
+                           // let newCat = Cat(id: cat.id.stringValue, name: cat.name, age: cat.age, address: cat.address, gender: cat.gender, memo: cat.memo)
+                           // self.catArr.append(newCat)
+                           
                            print("Name: \(cat.name)")
                            print("Age: \(cat.age)")
                            print("Address: \(cat.address)")
                            print("Gender: \(cat.gender)")
                            print("Memo: \(cat.memo)")
+                           print("Id: \(cat.id)")
                            print("----")
+                           self.catId = cat.id.stringValue
+                           print("cat Id stringValue: \(self.catId)")
+                           
+                           UserDefaults.standard.set(self.catId, forKey: "CatId")
                        }
+            // self.cats=catArr
         } catch {
             print("Error loading cats: \(error)")
         }

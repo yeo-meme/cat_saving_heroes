@@ -11,7 +11,11 @@ struct AddEventView: View {
    
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
-  
+
+
+   
+    
+    
     @State private var searchText = ""
     @State private var careStateIndex = 0
     @State private var state  = ""
@@ -44,7 +48,8 @@ struct AddEventView: View {
                            .textFieldStyle(RoundedBorderTextFieldStyle()) // 선택적으로 스타일 지정
                            .padding()
             
-            CapsuleButton(text: "저장하기", disabled: false, isAnimating: true) {
+            //false가 저장하기 텍스트 true가 인디케팅되는 상태
+            CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
                 print("이벤트 기록하기 ")
                 model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
             }
