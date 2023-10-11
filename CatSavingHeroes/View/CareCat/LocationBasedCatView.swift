@@ -40,6 +40,7 @@ struct LocationBasedCatView: View {
     @Binding var presentSideMenu: Bool
     
     var body: some View {
+        CareCatView()
         VStack{
             HStack{
                 HStack{

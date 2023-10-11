@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct CareCatView: View {
+    @EnvironmentObject var locationManager: AddressManager
     var body: some View {
-        
-        HStack{
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                Text("장소추가")
-            })
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                Text("메모 추가")
-            })
+        VStack {
+            MapViewCoordinator(locationManager: locationManager)
         }
+        .padding()
     }
+}
+struct MapViewCoordinator: UIViewRepresentable {
+    @ObservedObject var locationManager: AddressManager
+    
+    func makeUIView(context: Context) -> some UIView {
+        return locationManager.mapView
+    }
+    
+    func updateUIView(_ uiView: UIViewType, context: Context) { }
 }
 
 #Preview {
