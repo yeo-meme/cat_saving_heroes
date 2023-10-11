@@ -74,6 +74,8 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         
     }
     
+    // static let shared = Model(userLocation: self.$userLocation, locations: self.$locations)
+    
     // override init() {
     //     
     //     // _userLocation = userLocation

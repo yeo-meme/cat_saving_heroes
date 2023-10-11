@@ -34,7 +34,7 @@ struct MainSideTabView: View {
                 }
                 .tag(0)
                 
-                LocationBasedCatView(presentSideMenu: $presentSideMenu)
+                CareCatView()
                     .tabItem {
                         Image(systemName: "heart.fill")
                         Text("주변돌봄")

@@ -52,40 +52,40 @@ struct TrackingHeroView: View {
                 }
             }
             
-            VStack {
-                
-                Button("Show Bottom Sheet") {
-                    isShowingModal.toggle()
-                }
-            }
-            .sheet(isPresented: $isShowingModal, content: {
-                BottomSheetModalView(isShowingModal: $isShowingModal)
-            })
+            // VStack {
+            //     
+            //     Button("Show Bottom Sheet") {
+            //         isShowingModal.toggle()
+            //     }
+            // }
+            // .sheet(isPresented: $isShowingModal, content: {
+            //     BottomSheetModalView(isShowingModal: $isShowingModal)
+            // })
         }
     }
 }
 
-struct BottomSheetModalView: View {
-    @Binding var isShowingModal: Bool
-    
-    var body: some View {
-        VStack {
-            Text("Bottom Sheet Content")
-                .font(.title)
-                .padding()
-            
-            Button("Close") {
-                isShowingModal.toggle()
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color.white)
-        .cornerRadius(10)
-        .padding()
-        .shadow(radius: 5)
-        .edgesIgnoringSafeArea(.bottom)
-    }
-}
+// struct BottomSheetModalView: View {
+//     @Binding var isShowingModal: Bool
+//     
+//     var body: some View {
+//         VStack {
+//             Text("Bottom Sheet Content")
+//                 .font(.title)
+//                 .padding()
+//             
+//             Button("Close") {
+//                 isShowingModal.toggle()
+//             }
+//         }
+//         .frame(maxWidth: .infinity)
+//         .background(Color.white)
+//         .cornerRadius(10)
+//         .padding()
+//         .shadow(radius: 5)
+//         .edgesIgnoringSafeArea(.bottom)
+//     }
+// }
 
 // #Preview {
 //     TrackingHeroView()

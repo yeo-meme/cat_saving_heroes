@@ -8,12 +8,35 @@
 import SwiftUI
 
 struct CareCatView: View {
+    @State private var isShowingModal = false
     @EnvironmentObject var locationManager: AddressManager
+    @State private var selectedColor = 0 // 초기 선택 색상 인덱스
+    @StateObject var model = EventAddViewModel()
+    
+    
     var body: some View {
         VStack {
             MapViewCoordinator(locationManager: locationManager)
+                .frame(height: UIScreen.main.bounds.height / 2)
+               
+            Button(action: {
+                            isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                        }) {
+                            Text("Add Event")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .sheet(isPresented: $isShowingModal) {
+                            // 모달이 표시되면 addEvent 뷰가 열립니다.
+                            AddEventView(model: model)
+                        }
+          
+        
         }
         .padding()
+        
     }
 }
 struct MapViewCoordinator: UIViewRepresentable {

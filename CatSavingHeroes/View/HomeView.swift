@@ -24,9 +24,14 @@ struct HomeView: View {
                 Spacer()
             }
             
-            Spacer()
-            Text("Home View")
-            Spacer()
+            // Spacer()
+            // Text("Home View")
+            // Button(action: {
+            //     AuthViewModel.shared.signOut()
+            // }, label: {
+            //     Text("로그아웃")
+            // })
+            // Spacer()
         }
         .padding(.horizontal, 24)
     }

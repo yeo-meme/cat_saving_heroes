@@ -11,7 +11,7 @@ struct LoginView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     
     @EnvironmentObject var viewModel: AuthViewModel
-    
+    @State private var isIndicatorAnimating = false
     // @EnvironmentObject private var userData: UserData
     
     @State private var email:String = ""
@@ -95,6 +95,14 @@ struct LoginView: View {
                             }
                             .frame(width: 100, height: 70)
                          
+                            // CapsuleButton(text: "log In",
+                            //               disabled: email.count < 5 || password.count < 6,
+                            //               isAnimating: isIndicatorAnimating && viewModel.errorMessage == "",
+                            //               action: {
+                            //                     isIndicatorAnimating = true
+                            //                     viewModel.login(withEmail: email, password: password)
+                            //               })
+                            
                             
                             Button(action: {
                                 // userData.isLoggedIn = false

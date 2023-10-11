@@ -24,6 +24,8 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
            self.configureLocationManager()
        }
        
+    static let shared = AddressManager()
+    
        // MARK: - 사용자의 위치 권한 여부를 확인하고 요청하거나 현재 위치 MapView를 이동하는 메서드
        func configureLocationManager() {
            mapView.delegate = self

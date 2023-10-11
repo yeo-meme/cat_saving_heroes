@@ -11,13 +11,12 @@ import Firebase
 import Foundation
 import FirebaseAuth
 import FirebaseCore
+import FirebaseFirestoreSwift
 
 
 class AuthViewModel: NSObject, ObservableObject {
     
-    
-    @Published var didAuthenticateUser = false
-    @Published var userSession: FirebaseAuth.User?
+    @Published var userSession:FirebaseAuth.User?
     @Published var currentUser: UserInfo?
     
     @Published var errorMessage = ""
@@ -28,6 +27,7 @@ class AuthViewModel: NSObject, ObservableObject {
     private var tempCurrentUser: Firebase.User?
     var tempCurrentUsername = ""
     static let shared = AuthViewModel()
+    @Published var didAuthenticateUser = false
     
     override init() {
         super.init()
@@ -35,9 +35,11 @@ class AuthViewModel: NSObject, ObservableObject {
         sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         print("session Id : \(sessionId)")
         
+        if let user = Auth.auth().currentUser {
+                  self.didAuthenticateUser = true
+              }
+        
     }
-    
-    
     
     func fetchUser() {
         var uid = ""
@@ -61,7 +63,7 @@ class AuthViewModel: NSObject, ObservableObject {
             
             guard let user = try? snapshot?.data(as: UserInfo.self) else { return }
             self.currentUser = user
-            
+            self.didAuthenticateUser = true
             print("AuthViewModel:LOGIN 패치 성공 여부 : \(self.currentUser)")
         }
     }
@@ -69,6 +71,7 @@ class AuthViewModel: NSObject, ObservableObject {
     func login(withEmail email: String, password: String) {
         self.errorMessage = ""
         
+        //auth 사용자 맞는지 확인
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let (errorMessage) = error?.localizedDescription {
                 self.showErrorAlert = true
@@ -76,6 +79,7 @@ class AuthViewModel: NSObject, ObservableObject {
                 return
             }
             
+            //auth에서 uid 생성 인증된 사용자 :FirebaseAuth.User? 타입으로 반환
             guard let user = result?.user else { return }
             self.userSession = user
             guard let uid = self.userSession?.uid else {return}
@@ -172,6 +176,7 @@ class AuthViewModel: NSObject, ObservableObject {
     
     
     func signOut() {
+        
         self.didAuthenticateUser = false
         self.currentUser = nil
         self.userSession = nil
@@ -179,6 +184,7 @@ class AuthViewModel: NSObject, ObservableObject {
         UserDefaults.standard.removeObject(forKey: "User")
         self.sessionId = ""
         try? Auth.auth().signOut()
+        print("로그아웃됐으 \(self.userSession)")
     }
     
     

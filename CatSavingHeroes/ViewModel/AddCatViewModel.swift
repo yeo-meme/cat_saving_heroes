@@ -11,17 +11,17 @@ import RealmSwift
 
 
 // 고양이 데이터 모델
-class Cat: Object {
-    @Persisted(primaryKey: true) var id: ObjectId
-    @Persisted var name: String = ""
-    @Persisted var age: String = ""
-    @Persisted var address: String = ""
-    @Persisted var gender: String = ""
-    @Persisted var memo: String = ""
-}
+// class Cat: Object {
+//     @Persisted(primaryKey: true) var id: ObjectId
+//     @Persisted var name: String = ""
+//     @Persisted var age: String = ""
+//     @Persisted var address: String = ""
+//     @Persisted var gender: String = ""
+//     @Persisted var memo: String = ""
+// }
 
 class AddCatViewModel: ObservableObject {
-    @Published var cats: Results<Cat>?
+    @Published var cats: Results<CatRealmModel>?
     
     var preUserId: String {
         return AuthViewModel.shared.currentUser?.uid ?? ""
@@ -59,7 +59,7 @@ class AddCatViewModel: ObservableObject {
             // Realm.Configuration.defaultConfiguration = config
             // 
             let realm = try Realm()
-            cats = realm.objects(Cat.self)
+            cats = realm.objects(CatRealmModel.self)
       
         } catch {
             print("Error initializing Realm: \(error)")
@@ -70,7 +70,7 @@ class AddCatViewModel: ObservableObject {
         do {
             let realm = try Realm()
             try realm.write {
-                let cat = Cat()
+                let cat = CatRealmModel()
                 cat.name = name
                 cat.age = age
                 cat.address = address
@@ -86,7 +86,7 @@ class AddCatViewModel: ObservableObject {
     func loadCats() {
         do {
             let realm = try Realm()
-            cats = realm.objects(Cat.self)
+            cats = realm.objects(CatRealmModel.self)
             print("Loaded \(cats?.count ?? 0) cats:")
                        cats?.forEach { cat in
                            print("Name: \(cat.name)")
