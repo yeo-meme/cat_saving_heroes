@@ -8,11 +8,12 @@
 import SwiftUI
 import Kingfisher
 
+//사이드바 메뉴
 enum SideMenuRowType: Int, CaseIterable{
     case home = 0
     case favorite
     case chat
-    case profile
+    case logout
     
     var title: String{
         switch self {
@@ -22,8 +23,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "내 저장"
         case .chat:
             return "Chat"
-        case .profile:
-            return "Profile"
+        case .logout:
+            return "로그아웃"
         }
     }
     
@@ -35,20 +36,20 @@ enum SideMenuRowType: Int, CaseIterable{
             return "favorite"
         case .chat:
             return "chat"
-        case .profile:
-            return "profile"
+        case .logout:
+            return "logout"
         }
     }
 }
 
 struct SideMenuView: View {
+  
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
     
     var body: some View {
         HStack {
-            
             ZStack{
                 Rectangle()
                     .fill(.white)
@@ -60,13 +61,13 @@ struct SideMenuView: View {
                         .frame(height: 140)
                         .padding(.bottom, 30)
                     
+                    //사이드 바
                     ForEach(SideMenuRowType.allCases, id: \.self){ row in
                         RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
                             selectedSideMenuTab = row.rawValue
                             presentSideMenu.toggle()
                         }
                     }
-                    
                     Spacer()
                 }
                 .padding(.top, 100)
@@ -75,13 +76,13 @@ struct SideMenuView: View {
                     Color.white
                 )
             }
-            
-            
             Spacer()
         }
         .background(.clear)
     }
     
+    
+    //여메메 이미지 뷰
     func ProfileImageView() -> some View{
         ZStack {
             VStack(alignment: .leading){
@@ -153,6 +154,7 @@ struct SideMenuView: View {
         }
     }
     
+    //메뉴 row
     func RowView(isSelected: Bool, imageName: String, title: String, hideDivider: Bool = false, action: @escaping (()->())) -> some View{
         Button{
             action()
@@ -162,7 +164,6 @@ struct SideMenuView: View {
                     Rectangle()
                         .fill(isSelected ? .purple : .white)
                         .frame(width: 5)
-                    
                     ZStack{
                         Image(imageName)
                             .resizable()

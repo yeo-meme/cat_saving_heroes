@@ -12,8 +12,6 @@ struct MainSideTabView: View {
     @State var selectedSideMenuTab = 0
     @State var catModel = AddCatViewModel()
     var body: some View {
-  
-        
         ZStack{
             TabView(selection: $selectedSideMenuTab) {
                 NavigationView {
@@ -62,12 +60,8 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(4)
             }
-
                 SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
-                   
         }
-        
-   
     }
 }
 

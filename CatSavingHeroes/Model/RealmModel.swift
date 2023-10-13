@@ -16,8 +16,8 @@ class CatRealmModel: Object {
     @Persisted var address: String = ""
     @Persisted var gender: String = ""
     @Persisted var memo: String = ""
+    @Persisted var profileImage: String = ""
 }
-
 
 
 

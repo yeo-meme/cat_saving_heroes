@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Charts
+import RealmSwift
 
 
 struct AddCatView: View {
@@ -28,6 +29,7 @@ struct AddCatView: View {
     @EnvironmentObject var viewModel : AuthViewModel
     @ObservedObject var catViewModel: AddCatViewModel
     
+   
     var body: some View {
         NavigationView {
             ScrollView{
@@ -76,7 +78,6 @@ struct AddCatView: View {
                         
                         Form {
                             Section(header: Text("기본 정보")) {
-                                
                                 TextField("이름", text: $catName)
                                 TextField("Age", text: $catAge)
                                 TextField("발견동네", text: $catAddress)
@@ -93,24 +94,18 @@ struct AddCatView: View {
                                 }
                                 .pickerStyle(.automatic)
                             }
-                            
                             Button(action: {
-                               
                                 catViewModel.loadCats()
                             }, label: {
                                 VStack{
                                     Text("불러오기")
                                     }
                                 }
-                                
                             )
-                            
                             Section(header: Text("필요한 메모를 남겨보세요")) {
-                                
                                 TextEditor(text: $catMemo)
                             }
                             .frame(height: 100)
-                            
                         }
                         .frame(height: 300)
                         // .scrollDisabled(true)
@@ -120,11 +115,14 @@ struct AddCatView: View {
                 CapsuleButton(text: "완료", disabled: catImage == nil, isAnimating: isIndicatorAnimating,
                               action: {
                     // isIndicatorAnimating = true
-                    catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo)
                     // RealmHelper.shared.createCat(name: catName, age: catAge, gender: catGender, memo: catMemo)
-                    catViewModel.catImageUpload(selectedImage!) { success in
+                    catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
                         if success {
-                            // isIndicatorAnimating = false
+                            print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
+                            
+                            if let profileImage = imageUrl {
+                                catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage)
+                            }
                         } else {
                             print("고양이 사진 등록 않됐음")
                         }

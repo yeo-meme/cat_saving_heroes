@@ -68,8 +68,16 @@ class AddCatViewModel: ObservableObject {
         }
     }
     
-    func saveCat(name: String, age: String, address: String, gender: String, memo: String) {
+    func saveCat(name: String, age: String, address: String, gender: String, memo: String,profileImage:String) {
         do {
+            
+            //마이그레이션 초기화
+            // let config = Realm.Configuration(
+            //      schemaVersion: 0, // 스키마 버전을 0으로 설정
+            //       deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
+            //      )
+            // Realm.Configuration.defaultConfiguration = config
+            
             let realm = try Realm()
             try realm.write {
                 let cat = CatRealmModel()
@@ -78,6 +86,7 @@ class AddCatViewModel: ObservableObject {
                 cat.address = address
                 cat.gender = gender
                 cat.memo = memo
+                cat.profileImage = profileImage
                 realm.add(cat)
                 
                 print("고양이 데이터 \(cat.name)")
@@ -86,29 +95,71 @@ class AddCatViewModel: ObservableObject {
             print("Error saving cat: \(error)")
         }
     }
-    // 다시 불러오는 함수
+    // 다시 불러오는 함수 Addcat 하고 데이터 확인
     func loadCats() {
         do {
-            let realm = try Realm()
+            let realm = RealmHelper.shared.realm
             cats = realm.objects(CatRealmModel.self)
             print("Loaded \(cats?.count ?? 0) cats:")
-                       cats?.forEach { cat in
-                          
-                           
-                           // let newCat = Cat(id: cat.id.stringValue, name: cat.name, age: cat.age, address: cat.address, gender: cat.gender, memo: cat.memo)
-                           // self.catArr.append(newCat)
-                           
+                      
+            cats?.forEach { cat in
+                         
+                           let id = cat.id.stringValue
+                           let name = cat.name
+                           let age = cat.age
+                           let address = cat.address
+                           let gender = cat.gender
+                           let memo = cat.memo
+                           let profileImage = cat.profileImage
                            print("Name: \(cat.name)")
                            print("Age: \(cat.age)")
                            print("Address: \(cat.address)")
                            print("Gender: \(cat.gender)")
                            print("Memo: \(cat.memo)")
                            print("Id: \(cat.id)")
+                           print("profileImage: \(cat.profileImage)")
                            print("----")
-                           self.catId = cat.id.stringValue
-                           print("cat Id stringValue: \(self.catId)")
                            
-                           UserDefaults.standard.set(self.catId, forKey: "CatId")
+                           
+                           
+                           // Create an array of Cat objects
+                               // Populate the array with Cat objects
+                            let catString = Cat(id: id, name: name , age: age, address: address, gender: gender, memo: memo, profileImage: profileImage)
+                             
+                           
+                //로드할때 UserDefaults에 저장하고 
+                           do {
+                               // Use JSONEncoder to encode the array of Cat objects to JSON data
+                               let encoder = JSONEncoder()
+                               encoder.outputFormatting = .prettyPrinted // Optional for pretty-printed JSON
+                               let jsonData = try encoder.encode(catString)
+                               
+                               if let jsonString = String(data: jsonData, encoding: .utf8) {
+                                   // Print the JSON string
+                                   print(jsonString)
+                                   
+                                   // Save the JSON data to UserDefaults
+                                   UserDefaults.standard.set(jsonData, forKey: "catsData")
+                                   print("JSON data saved to UserDefaults")
+                               }
+                           } catch {
+                               print("Error encoding JSON: \(error)")
+                           }
+
+                           
+                           // Cat: Identifiable 구조의 인스턴스를 UserDefaults에 저장합니다.
+                           // let userDefaults = UserDefaults.standard
+                           // let cat = Cat(id: id, name: name, age: age, address: address, gender: gender, memo: memo, profileImage: "")
+                           
+                           // Cat 구조체를 Property List 객체로 변환합니다.
+                           // let catData = try PropertyListEncoder().encode(cat)
+                           // Property List 객체를 UserDefaults에 저장합니다.
+                             // userDefaults.set(catData, forKey: "Cat")
+                           
+                           // userDefaults.set(cat, forKey: "Cat")
+                           print("cat Id stringValue: \(id)")
+                           UserDefaults.standard.set(id, forKey: "CatId")
+                         
                        }
             // self.cats=catArr
         } catch {
@@ -117,7 +168,7 @@ class AddCatViewModel: ObservableObject {
     }
     
     
-    func catImageUpload(_ image: UIImage, completion: @escaping(Bool) -> Void) {
+    func catImageUpload(_ image: UIImage, completion: @escaping(Bool,String?) -> Void) {
         
         ImageUploader.uploadImage(image: image, folderName: FOLDER_CAT_IMAGES, uid: preUserId) { imageUrl in
             let data: [String: Any] = [KEY_CAT_IMAGE_URL : imageUrl]
@@ -132,6 +183,7 @@ class AddCatViewModel: ObservableObject {
                     return
                 }
             }
+            completion(true, imageUrl)
             
             // self.currentUser?.profileImageUrl = imageUrl
             // self.userSession = Auth.auth().currentUser

@@ -28,6 +28,7 @@ struct AddEventView: View {
     
     var body: some View {
         VStack {
+            SearchCatView()
             TextField("Search", text: $searchText)
                 .padding()
                 .background(Color.gray.opacity(0.2))
