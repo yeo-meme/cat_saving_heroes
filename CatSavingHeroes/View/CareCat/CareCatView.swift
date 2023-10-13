@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct CareCatView: View {
+    
     @State private var isShowingModal = false
     @EnvironmentObject var locationManager: AddressManager
+    @EnvironmentObject var model: Model
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
-    @StateObject var model = EventAddViewModel()
+    @EnvironmentObject var eventAddViewModel: EventAddViewModel
     
     
+    // Model 클래스의 인스턴스를 생성
     var body: some View {
         VStack {
             MapViewCoordinator(locationManager: locationManager)
@@ -30,15 +33,13 @@ struct CareCatView: View {
                         }
                         .sheet(isPresented: $isShowingModal) {
                             // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(model: model)
+                            AddEventView(model: eventAddViewModel)
                         }
-          
-        
         }
         .padding()
-        
     }
 }
+
 struct MapViewCoordinator: UIViewRepresentable {
     @ObservedObject var locationManager: AddressManager
     

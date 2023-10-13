@@ -17,18 +17,20 @@ struct TrackingHeroView: View {
     
     @State private var coordinates: [CLLocationCoordinate2D] = []
     @State private var isShowingModal = false
+    
+    
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
-            
             ZStack {
                 Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
                     MapPin(coordinate: pin.coordinate, tint: .red)
                 }
-                
                 Spacer()
-                
                 Button(action: {
+                    //startStopLocationTracking
                     model.startStopLocationTracking()
+
+                    
                     
                     // isRecording.toggle()
                     // 
