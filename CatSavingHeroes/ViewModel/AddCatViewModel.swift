@@ -103,7 +103,6 @@ class AddCatViewModel: ObservableObject {
             print("Loaded \(cats?.count ?? 0) cats:")
                       
             cats?.forEach { cat in
-                         
                            let id = cat.id.stringValue
                            let name = cat.name
                            let age = cat.age

@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct AddEventView: View {
-   
+    @EnvironmentObject var addressManager : Model
+    
+    
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
 
@@ -52,7 +54,23 @@ struct AddEventView: View {
             //false가 저장하기 텍스트 true가 인디케팅되는 상태
             CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
                 print("이벤트 기록하기 ")
-                model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                // model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                
+                if addressManager.isLocationTrackingEnabled {
+                    let locationRecord = LocationRecord()
+                    locationRecord.latitude = addressManager.lastLocation.latitude
+                    locationRecord.longitude = addressManager.lastLocation.longitude
+                    model.isRunningCatWalk(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                    print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                    
+                } else {
+                    let locationRecord = LocationRecord()
+                    locationRecord.latitude = addressManager.lastLocation.latitude
+                    locationRecord.longitude = addressManager.lastLocation.longitude
+                    model.isNotRuningCatWalk(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                    print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                    
+                }
             }
         }
     }

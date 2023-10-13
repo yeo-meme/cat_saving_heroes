@@ -29,5 +29,7 @@ class CareRealmModel: Object {
     @Persisted var memo: String = ""
     @Persisted var coordinate: String = ""
     @Persisted var address: String = ""
+    @Persisted var latitude:Double = 0.0
+    @Persisted var longtitude:Double = 0.0
     @Persisted var date:Date?
 }

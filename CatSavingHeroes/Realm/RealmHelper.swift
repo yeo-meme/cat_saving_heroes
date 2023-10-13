@@ -14,6 +14,8 @@ class RealmHelper {
     
     static let shared = RealmHelper()
     
+
+    //
     var realm = try! Realm()
     
     func create<T:Object>(_ object:T){
