@@ -15,16 +15,9 @@ struct MainSideTabView: View {
         ZStack{
             TabView(selection: $selectedSideMenuTab) {
                 NavigationView {
-                        MainTabView(presentSideMenu: $presentSideMenu)
-                            .navigationBarItems(
-                                trailing: Button(action: {
-                                    withAnimation {
-                                        self.presentSideMenu.toggle()
-                                    }
-                                }) {
-                                    Image(systemName: "line.horizontal.3")
-                                }
-                            )
+                    MainTabView(presentSideMenu: $presentSideMenu)
+                        .navigationBarItems(leading: Text("home"),
+                            trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
                 }
                 .tabItem {
                     Image(systemName: "house.fill")
@@ -32,21 +25,22 @@ struct MainSideTabView: View {
                 }
                 .tag(0)
                 
-                CareCatView()
-                    .tabItem {
-                        Image(systemName: "heart.fill")
-                        Text("주변돌봄")
-                    }
-                    .tag(1)
+                CareCatView(presentSideMenu: $presentSideMenu)
+                .tabItem {
+                    Image(systemName: "heart.fill")
+                    Text("주변돌봄")
+                }
+                .tag(1)
                 
-                AddCatView(catViewModel: catModel)
+                
+                AddCatView(presentSideMenu: $presentSideMenu, catViewModel: catModel)
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이추가")
                     }
                     .tag(2)
                 
-                LocationFollowView()
+                LocationFollowView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("영웅업무")
@@ -60,11 +54,26 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(4)
             }
-                SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
+            SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
         }
     }
 }
 
+
+struct NavigationMenuView: View {
+    
+    @Binding var presentSideMenu:Bool
+    
+    var body: some View {
+        Button(action: {
+            withAnimation {
+                self.presentSideMenu.toggle()
+            }
+        }) {
+            Image(systemName: "line.horizontal.3")
+        }
+    }
+}
 
 // #Preview {
 //     MainSideTabView(catModel: $catModel)

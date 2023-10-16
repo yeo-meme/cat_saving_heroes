@@ -10,6 +10,7 @@ import MapKit
 import RealmSwift
 
 struct CareCatView: View {
+    @Binding var presentSideMenu: Bool //네비게이션바아이템
     
     @State private var isShowingModal = false
     @EnvironmentObject var locationManager: AddressManager
@@ -20,28 +21,32 @@ struct CareCatView: View {
     
     // Model 클래스의 인스턴스를 생성
     var body: some View {
-        VStack {
-            MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                .frame(height: UIScreen.main.bounds.height / 2)
-               
-            Button(action: {
-                            isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                        }) {
-                            Text("Add Event")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                        .sheet(isPresented: $isShowingModal) {
-                            // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(model: eventAddViewModel)
-                        }
+    
+        NavigationView{
+            VStack {
+                MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                    .frame(height: UIScreen.main.bounds.height / 2)
+                
+                Button(action: {
+                    isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                }) {
+                    Text("Add Event")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .sheet(isPresented: $isShowingModal) {
+                    // 모달이 표시되면 addEvent 뷰가 열립니다.
+                    AddEventView(model: eventAddViewModel)
+                }
+            }
+            .onAppear {
+                eventAddViewModel.loadAnnotationsFromRealm()
+            }
+            .navigationBarItems(leading: Text("주변돌봄"),
+                trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
         }
-        .onAppear {
-            eventAddViewModel.loadAnnotationsFromRealm()
-               }
-        .padding()
     }
 }
 
@@ -84,6 +89,6 @@ struct MapViewCoordinator: UIViewRepresentable {
     }
 }
 
-#Preview {
-    CareCatView()
-}
+// #Preview {
+//     CareCatView(presentSideMenu: PRESENT_SIDE_MENU)
+// }

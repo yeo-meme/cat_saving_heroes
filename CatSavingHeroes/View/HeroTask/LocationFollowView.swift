@@ -13,26 +13,31 @@ import SlidingTabView
 
 struct LocationFollowView: View {
     
+    @Binding var presentSideMenu: Bool
+    
     @State private var tabIndex = 0
     var body: some View {
         
         
-        
-        VStack{
-            SlidingTabView(selection: $tabIndex, tabs: ["영웅업무시작","영웅일지"], selectionBarColor: .green)
-            
-            Spacer()
-            
-            if tabIndex == 0 {
-                TrackingHeroView()
+        NavigationView{
+            VStack{
+                SlidingTabView(selection: $tabIndex, tabs: ["영웅업무시작","영웅일지"], selectionBarColor: .green)
                 
-            } else if tabIndex == 1 {
-                HeroCalendarView()
+                Spacer()
+                
+                if tabIndex == 0 {
+                    TrackingHeroView()
+                    
+                } else if tabIndex == 1 {
+                    HeroCalendarView()
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
+            .navigationBarItems(leading: Text("영웅일지"),
+                trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+            // .navigationTitle("영웅일지")
         }
-        
         
     }
 }

@@ -11,6 +11,8 @@ import RealmSwift
 
 
 struct AddCatView: View {
+    @Binding var presentSideMenu: Bool
+    
     @State private var catName = ""
     @State private var catAge = ""
     @State private var catGender = ""
@@ -129,7 +131,9 @@ struct AddCatView: View {
                     }
                 })
             }
-            
+            .navigationBarItems(leading: Text("냥추가"),
+                trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+          
         }
     }
     
