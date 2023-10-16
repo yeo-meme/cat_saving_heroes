@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import MapKit
+import RealmSwift
 
 struct CareCatView: View {
     
@@ -19,7 +21,7 @@ struct CareCatView: View {
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         VStack {
-            MapViewCoordinator(locationManager: locationManager)
+            MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                 .frame(height: UIScreen.main.bounds.height / 2)
                
             Button(action: {
@@ -36,18 +38,50 @@ struct CareCatView: View {
                             AddEventView(model: eventAddViewModel)
                         }
         }
+        .onAppear {
+            eventAddViewModel.loadAnnotationsFromRealm()
+               }
         .padding()
     }
 }
 
 struct MapViewCoordinator: UIViewRepresentable {
+    
     @ObservedObject var locationManager: AddressManager
+    @State private var annotations: [MKPointAnnotation] = []
+    @ObservedObject var eventAddViewModel:EventAddViewModel
+    // @ObservedObject var mkAnnotation: [MKPointAnnotation]
     
     func makeUIView(context: Context) -> some UIView {
         return locationManager.mapView
     }
     
-    func updateUIView(_ uiView: UIViewType, context: Context) { }
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        
+        // uiView.removeAnnotation(uiView.annotations)
+        let markers = eventAddViewModel.annotations
+        
+        print("markers : \(markers)")
+        for marker in markers {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude)
+            annotation.title = marker.title
+            
+            if let mapView = uiView as? MKMapView {
+                
+                let region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+                mapView.addAnnotation(annotation)
+                mapView.setRegion(region, animated: true)
+            }
+            // uiView을 MKMapView로 캐스팅
+            print("markers  annotation.coordinate : \(marker.coordinate.latitude),annotation.coordinate : \(marker.coordinate.longitude) ")
+        }
+
+        // 위도경도 업데이트
+          if let mapView = uiView as? MKMapView {
+            
+          }
+    }
 }
 
 #Preview {

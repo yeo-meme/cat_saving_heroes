@@ -11,7 +11,8 @@ import MapKit
 
 
 class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
-    @Published var mapView: MKMapView = .init()
+    
+       @Published var mapView: MKMapView = .init()
        @Published var isChanging: Bool = false // 지도의 움직임 여부를 저장하는 프로퍼티
        @Published var currentPlace: String = "" // 현재 위치의 도로명 주소를 저장하는 프로퍼티
        
@@ -25,7 +26,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
        }
        
     static let shared = AddressManager()
-    
        // MARK: - 사용자의 위치 권한 여부를 확인하고 요청하거나 현재 위치 MapView를 이동하는 메서드
        func configureLocationManager() {
            mapView.delegate = self
@@ -73,7 +73,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                    print("[ERROR] No Location")
                    return
                }
-               
                self.currentGeoPoint = location.coordinate // 현재 위치를 저장하고
                self.mapViewFocusChange() // 현재 위치로 MapView를 이동
                self.convertLocationToAddress(location: location)
@@ -94,16 +93,12 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
        // MARK: - location을 도로명 주소로 변환해주는 메서드
        func convertLocationToAddress(location: CLLocation) {
            let geocoder = CLGeocoder()
-           
            geocoder.reverseGeocodeLocation(location) { placemarks, error in
                if error != nil {
                    return
                }
-               
                guard let placemark = placemarks?.first else { return }
-               
                self.currentPlace = "\(placemark.country ?? "") \(placemark.locality ?? "") \(placemark.name ?? "")"
-               
                print("주소 : \(placemark.country ?? "") \(placemark.locality ?? "") \(placemark.name ?? "")")
            }
        }

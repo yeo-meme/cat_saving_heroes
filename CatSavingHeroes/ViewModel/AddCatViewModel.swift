@@ -119,14 +119,12 @@ class AddCatViewModel: ObservableObject {
                            print("profileImage: \(cat.profileImage)")
                            print("----")
                            
-                           
-                           
                            // Create an array of Cat objects
                                // Populate the array with Cat objects
                             let catString = Cat(id: id, name: name , age: age, address: address, gender: gender, memo: memo, profileImage: profileImage)
                              
                            
-                //로드할때 UserDefaults에 저장하고 
+                            //로드할때 UserDefaults에 저장하고
                            do {
                                // Use JSONEncoder to encode the array of Cat objects to JSON data
                                let encoder = JSONEncoder()
@@ -158,7 +156,6 @@ class AddCatViewModel: ObservableObject {
                            // userDefaults.set(cat, forKey: "Cat")
                            print("cat Id stringValue: \(id)")
                            UserDefaults.standard.set(id, forKey: "CatId")
-                         
                        }
             // self.cats=catArr
         } catch {

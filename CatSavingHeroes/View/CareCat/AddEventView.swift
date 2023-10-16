@@ -13,10 +13,6 @@ struct AddEventView: View {
     
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
-
-
-   
-    
     
     @State private var searchText = ""
     @State private var careStateIndex = 0

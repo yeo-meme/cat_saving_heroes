@@ -7,11 +7,14 @@
 
 import Foundation
 import RealmSwift
+import MapKit
 
 class EventAddViewModel: ObservableObject {
+  
     private var model: Model
-    
     private var isLocationTrackingEnabled: Bool = false // Model 인스턴스를 저장하는 프로퍼티 추가
+    @Published var annotations: [MKPointAnnotation] = []
+    
     
     init(model: Model) {  // 생성자에서 Model 인스턴스 주입
         self.model = model
@@ -62,14 +65,10 @@ class EventAddViewModel: ObservableObject {
                     careModel.coordinate = "Coordinates"
                     careModel.address = "Address"
                     careModel.latitude = latitude
-                    careModel.longtitude = logtitude
+                    careModel.longitude = logtitude
                     careModel.date = Date() // 현재 날짜를 설정
-                    
-                   
-                    
                     do {
                         RealmHelper.shared.create(careModel)
-                        
                         print("realm기록하였음 트래킹 있음: Latitude: \(latitude), Longitude: \(logtitude)")
                     } catch {
                         print("Error saving data: \(error)")
@@ -134,7 +133,7 @@ class EventAddViewModel: ObservableObject {
                     careModel.coordinate = "Coordinates"
                     careModel.address = "Address"
                     careModel.latitude = 0.0
-                    careModel.longtitude = 0.0
+                    careModel.longitude = 0.0
                     careModel.date = Date() // 현재 날짜를 설정
                     
                    
@@ -142,7 +141,7 @@ class EventAddViewModel: ObservableObject {
                     do {
                         RealmHelper.shared.create(careModel)
                         
-                        print("realm기록하였음 트래킹 없음: Latitude: \(careModel.latitude), Longitude: \(careModel.longtitude)")
+                        print("realm기록하였음 트래킹 없음: Latitude: \(careModel.latitude), Longitude: \(careModel.longitude)")
                     } catch {
                         print("Error saving data: \(error)")
                     }
@@ -341,6 +340,22 @@ class EventAddViewModel: ObservableObject {
         // }
     }
     
+    //고양이 이벤트 표시 realm 호출
+    func loadAnnotationsFromRealm() {
+        do {
+            let realm = try Realm()
+            let careModels = realm.objects(CareRealmModel.self)
+            for careModel in careModels {
+                if careModel.latitude != 0.0 && careModel.longitude != 0.0 {
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2D(latitude: careModel.latitude, longitude: careModel.longitude)
+                    annotations.append(annotation)
+                }
+            }
+        } catch {
+            print("Error loading data from Realm: \(error)")
+        }
+    }
     
     func loadEventAddCat() {
         let realm = try! Realm()
@@ -361,3 +376,4 @@ class EventAddViewModel: ObservableObject {
         }
     }
 }
+
