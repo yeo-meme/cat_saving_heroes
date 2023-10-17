@@ -45,9 +45,7 @@ struct LocationBasedCatView: View {
             HStack{
                 HStack{
                     Button(action: {
-                        //위치 기록을 Realm에 저장
-                            
-                            // 위치 기록을 Realm에 저장
+                       
                             let locationRecord = LocationRecord()
                             locationRecord.latitude = locationManager.lastLocation.latitude
                             locationRecord.longitude = locationManager.lastLocation.longitude

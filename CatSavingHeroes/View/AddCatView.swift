@@ -145,3 +145,8 @@ struct AddCatView: View {
 }
 
 
+
+#Preview {
+    AddCatView(presentSideMenu: Binding.constant(false), catViewModel: AddCatViewModel()
+    )
+}

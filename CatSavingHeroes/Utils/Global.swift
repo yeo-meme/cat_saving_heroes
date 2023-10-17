@@ -9,4 +9,5 @@ import Foundation
 import SwiftUI
 
 let presentSideMenu = false
-// @Binding var PRESENT_SIDE_MENU = false
+// @State static var presentSideMenu = false
+// @Binding static var PRESENT_SIDE_MENU = false

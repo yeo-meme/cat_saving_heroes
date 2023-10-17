@@ -14,23 +14,23 @@ import SwiftUI
 
 extension TrackingHeroView {
     
-    func saveLocationToRealm() {
-        // 위치 정보를 사용하여 LocationRecord 객체 생성
-        let locationRecord = LocationRecord()
-        // locationRecord.latitude = lastLocation.latitude
-        // locationRecord.longitude = lastLocation.longitude
-        
-        // Realm에 위치 정보 저장
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.add(locationRecord)
-            }
-            print("Location saved to Realm")
-        } catch {
-            print("Error saving location to Realm: \(error.localizedDescription)")
-        }
-    }
+    // func saveLocationToRealm() {
+    //     // 위치 정보를 사용하여 LocationRecord 객체 생성
+    //     let locationRecord = LocationRecord()
+    //     // locationRecord.latitude = lastLocation.latitude
+    //     // locationRecord.longitude = lastLocation.longitude
+    //     
+    //     // Realm에 위치 정보 저장
+    //     do {
+    //         let realm = try Realm()
+    //         try realm.write {
+    //             realm.add(locationRecord)
+    //         }
+    //         print("Location saved to Realm")
+    //     } catch {
+    //         print("Error saving location to Realm: \(error.localizedDescription)")
+    //     }
+    // }
     
     struct PinLocation: Identifiable {
         let id = UUID()
@@ -41,10 +41,7 @@ extension TrackingHeroView {
 //영웅 트래킹
 class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     
-    
     @Published var isLocationTrackingEnabled = false
-    
-    
     @Published var location: CLLocation?
     @Published var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
@@ -71,8 +68,6 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         _userLocation = userLocation
         _locations = locations
-        
-        
         
         mgr = CLLocationManager()
         mgr.requestWhenInUseAuthorization()
@@ -108,6 +103,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     func stopUpdatingLocation() {
         mgr.stopUpdatingLocation()
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //pin data
         if let currentLocation = locations.first{
@@ -117,9 +113,33 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             updateRegion(location: currentLocation)
             coordinates = locations.map { $0.coordinate }
             // distanceTraveled(currentLocation)
+            
+            // Realm 객체 생성
+                  let tracking = Tracking()
+
+                  // Tracking 객체의 속성 설정
+                  // tracking.id = ObjectId()
+                  tracking.arrival_time = Date().description
+                  tracking.departure_time = Date().description
+                tracking.departure_point = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
+                  tracking.destination = ""
+                  tracking.track_time = ""
+                  tracking.route = ""
+                  tracking.distance = ""
+                  tracking.timestamp = Date().description
+                  tracking.user = ""
+                  tracking.address = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
+
+                  // Realm 객체에 Tracking 객체 저장
+            
+            RealmHelper.shared.create(tracking)
+           let track =  RealmHelper.shared.read(Tracking.self)
+                  print("트랙킹 저장한값 : \(track)")
         }
         
-        //Realm data
+        
+        
+        //Realm data 주소 업로드 관련 객체 ㄱ
         if let newLocation = locations.last?.coordinate {
             lastLocation = newLocation
             print("new Location:\(lastLocation)")
@@ -199,6 +219,10 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             print("where : Model in isLocationTrackingEnabled state stop start: \(isLocationTrackingEnabled)")
             insertLocationUserDefaults(state: false)
         }
+    }
+    
+    func recordTrackingRealm() {
+     
     }
     
     //UserDefaults 값 저장 트래킹 백그라운드 상태

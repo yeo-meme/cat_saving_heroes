@@ -340,22 +340,22 @@ class EventAddViewModel: ObservableObject {
         // }
     }
     
-    //고양이 이벤트 표시 realm 호출
-    func loadAnnotationsFromRealm() {
-        do {
-            let realm = try Realm()
-            let careModels = realm.objects(CareRealmModel.self)
-            for careModel in careModels {
-                if careModel.latitude != 0.0 && careModel.longitude != 0.0 {
-                    let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: careModel.latitude, longitude: careModel.longitude)
-                    annotations.append(annotation)
-                }
-            }
-        } catch {
-            print("Error loading data from Realm: \(error)")
-        }
-    }
+    // //고양이 이벤트 표시 realm 호출
+    // func loadAnnotationsFromRealm() {
+    //     do {
+    //         let realm = try Realm()
+    //         let careModels = realm.objects(CareRealmModel.self)
+    //         for careModel in careModels {
+    //             if careModel.latitude != 0.0 && careModel.longitude != 0.0 {
+    //                 let annotation = MKPointAnnotation()
+    //                 annotation.coordinate = CLLocationCoordinate2D(latitude: careModel.latitude, longitude: careModel.longitude)
+    //                 annotations.append(annotation)
+    //             }
+    //         }
+    //     } catch {
+    //         print("Error loading data from Realm: \(error)")
+    //     }
+    // }
     
     func loadEventAddCat() {
         let realm = try! Realm()

@@ -20,6 +20,21 @@ class CatRealmModel: Object {
 }
 
 
+class Tracking: Object {
+    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var arrival_time: String = "" //도착시간
+    @Persisted var departure_time: String = "" //출발시간
+    @Persisted var departure_point: String = "" //출발지점
+    @Persisted var destination: String = "" //목적지점
+    @Persisted var track_time: String = "" //루트한 시간
+    @Persisted var route: String = ""
+    @Persisted var distance: String = "" //거리
+    @Persisted var timestamp: String = ""
+    @Persisted var user: String = ""
+    @Persisted var address: String = ""
+}
+
+
 
 class CareRealmModel: Object {
     @Persisted(primaryKey: true) var id: ObjectId
