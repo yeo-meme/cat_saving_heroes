@@ -105,6 +105,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         mgr.stopUpdatingLocation()
     }
     
+    //맵 처음 로드 될 떄
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         //pin data
         if let currentLocation = locations.first{
@@ -117,8 +118,10 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             
             
             realmMigration()
-            // Tracking 객체 생성
+            
+            // 실시간 업데이트
             let tracking = createTrackingObject(location: currentLocation)
+            
             // Realm 객체 생성
             // let tracking = Tracking()
             //
@@ -209,15 +212,19 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         tracking.user = ""
         tracking.arrival_address = location.coordinate.latitude.description + ", " + location.coordinate.longitude.description
         tracking.departure_address = "departureAddress"
-        tracking.event_latitude = 0.0
-        tracking.event_longitude = 0.0
+        tracking.event_latitude = location.coordinate.latitude
+        tracking.event_longitude = location.coordinate.longitude
         tracking.event_time = "eventTime"
         tracking.event_address = "eventAddress"
         tracking.event_cat = "eventCat"
         
         RealmHelper.shared.create(tracking)
         let track =  RealmHelper.shared.read(Tracking.self)
-        print("트랙킹 저장한값 : \(track)")
+        
+        
+        for aaa in track {
+            print("실시간 업데이트 트랙킹 저장한값 : \(aaa.event_latitude)")
+        }
     }
     
     

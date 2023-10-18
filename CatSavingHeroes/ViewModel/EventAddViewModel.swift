@@ -33,11 +33,11 @@ class EventAddViewModel: ObservableObject {
             typeChangeLocation = newLocation
        }
     
+   
+    
     func isRunningCatWalk(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date){
         
         updateLocation(latitude: latitude, longitude: logtitude)
-        //
-
         
         let sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
@@ -48,7 +48,7 @@ class EventAddViewModel: ObservableObject {
         print("선택 냥이 가제 : \(catId)")
         
         if readLocationUserDefaults() {
-            
+            //고양이 데이터 선택했을 경우
             if let jsonData = UserDefaults.standard.data(forKey: "catsData") {
                 do {
                     // Decode the JSON data into a Cat object
@@ -71,6 +71,7 @@ class EventAddViewModel: ObservableObject {
                     careModel.longitude = logtitude
                     careModel.date = Date() // 현재 날짜를 설정
                     
+                    print("++> isRunningCatWalk 이벤트 에서 트랙킹에 넣을 값 확인 : \(latitude)")
                      createTrackingObject(latitude: latitude, logtitude: logtitude)
                     // do {
                     //     RealmHelper.shared.create(careModel)
@@ -109,6 +110,8 @@ class EventAddViewModel: ObservableObject {
     
     
     func createTrackingObject(latitude: Double, logtitude: Double){
+        
+        print("++> 업데이트 트래킹 : \(latitude) ,")
         let tracking = Tracking()
         
         if let typeChangeLocation {
@@ -132,7 +135,11 @@ class EventAddViewModel: ObservableObject {
             
             RealmHelper.shared.create(tracking)
             let track =  RealmHelper.shared.read(Tracking.self)
-            print("트랙킹 이벤트를 추가 저장한값 : \(track)")
+            
+            //test
+            for aa in track {
+                print("++> 트랙킹 이벤트를 추가 저장한값 : \(aa.event_latitude)")
+            }
         }
       
     }
