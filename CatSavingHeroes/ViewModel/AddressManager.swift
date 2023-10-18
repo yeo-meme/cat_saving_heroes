@@ -25,7 +25,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     var annotationsInCircle: [MKPointAnnotation] = []
     
     
-    
     override init() {
         super.init()
         
@@ -44,6 +43,11 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             manager.requestAlwaysAuthorization()
         } else if status == .authorizedAlways || status == .authorizedWhenInUse {
             mapView.showsUserLocation = true // 사용자의 현재 위치를 확인할 수 있도록
+
+            // 대한민국 남산으로 지도의 위치를 표시
+                   let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+                   let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span)
+                   mapView.setRegion(region, animated: true)
         }
     }
     
@@ -63,8 +67,12 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         
         
         //고양이 로드
-        
         loadAnnotationsFromRealm()
+        
+        //고양이 로드
+        let filteredTrackingEvents = getEventCoodinateRealm()
+        
+        
         // 현재 위치
         let catLocation = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
         
@@ -74,8 +82,10 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         
         
         // 지도에 마커 표시
-        for annotation in annotationsInCircle {
-            mapView.addAnnotation(annotation)
+        for filteredTrackingEvent in filteredTrackingEvents {
+            if Double(filteredTrackingEvent.event_latitude) != 0.0 {
+                mapView.addAnnotation(filteredTrackingEvent as! MKAnnotation)
+            }
         }
         
         // print("화면 이동이 종료 markers : \(markers)")
@@ -102,11 +112,31 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         // print("반경 3km 내에 있는 위도경도 : \(annotationsInCircle)")
     }
     
+    func getEventCoodinateRealm() -> [Tracking]  {
+        // 트랙킹 Realm 객체를 읽습니다.
+        let trackingEvents = RealmHelper.shared.read(Tracking.self)
+        
+        //TODO : 저장된값중에 0.0 이 아닌값만 출력하기 test 중
+        // latitude와 longitude 값이 0.0이 아닌 값만 필터링합니다.
+        var filteredTrackingEvents = [Tracking]()
+        
+        for trackingEvent in trackingEvents {
+            if Double(trackingEvent.event_latitude) != 0.0{
+                print("이벤트 캣 : \(trackingEvent.event_latitude)" )
+            } else {
+                print("이벤트 캣 0.0: \(trackingEvent.event_latitude)" )
+            }
+        }
+        return filteredTrackingEvents
+    }
+    
     // MARK: - 특정 위치로 MapView의 Focus를 이동하는 메서드
     func mapViewFocusChange() {
         print("[SUCCESS] Map Focus Changed")
         let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        let region = MKCoordinateRegion(center: self.currentGeoPoint ??  CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span) //남산
+        // let region = MKCoordinateRegion(center: self.currentGeoPoint ??  CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span) //현재위치
+        
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span) //남산
         mapView.setRegion(region, animated: true)
     }
     
@@ -166,7 +196,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                     let distance = catLocation.distance(from: annotationLocation)
                     
                     let region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
- 
+                    
                     if distance <= 3000 { // 3km 이내에 있는 마커만 추가
                         annotationsInCircle.append(annotation)
                     }
