@@ -45,7 +45,6 @@ struct LocationBasedCatView: View {
             HStack{
                 HStack{
                     Button(action: {
-                       
                             let locationRecord = LocationRecord()
                             locationRecord.latitude = locationManager.lastLocation.latitude
                             locationRecord.longitude = locationManager.lastLocation.longitude
@@ -69,7 +68,6 @@ struct LocationBasedCatView: View {
                             .cornerRadius(10)
                     }
                     
-                    
                     Button {
                         fetchLocationRecords()
                     } label: {
@@ -85,22 +83,38 @@ struct LocationBasedCatView: View {
     }
     
     func fetchLocationRecords() {
-        do {
-            let realm = try Realm()
-            let locationRecords = realm.objects(LocationRecord.self)
-            print("불러오기 : \(locationRecords)")
-            // 검색된 LocationRecord 객체의 값을 가져옵니다.
-            for locationRecord in locationRecords {
-                let latitude = locationRecord.latitude
-                let longitude = locationRecord.longitude
-                let timestamp = locationRecord.timestamp
-                
-                // 여기에서 가져온 값들을 사용하거나 출력할 수 있습니다.
-                print("불러오기 Latitude: \(latitude), Longitude: \(longitude), Timestamp: \(timestamp)")
+        // do {
+        //     let realm = try Realm()
+        //     let locationRecords = realm.objects(LocationRecord.self)
+        //     print("불러오기 : \(locationRecords)")
+        //     // 검색된 LocationRecord 객체의 값을 가져옵니다.
+        //     for locationRecord in locationRecords {
+        //         let latitude = locationRecord.latitude
+        //         let longitude = locationRecord.longitude
+        //         let timestamp = locationRecord.timestamp
+        //         
+        //         // 여기에서 가져온 값들을 사용하거나 출력할 수 있습니다.
+        //         print("불러오기 Latitude: \(latitude), Longitude: \(longitude), Timestamp: \(timestamp)")
+        //     }
+        // } catch {
+        //     print("Error fetching location records: \(error.localizedDescription)")
+        // }
+        
+        // 트랙킹 Realm 객체를 읽습니다.
+        let trackingEvents = RealmHelper.shared.read(Tracking.self)
+
+        //TODO : 저장된값중에 0.0 이 아닌값만 출력하기 test 중
+        // latitude와 longitude 값이 0.0이 아닌 값만 필터링합니다.
+        for trackingEvent in trackingEvents {
+            if Double(trackingEvent.event_latitude) != 0.0{
+                print("이벤트 캣 : \(trackingEvent.event_latitude)" )
+            } else {
+                print("이벤트 캣 0.0: \(trackingEvent.event_latitude)" )
             }
-        } catch {
-            print("Error fetching location records: \(error.localizedDescription)")
         }
+
+        // 필터링된 값을 출력합니다.
+      
     }
 }
 

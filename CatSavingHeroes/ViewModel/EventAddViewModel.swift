@@ -14,7 +14,7 @@ class EventAddViewModel: ObservableObject {
     private var model: Model
     private var isLocationTrackingEnabled: Bool = false // Model 인스턴스를 저장하는 프로퍼티 추가
     @Published var annotations: [MKPointAnnotation] = []
-    
+    @Published var typeChangeLocation: CLLocation?
     
     init(model: Model) {  // 생성자에서 Model 인스턴스 주입
         self.model = model
@@ -27,14 +27,17 @@ class EventAddViewModel: ObservableObject {
     // @Published var careModel = Cat()
     
     
+    //CLLocationCoordinate2D -> CLLocation 변경
+    func updateLocation(latitude: Double, longitude: Double) {
+           let newLocation = CLLocation(latitude: latitude, longitude: longitude)
+            typeChangeLocation = newLocation
+       }
+    
     func isRunningCatWalk(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date){
         
-        // 
-        let config = Realm.Configuration(
-            schemaVersion: 0, // 스키마 버전을 0으로 설정
-            deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
-        )
-        Realm.Configuration.defaultConfiguration = config
+        updateLocation(latitude: latitude, longitude: logtitude)
+        //
+
         
         let sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
@@ -67,12 +70,14 @@ class EventAddViewModel: ObservableObject {
                     careModel.latitude = latitude
                     careModel.longitude = logtitude
                     careModel.date = Date() // 현재 날짜를 설정
-                    do {
-                        RealmHelper.shared.create(careModel)
-                        print("realm기록하였음 트래킹 있음: Latitude: \(latitude), Longitude: \(logtitude)")
-                    } catch {
-                        print("Error saving data: \(error)")
-                    }
+                    
+                     createTrackingObject(latitude: latitude, logtitude: logtitude)
+                    // do {
+                    //     RealmHelper.shared.create(careModel)
+                    //     print("realm기록하였음 트래킹 있음: Latitude: \(latitude), Longitude: \(logtitude)")
+                    // } catch {
+                    //     print("Error saving data: \(error)")
+                    // }
                     loadEventAddCat()
                     // Now, 'idFromSavedData' contains the 'id' value from the saved data
                     print("Loaded 'id' from saved data: \(idFromSavedData)")
@@ -100,6 +105,36 @@ class EventAddViewModel: ObservableObject {
             
             
         } 
+    }
+    
+    
+    func createTrackingObject(latitude: Double, logtitude: Double){
+        let tracking = Tracking()
+        
+        if let typeChangeLocation {
+            // Tracking 객체의 속성 설정
+            tracking.arrival_time = Date().description
+            tracking.departure_time = Date().description
+            tracking.departure_point = typeChangeLocation.coordinate.latitude.description + ", " + typeChangeLocation.coordinate.longitude.description
+            tracking.destination_point = ""
+            tracking.track_time = ""
+            tracking.route = ""
+            tracking.distance = ""
+            tracking.timestamp = Date().description
+            tracking.user = ""
+            tracking.arrival_address = typeChangeLocation.coordinate.latitude.description + ", " + typeChangeLocation.coordinate.longitude.description
+            tracking.departure_address = "departureAddress"
+            tracking.event_latitude = latitude
+            tracking.event_longitude = logtitude
+            tracking.event_time = "eventTime"
+            tracking.event_address = "eventAddress"
+            tracking.event_cat = "eventCat"
+            
+            RealmHelper.shared.create(tracking)
+            let track =  RealmHelper.shared.read(Tracking.self)
+            print("트랙킹 이벤트를 추가 저장한값 : \(track)")
+        }
+      
     }
     
     
@@ -137,7 +172,6 @@ class EventAddViewModel: ObservableObject {
                     careModel.date = Date() // 현재 날짜를 설정
                     
                    
-                    
                     do {
                         RealmHelper.shared.create(careModel)
                         
@@ -293,7 +327,6 @@ class EventAddViewModel: ObservableObject {
     func readLocationUserDefaults() -> Bool{
         
         let defaults = UserDefaults.standard
-        
         // "isLocationTrackingEnabled" 키로 저장된 값 가져오기
         if let existingValue = defaults.object(forKey: "isLocationTrackingEnabled") as? NSNumber {
             // "isLocationTrackingEnabled" 키로 저장된 값이 존재하면

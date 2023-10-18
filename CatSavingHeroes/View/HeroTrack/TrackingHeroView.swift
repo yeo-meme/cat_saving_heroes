@@ -30,8 +30,6 @@ struct TrackingHeroView: View {
                     //startStopLocationTracking
                     model.startStopLocationTracking()
 
-                    
-                    
                     // isRecording.toggle()
                     // 
                     // if isRecording {

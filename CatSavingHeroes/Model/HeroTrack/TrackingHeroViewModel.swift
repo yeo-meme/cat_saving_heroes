@@ -19,7 +19,7 @@ extension TrackingHeroView {
     //     let locationRecord = LocationRecord()
     //     // locationRecord.latitude = lastLocation.latitude
     //     // locationRecord.longitude = lastLocation.longitude
-    //     
+    //
     //     // Realm에 위치 정보 저장
     //     do {
     //         let realm = try Realm()
@@ -114,27 +114,33 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
             coordinates = locations.map { $0.coordinate }
             // distanceTraveled(currentLocation)
             
-            // Realm 객체 생성
-                  let tracking = Tracking()
-
-                  // Tracking 객체의 속성 설정
-                  // tracking.id = ObjectId()
-                  tracking.arrival_time = Date().description
-                  tracking.departure_time = Date().description
-                tracking.departure_point = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
-                  tracking.destination = ""
-                  tracking.track_time = ""
-                  tracking.route = ""
-                  tracking.distance = ""
-                  tracking.timestamp = Date().description
-                  tracking.user = ""
-                  tracking.address = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
-
-                  // Realm 객체에 Tracking 객체 저장
             
-            RealmHelper.shared.create(tracking)
-           let track =  RealmHelper.shared.read(Tracking.self)
-                  print("트랙킹 저장한값 : \(track)")
+            realmMigration()
+            // Tracking 객체 생성
+            let tracking = createTrackingObject(location: currentLocation)
+            // Realm 객체 생성
+            // let tracking = Tracking()
+            //
+            // // Tracking 객체의 속성 설정
+            // // tracking.id = ObjectId()
+            // tracking.arrival_time = Date().description
+            // tracking.departure_time = Date().description
+            // tracking.departure_point = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
+            // tracking.destination_point = ""
+            // tracking.track_time = ""
+            // tracking.route = ""
+            // tracking.distance = ""
+            // tracking.timestamp = Date().description
+            // tracking.user = ""
+            // tracking.arrival_address = currentLocation.coordinate.latitude.description + ", " + currentLocation.coordinate.longitude.description
+            // tracking.departure_address = "departureAddress"
+            // tracking.event_coodinate = "eventCoordinate"
+            // tracking.event_time = "eventTime"
+            // tracking.event_address = "eventAddress"
+            // tracking.event_cat = "eventCat"
+            // // Realm 객체에 Tracking 객체 저장
+            
+        
         }
         
         
@@ -187,6 +193,34 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
     }
     
+    func createTrackingObject(location: CLLocation){
+        let tracking = Tracking()
+        
+        // Tracking 객체의 속성 설정
+        tracking.arrival_time = Date().description
+        tracking.departure_time = Date().description
+        tracking.departure_point = location.coordinate.latitude.description + ", " + location.coordinate.longitude.description
+        tracking.destination_point = ""
+        tracking.track_time = ""
+        tracking.route = ""
+        tracking.distance = ""
+        tracking.timestamp = Date().description
+        tracking.user = ""
+        tracking.arrival_address = location.coordinate.latitude.description + ", " + location.coordinate.longitude.description
+        tracking.departure_address = "departureAddress"
+        tracking.event_latitude = 0.0
+        tracking.event_longitude = 0.0
+        tracking.event_time = "eventTime"
+        tracking.event_address = "eventAddress"
+        tracking.event_cat = "eventCat"
+        
+        RealmHelper.shared.create(tracking)
+        let track =  RealmHelper.shared.read(Tracking.self)
+        print("트랙킹 저장한값 : \(track)")
+    }
+    
+    
+    
     func addressConverter(location: CLLocation){
         
     }
@@ -222,7 +256,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func recordTrackingRealm() {
-     
+        
     }
     
     //UserDefaults 값 저장 트래킹 백그라운드 상태
