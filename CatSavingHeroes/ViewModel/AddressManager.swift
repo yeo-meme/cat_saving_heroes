@@ -44,8 +44,9 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         } else if status == .authorizedAlways || status == .authorizedWhenInUse {
             mapView.showsUserLocation = true // 사용자의 현재 위치를 확인할 수 있도록
 
-            // 대한민국 남산으로 지도의 위치를 표시
+            // 대한민국 남산으로 지도의 위치를 표시 latitude: 37.5514, longitude: 126.9880
                    let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            
                    let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span)
                    mapView.setRegion(region, animated: true)
         }

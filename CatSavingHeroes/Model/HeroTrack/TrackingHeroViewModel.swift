@@ -43,8 +43,9 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     @Published var isLocationTrackingEnabled = false
     @Published var location: CLLocation?
-    @Published var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 37.558890, longitude: 126.982230),
+    @Published var region = MKCoordinateRegion( //지도 초기값
+        //남산 : latitude: 37.558890, longitude: 126.982230
+        center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880),
         span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
     @Published var pins: [PinLocation] = []
     @Published var coordinates: [CLLocationCoordinate2D] = []
