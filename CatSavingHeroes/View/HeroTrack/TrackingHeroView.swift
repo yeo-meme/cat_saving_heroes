@@ -13,6 +13,7 @@ import MapKit
 struct TrackingHeroView: View {
     // @StateObject private var model = Model()
     @EnvironmentObject var model: Model
+    @ObservedObject var weatherModel: WeatherViewModel
     @State private var isRecording = false
     
     @State private var coordinates: [CLLocationCoordinate2D] = []
@@ -21,26 +22,18 @@ struct TrackingHeroView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
+            
+            HStack{
+                Text("현재 나의 위치")
+               
+            }
             ZStack {
                 Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
                     MapPin(coordinate: pin.coordinate, tint: .red)
                 }
                 Spacer()
                 Button(action: {
-                    //startStopLocationTracking
                     model.startStopLocationTracking()
-
-                    // isRecording.toggle()
-                    // 
-                    // if isRecording {
-                    //     model.startUpdatingLocation()
-                    // } else {
-                    //     model.stopUpdatingLocation()
-                    //     // 위치 기록을 Realm에 저장
-                    //     let locationRecord = LocationRecord()
-                    //     locationRecord.latitude = self.model.lastLocation.latitude // 수정된 부분
-                    //     locationRecord.longitude = self.model.lastLocation.longitude // 수정된 부분
-                    // }
                 }) {
                     Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
                         .foregroundColor(.white)
@@ -62,6 +55,7 @@ struct TrackingHeroView: View {
             //     BottomSheetModalView(isShowingModal: $isShowingModal)
             // })
         }
+        
     }
 }
 

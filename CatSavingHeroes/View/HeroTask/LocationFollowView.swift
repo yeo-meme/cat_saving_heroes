@@ -22,16 +22,12 @@ struct LocationFollowView: View {
         NavigationView{
             VStack{
                 SlidingTabView(selection: $tabIndex, tabs: ["영웅업무시작","영웅일지"], selectionBarColor: .green)
-                
                 Spacer()
-                
                 if tabIndex == 0 {
-                    TrackingHeroView()
-                    
+                    TrackingHeroView(weatherModel: WeatherViewModel())
                 } else if tabIndex == 1 {
                     HeroCalendarView()
                 }
-                
                 Spacer()
             }
             .navigationBarItems(leading: Text("영웅일지"),

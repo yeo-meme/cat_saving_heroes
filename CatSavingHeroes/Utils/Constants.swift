@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestore
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 let COLLECTION_CAT_PROFILE = Firestore.firestore().collection("cat_profile")
@@ -41,3 +42,7 @@ let IMAGEURL = "gs://catsavingheores.appspot.com"
 let LIKE = "like"
 let UN_LIKE = "unlike"
 let LIKE_STATE = "likestate"
+
+
+
+let WEATHER_API_KEY = "159e98ac01ffc30824c47cc4c5e9e004"

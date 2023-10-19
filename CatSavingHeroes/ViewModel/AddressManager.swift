@@ -57,20 +57,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                 let region = MKCoordinateRegion(center: defaultLocation, span: span)
                 mapView.setRegion(region, animated: true)
             }
-            
-            
-            // 대한민국 남산으로 지도의 위치를 표시 latitude: 37.5514, longitude: 126.9880
-            // 현재 위치로 지도의 위치를 표시
-            // if let location = manager.location {
-            //     let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-            //     let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.501151, longitude: 127.005278), span: span)
-            //     mapView.setRegion(region, animated: true)
-            // } else {
-            //     // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
-            //     let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-            //     let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span)
-            //     mapView.setRegion(region, animated: true)
-            // }
         }
     }
     
@@ -89,7 +75,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         self.convertLocationToAddress(location: location)
         
         //고양이 로드
-        // loadCatEventAnnotationsFromRealm()
+        loadCatEventAnnotationsFromRealm()
         
         //고양이 로드
         // let filteredTrackingEvents = getEventCoodinateRealm()

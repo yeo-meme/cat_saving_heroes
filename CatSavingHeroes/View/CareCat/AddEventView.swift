@@ -26,7 +26,6 @@ struct AddEventView: View {
     
     var body: some View {
         VStack {
-         
             SearchCatView()
             TextField("Search", text: $searchText)
                 .padding()
