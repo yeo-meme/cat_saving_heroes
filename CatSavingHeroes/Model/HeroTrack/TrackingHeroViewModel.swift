@@ -206,14 +206,14 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         tracking.departure_point = location.coordinate.latitude.description + ", " + location.coordinate.longitude.description
         tracking.destination_point = ""
         tracking.track_time = ""
-        tracking.route = ""
+        tracking.route = location.coordinate.latitude.description
         tracking.distance = ""
         tracking.timestamp = Date().description
         tracking.user = ""
         tracking.arrival_address = location.coordinate.latitude.description + ", " + location.coordinate.longitude.description
         tracking.departure_address = "departureAddress"
-        tracking.event_latitude = location.coordinate.latitude
-        tracking.event_longitude = location.coordinate.longitude
+        tracking.event_latitude = 0.0
+        tracking.event_longitude = 0.0
         tracking.event_time = "eventTime"
         tracking.event_address = "eventAddress"
         tracking.event_cat = "eventCat"
@@ -223,7 +223,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         
         for aaa in track {
-            print("실시간 업데이트 트랙킹 저장한값 : \(aaa.event_latitude)")
+            print("실시간 업데이트 트랙킹 저장한값 : \(aaa.route)")
         }
     }
     

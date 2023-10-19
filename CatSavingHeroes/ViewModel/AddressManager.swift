@@ -27,7 +27,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     
     override init() {
         super.init()
-        
+        loadCatEventAnnotationsFromRealm()
         self.configureLocationManager()
     }
     
@@ -89,7 +89,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         self.convertLocationToAddress(location: location)
         
         //고양이 로드
-        loadCatEventAnnotationsFromRealm()
+        // loadCatEventAnnotationsFromRealm()
         
         //고양이 로드
         // let filteredTrackingEvents = getEventCoodinateRealm()
@@ -220,87 +220,34 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     //고양이 CareRealmModel 이벤트 표시 realm 호출
     func loadCatEventAnnotationsFromRealm() {
         do {
-            
             // deleteAll()
-            // 현재 위치
-            // let catLocation = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
-            //
-            // let center = CLLocationCoordinate2D(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
-            
-            // 지도의 영역을 현재 위치로 설정
-            // let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-            // mapView.setRegion(region, animated: true)
-            
-            // deleteAll()
-            
-            // let realm = try Realm()
-            // let trackingDatas = realm.objects(Tracking.self)
-            
+          
             let trackingDatas = RealmHelper.shared.read(Tracking.self)
             print("++> 리얼엠에서 잘 불러왔니? 1 : \(trackingDatas)")
             
+            //test
             for aa in trackingDatas {
                 print("++> 리얼엠에서 잘 불러왔니? 1-1 : \(aa.event_latitude) ")
             }
+            var annotations: [MKPointAnnotation] = []
             
             for tracking in trackingDatas {
                 if tracking.event_latitude != 0.0 && tracking.event_longitude != 0.0 {
                    
+                    // 지도에 마커 표시
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = CLLocationCoordinate2D(latitude: tracking.event_latitude, longitude: tracking.event_longitude)
                     
+                    //리스트 복수
                     print("++> 리얼엠에서 잘 불러왔니? 2 : \(tracking.event_longitude)")
-                    
-                    
-                    // 지도에 마커 표시
-                    let annotations = trackingDatas.map {
-                        MKPointAnnotation(__coordinate: CLLocationCoordinate2D(latitude: $0.event_latitude, longitude: $0.event_longitude))
-                    }
-                    mapView.addAnnotations(annotations)
-                    // 
-                    // let annotationLocation = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-                    // let distance = catLocation.distance(from: annotationLocation)
-                    
-                    // print("++> distance: \(distance)")
-                    
-                    // let region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-                    // 
-                    // if distance <= 3000 { // 3km 이내에 있는 마커만 추가
-                    //     annotationsInCircle.append(annotation)
-                    //     print("++> distance <= 3000 결과값: \(annotationsInCircle) ")
-                    // }
              
+                    annotations.append(annotation)
                     
-                    // 지도의 영역을 마커의 위치로 설정
-                    // if let annotation = mapView.annotations.first {
-                    //     let region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-                    //     mapView.setRegion(region, animated: true)
-                    // }
-                    
-                    
-                    // 지도의 영역을 마커의 위치로 설정
-                    // if let annotation = annotationsInCircle.first {
-                    //     let region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
-                    //     mapView.setRegion(region, animated: true)
-                    // }
-                    // 현재 위치로 지도 이동
-                    // mapView.setRegion(MKCoordinateRegion(center: catLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)), animated: true)
-                    
-                    // annotations.append(annotation)
-                    
-                    // mapView.setRegion(region, animated: true)
-                    // uiView을 MKMapView로 캐스팅
-                    print("화면 이동이 종료 markers  annotation.coordinate : \(annotation.coordinate.latitude),annotation.coordinate : \(annotation.coordinate.longitude) ")
+                    print("화면 이동이 종료 markers  annotation.coordinate : \(annotations) ")
                 }
             }
             
-            // 지도에 마커 표시
-            // for annotation in annotations {
-            //     mapView.addAnnotation(annotation)
-            // }
-            //
-            
-            
+            mapView.addAnnotations(annotations)
         } catch {
             print("Error loading data from Realm: \(error)")
         }
@@ -329,6 +276,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                 realm.deleteAll()
             }
         } catch {
+            print("리얼엠 올 딜리트 에러!!")
             // handle error
         }
     }

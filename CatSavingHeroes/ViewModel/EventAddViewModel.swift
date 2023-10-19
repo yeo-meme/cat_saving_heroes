@@ -37,6 +37,8 @@ class EventAddViewModel: ObservableObject {
     
     func isRunningCatWalk(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date){
         
+        print("++> isRunningCatWalk 이벤트 에서 트랙킹에 넣을 값 확인 : \(latitude)")
+        updateTrackingObject(latitude: latitude, logtitude: logtitude)
         updateLocation(latitude: latitude, longitude: logtitude)
         
         let sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
@@ -71,8 +73,7 @@ class EventAddViewModel: ObservableObject {
                     careModel.longitude = logtitude
                     careModel.date = Date() // 현재 날짜를 설정
                     
-                    print("++> isRunningCatWalk 이벤트 에서 트랙킹에 넣을 값 확인 : \(latitude)")
-                     createTrackingObject(latitude: latitude, logtitude: logtitude)
+                    
                     // do {
                     //     RealmHelper.shared.create(careModel)
                     //     print("realm기록하였음 트래킹 있음: Latitude: \(latitude), Longitude: \(logtitude)")
@@ -144,6 +145,40 @@ class EventAddViewModel: ObservableObject {
       
     }
     
+    func updateTrackingObject(latitude: Double, logtitude: Double){
+        
+        print("++> 업데이트 트래킹 : \(latitude) ,")
+        let tracking = Tracking()
+        
+        if let typeChangeLocation {
+            // Tracking 객체의 속성 설정
+            tracking.arrival_time = Date().description
+            tracking.departure_time = Date().description
+            tracking.departure_point = typeChangeLocation.coordinate.latitude.description + ", " + typeChangeLocation.coordinate.longitude.description
+            tracking.destination_point = ""
+            tracking.track_time = ""
+            tracking.route = ""
+            tracking.distance = ""
+            tracking.timestamp = Date().description
+            tracking.user = ""
+            tracking.arrival_address = typeChangeLocation.coordinate.latitude.description + ", " + typeChangeLocation.coordinate.longitude.description
+            tracking.departure_address = "departureAddress"
+            tracking.event_latitude = latitude
+            tracking.event_longitude = logtitude
+            tracking.event_time = "eventTime"
+            tracking.event_address = "eventAddress"
+            tracking.event_cat = "eventCat"
+            
+            RealmHelper.shared.create(tracking)
+            let track =  RealmHelper.shared.read(Tracking.self)
+            
+            //test
+            for aa in track {
+                print("++> 트랙킹 이벤트를 추가 저장한값 : \(aa.event_latitude)")
+            }
+        }
+      
+    }
     
     func isNotRuningCatWalk(state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date) {
         let sessionId = UserDefaults.standard.string(forKey: "User") ?? ""

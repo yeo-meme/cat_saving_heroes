@@ -18,6 +18,7 @@ struct CareCatView: View {
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
     
+
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
@@ -59,8 +60,7 @@ struct CareCatView: View {
             }
             // .background(Color.red)
             .onAppear {
-                locationManager.loadCatEventAnnotationsFromRealm()
-                print("++>----- start!! locationManager.loadCatEventAnnotationsFromRealm")
+             
                 // callRealm()
                 // eventAddViewModel.loadAnnotationsFromRealm()
             }
@@ -129,6 +129,6 @@ struct MapViewCoordinator: UIViewRepresentable {
     }
 }
 
-#Preview {
-    CareCatView(presentSideMenu: Binding.constant(false))
-}
+// #Preview {
+//     CareCatView(presentSideMenu: Binding.constant(false))
+// }
