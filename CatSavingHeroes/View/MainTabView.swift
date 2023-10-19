@@ -17,14 +17,11 @@ struct MainTabView: View {
     var body: some View {
         VStack{
             Spacer()
-            
-            
-            
             Image("OIGG")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
-            
+            Text("날씨 정보: \(weatherModel.wetherData?.description ?? "")")
             
             Button(action: { self.showSheet = true },
                    label: { Text("Log out").font(.system(size: 18, weight: .semibold)) }
@@ -103,8 +100,8 @@ class WeatherManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         alamo.responseDecodable(of: WeatherData.self) { response in
             switch response.result {
             case .success(let result):
-                // self.arrWetherData = result.weather
-                print("날씨 정보: \(result.weather)")
+                self.wetherData = result.weather.first
+                print("날씨 정보: \(self.wetherData)")
                 self.hasLoadedWeatherData = true
             case .failure(let error):
                 print("오류 발생: \(error)")

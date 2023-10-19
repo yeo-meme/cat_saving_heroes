@@ -9,13 +9,27 @@ import Foundation
 import CoreLocation
 import MapKit
 import RealmSwift
+import _MapKit_SwiftUI
 
 
 class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    @Published private var region: MKCoordinateRegion = {
+        var mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
+        var mapZoomLevel = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
+        var mapRegion = MKCoordinateRegion(center: mapCoordinates, span: mapZoomLevel)
+        
+        return mapRegion
+    }()
+    
+    var test_map :CLLocationCoordinate2D?
+    var test_mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
+    let test_region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)) //남산
+    
     @Published var annotations: [MKPointAnnotation] = []
-    
-    
+    @Published private var annotationViews: [MKAnnotationView] = []
+    @Published var dummyCatCareLocation:CatCareLocation?
+    @Published var customAnnotation:CustomAnnotation?
     @Published var mapView: MKMapView = .init()
     @Published var isChanging: Bool = false // 지도의 움직임 여부를 저장하는 프로퍼티
     @Published var currentPlace: String = "" // 현재 위치의 도로명 주소를 저장하는 프로퍼티
@@ -75,7 +89,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         self.convertLocationToAddress(location: location)
         
         //고양이 로드
-        loadCatEventAnnotationsFromRealm()
+        // loadCatEventAnnotationsFromRealm()
         
         //고양이 로드
         // let filteredTrackingEvents = getEventCoodinateRealm()
@@ -207,7 +221,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     func loadCatEventAnnotationsFromRealm() {
         do {
             // deleteAll()
-          
+            
             let trackingDatas = RealmHelper.shared.read(Tracking.self)
             print("++> 리얼엠에서 잘 불러왔니? 1 : \(trackingDatas)")
             
@@ -219,24 +233,74 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             
             for tracking in trackingDatas {
                 if tracking.event_latitude != 0.0 && tracking.event_longitude != 0.0 {
-                   
+                    
                     // 지도에 마커 표시
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = CLLocationCoordinate2D(latitude: tracking.event_latitude, longitude: tracking.event_longitude)
                     
                     //리스트 복수
                     print("++> 리얼엠에서 잘 불러왔니? 2 : \(tracking.event_longitude)")
-             
+                    
                     annotations.append(annotation)
                     
-                    print("화면 이동이 종료 markers  annotation.coordinate : \(annotations) ")
+                    // print("화면 이동이 종료 markers  annotation.coordinate : \(annotations) ")
+                    // dummyCatCareLocation = CatCareLocation(
+                    //     id: "1",
+                    //     name: "고양이 돌봄 센터 1",
+                    //     image: "cat1",
+                    //     latitude: tracking.event_latitude,
+                    //     longitude: tracking.event_longitude
+                    // )
+                    // 
+                    // customAnnotation = CustomAnnotation(title: "고양이", subtitle: "고영이", coordinate: annotation.coordinate, image: "OIGG")
+                    // 
+                    // test_map = CLLocationCoordinate2D(latitude: tracking.event_latitude, longitude: tracking.event_longitude)
+                    // print("이미지 테스트: \(tracking.event_latitude)")
+                    // 
+                    // 
+                    // // 이미지 표시
+                    // if let test_map = self.test_map {
+                    //     MapAnnotation(coordinate:test_map) {
+                    //         MapAnnotationView(location: dummyCatCareLocation ?? MOCK_UP)
+                    //     }
+                    // }else {
+                    //     print("dummyCatCareLocation가 nil")
+                    // }
                 }
             }
             
             mapView.addAnnotations(annotations)
+         
+            
         } catch {
             print("Error loading data from Realm: \(error)")
         }
+    }
+    
+    //TODO :// 어노테이션뷰 재사용
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 식별자
+        let identifier = "Custom"
+        
+        // 식별자로 재사용 가능한 AnnotationView가 있나 확인한 뒤 작업을 실행 (if 로직)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            // 재사용 가능한 식별자를 갖고 어노테이션 뷰를 생성
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            
+            // 콜아웃 버튼을 보이게 함
+            annotationView?.canShowCallout = true
+            // 이미지 변경
+            annotationView?.image = UIImage(systemName: "star.fill")
+            
+            // 상세 버튼 생성 후 액세서리에 추가 (i 모양 버튼)
+            // 버튼을 만들어주면 callout 부분 전체가 버튼 역활을 합니다
+            let button = UIButton(type: .detailDisclosure)
+            annotationView?.rightCalloutAccessoryView = button
+        }
+        
+        return annotationView
     }
     
     func loadTrackingEventAnnotationsFromRealm() {
