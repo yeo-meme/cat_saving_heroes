@@ -292,7 +292,16 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             // 콜아웃 버튼을 보이게 함
             annotationView?.canShowCallout = true
             // 이미지 변경
-            annotationView?.image = UIImage(systemName: "star.fill")
+            // annotationView?.image = UIImage(systemName: "star.fill")
+            // 
+            if let image = UIImage(named: "OIGG") {
+               
+                annotationView?.image = image
+                annotationView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+
+            } else {
+                // 이미지를 찾을 수 없는 경우에 대한 처리
+            }
             
             // 상세 버튼 생성 후 액세서리에 추가 (i 모양 버튼)
             // 버튼을 만들어주면 callout 부분 전체가 버튼 역활을 합니다
@@ -331,3 +340,5 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         }
     }
 }
+
+
