@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CategoryItemView: View {
-  // MARK: - PROPERTY
-  
-  // let category: Category
-  
-  // MARK: - BODY
-  
+
+    @Binding var isShowingModal:Bool
+    @EnvironmentObject var eventAddViewModel: EventAddViewModel
+    
   var body: some View {
-    Button(action: {}, label: {
+    Button(action: {
+        isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+    }, label: {
       HStack(alignment: .center, spacing: 6) {
         Image("OIGG")
           .renderingMode(.template)
@@ -37,9 +37,13 @@ struct CategoryItemView: View {
           .stroke(Color.gray, lineWidth: 1)
       )
     }) //: BUTTON
+    .sheet(isPresented: $isShowingModal) {
+        // 모달이 표시되면 addEvent 뷰가 열립니다.
+        AddEventView(model: eventAddViewModel)
+    }
   }
 }
 
-#Preview {
-    CategoryItemView()
-}
+// #Preview {
+//     CategoryItemView()
+// }

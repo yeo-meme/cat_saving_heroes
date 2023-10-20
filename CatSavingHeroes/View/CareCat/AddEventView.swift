@@ -23,10 +23,16 @@ struct AddEventView: View {
     @State var coordinate = "Coordinates"
     @State var address = "Address"
     @State var date = Date()
+    @State private var isEditing = false
     
     var body: some View {
         VStack {
-            SearchCatView()
+            // SearchCatView()
+            SearchBar(text: $searchText, isEditing: $isEditing)
+                .onTapGesture { isEditing.toggle()
+                }
+                .padding()
+            
             TextField("Search", text: $searchText)
                 .padding()
                 .background(Color.gray.opacity(0.2))

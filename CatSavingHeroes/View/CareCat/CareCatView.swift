@@ -58,7 +58,9 @@ struct CareCatView: View {
                         .frame(height: 300)
                 }
                 
-                CategoryItemView()
+                CategoryItemView(isShowingModal: $isShowingModal)
+                   
+                
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack{
                         LazyVGrid(columns: gridLayout, spacing: 15, content: {
