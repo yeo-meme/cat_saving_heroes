@@ -131,9 +131,9 @@ struct AddCatView: View {
                     }
                 })
             }
-            .navigationBarItems(leading: Text("냥추가"),
-                trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
-          
+            // .navigationBarItems(leading: Text("냥추가"),
+            //     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+            // 
         }
     }
     

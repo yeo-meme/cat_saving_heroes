@@ -32,16 +32,21 @@ struct TrackingHeroView: View {
                     MapPin(coordinate: pin.coordinate, tint: .red)
                 }
                 Spacer()
-                Button(action: {
-                    model.startStopLocationTracking()
-                }) {
-                    Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(
-                            Capsule()
-                                .fill(Color.purple)
-                        )
+                
+                
+                VStack{
+                    Spacer()
+                    Button(action: {
+                        model.startStopLocationTracking()
+                    }) {
+                        Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(
+                                Capsule()
+                                    .fill(Color.purple)
+                            )
+                    }.padding(.bottom, 10)
                 }
             }
             

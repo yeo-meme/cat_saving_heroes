@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import SwiftUI
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 let COLLECTION_CAT_PROFILE = Firestore.firestore().collection("cat_profile")
@@ -46,3 +47,7 @@ let LIKE_STATE = "likestate"
 
 
 let WEATHER_API_KEY = "159e98ac01ffc30824c47cc4c5e9e004"
+
+
+//DUMMY
+let products: [Product] = Bundle.main.decode("product.json")

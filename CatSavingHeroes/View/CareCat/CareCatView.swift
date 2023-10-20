@@ -13,6 +13,10 @@ struct CareCatView: View {
     @State private var selectedNumber = 1
     private let numbers = [1,2,3,4,5]
     
+    var gridLayout: [GridItem] {
+      return Array(repeating: GridItem(.flexible(), spacing: rowSpacing), count: 2)
+    }
+    let rowSpacing: CGFloat = 10
     
     @Binding var presentSideMenu: Bool //네비게이션바아이템
     @State private var isShowingModal = false
@@ -26,6 +30,7 @@ struct CareCatView: View {
     var body: some View {
         NavigationView{
             VStack {
+       
                 VStack{
                     HStack{
                         Picker("반경선택", selection: $selectedNumber) {
@@ -53,36 +58,48 @@ struct CareCatView: View {
                         .frame(height: 300)
                 }
                 
-                Rectangle()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.clear)
-                    .cornerRadius(20)
-                
-                // 그림자 효과
-                    .shadow(color: .gray, radius: 20)
-                
-                // DropdownButton()
-                VStack{
-                    OvalButton(text: "주변냥")
-                }.shadow(color: .black, radius: 10, x: 10, y: 10)
-                
-                
-                Button(action: {
-                    isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                }) {
-                    Text("Add Event")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                CategoryItemView()
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack{
+                        LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                          ForEach(products) { product in
+                            ProductItemView(product: product)
+                              .onTapGesture {
+                                // feedback.impactOccurred()
+                                //
+                                // withAnimation(.easeOut) {
+                                //   shop.selectedProduct = product
+                                //   shop.showingProduct = true
+                                }
+                              }
+                          } //: LOOP
+                        ) //: GRID
+                        .padding(15)
+                        // DropdownButton()
+                        VStack{
+                            OvalButton(text: "주변냥")
+                        }.shadow(color: .black, radius: 10, x: 10, y: 10)
+                        
+                        
+                        Button(action: {
+                            isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                        }) {
+                            Text("Add Event")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        .sheet(isPresented: $isShowingModal) {
+                            // 모달이 표시되면 addEvent 뷰가 열립니다.
+                            AddEventView(model: eventAddViewModel)
+                        }
+                    }
                 }
-                .sheet(isPresented: $isShowingModal) {
-                    // 모달이 표시되면 addEvent 뷰가 열립니다.
-                    AddEventView(model: eventAddViewModel)
-                }
+               
             }
-            .navigationBarItems(leading: Text("주변돌봄"),
-                                trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+            // .navigationBarItems(leading: Text("주변돌봄"),
+            //                     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
          
         }.background(Color.blue)
     }
