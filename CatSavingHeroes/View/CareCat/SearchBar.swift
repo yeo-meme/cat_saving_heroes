@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchBar: View {
     @Binding var text: String
     @Binding var isEditing: Bool
+    @Binding var isShowingSearchModal:Bool
     
     var body: some View {
         HStack {
@@ -23,7 +24,19 @@ struct SearchBar: View {
                         .foregroundColor(Color(.systemGray2))
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 10)
-                )
+                )  
+                .onTapGesture {
+                    isShowingSearchModal = true
+                }
+                .sheet(isPresented: $isShowingSearchModal) {
+                                        NavigationView {
+                                            NavigationLink(destination: SearchCatView(showConversationView: .constant(false))) {
+                                                Text("Go to Another View")
+                                            }
+                                            .navigationBarTitle("Modal View")
+                                        }
+                                    }
+            
               
             
             if isEditing {
