@@ -13,6 +13,7 @@ struct CategoryItemView: View {
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
     
   var body: some View {
+    
     Button(action: {
         isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
     }, label: {
@@ -42,6 +43,7 @@ struct CategoryItemView: View {
         AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel)
     }
   }
+  
 }
 
 // #Preview {

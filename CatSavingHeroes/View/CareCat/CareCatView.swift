@@ -64,14 +64,21 @@ struct CareCatView: View {
                     VStack{
                         LazyVGrid(columns: gridLayout, spacing: 15, content: {
                           ForEach(products) { product in
-                            ProductItemView(product: product)
-                              .onTapGesture {
-                                // feedback.impactOccurred()
-                                //
-                                // withAnimation(.easeOut) {
-                                //   shop.selectedProduct = product
-                                //   shop.showingProduct = true
-                                }
+                              NavigationLink(
+                                      destination: CatDetailView(),
+                                      label: {
+                                        ProductItemView(product: product)
+                                      })
+                                      // ProductItemView(product: product)
+                                      //     .onTapGesture {
+                                      //      
+                                      //       // feedback.impactOccurred()
+                                      //       //
+                                      //       // withAnimation(.easeOut) {
+                                      //       //   shop.selectedProduct = product
+                                      //       //   shop.showingProduct = true
+                                      //     
+                                      //       }
                               }
                           } //: LOOP
                         ) //: GRID
@@ -104,6 +111,8 @@ struct CareCatView: View {
          
         }.background(Color.blue)
     }
+    
+ 
     
 }
 
