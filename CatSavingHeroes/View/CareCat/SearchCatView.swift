@@ -20,11 +20,15 @@ struct SearchCatView: View {
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
+            
+            // ScrollView{
+            //     VStack(spacing:1){
+            //         SearchCatView(showConversationView: .constant(false))
+            //     }
+            // }
+            
+            
             ScrollView {
-                // SearchBar(text: $searchText, isEditing: $isEditing)
-                //     .onTapGesture { isEditing.toggle() }
-                //     .padding()
-                
                 ScrollView {
                     VStack(spacing: 1) {
                         ForEach(catNames, id:\.self) { user in

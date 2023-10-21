@@ -32,47 +32,73 @@ struct AddEventView: View {
     @State var date = Date()
     @State private var isEditing = false
     
+    
+    @State var isLinkActive = false
     var body: some View {
         NavigationView{
             VStack {
                 CloseButtonView(isShowingModal: $isShowingModal)
                     .padding(.top, 10)
-              
+                
+                NavigationLink(destination: SearchCatView( showConversationView: .constant(false)), isActive: $isLinkActive) {
+                                   Button(action: {
+                                       self.isLinkActive = true
+                                   }) {
+                                       HStack {
+                                           Image(systemName: "magnifyingglass")
+                                               .foregroundColor(Color(.systemGray2))
+                                               .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                               .padding(.leading, 10)
+                                           Text("Search...")
+                                               .foregroundColor(Color(.systemGray2))
+                                           Spacer() // 오른쪽 정렬을 위해 Spacer 추가
+                                       }
+                                       .padding()
+                                       .background(Color(.systemGroupedBackground))
+                                       .cornerRadius(8)
+                                   }
+                               }
+                
+                
+                    // NavigationLink(destination: SearchCatView( showConversationView: .constant(false))) {
+                    //     Button(action: {
+                    //         isShowingSearchModal.toggle()
+                    //     }, label: {
+                    //         HStack {
+                    //             Image(systemName: "magnifyingglass")
+                    //                 .foregroundColor(Color(.systemGray2))
+                    //                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                    //                 .padding(.leading, 10)
+                    //             Text("Search...")
+                    //                 .foregroundColor(Color(.systemGray2))
+                    //             Spacer() // 오른쪽 정렬을 위해 Spacer 추가
+                    //         }
+                    //         .padding()
+                    //         .background(Color(.systemGroupedBackground))
+                    //         .cornerRadius(8)
+                    //     })
+                    // }
+                    // .isPresented($isShowingSearchModal)
+                
+                
+                
+                
+                
+                
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal)
-                        .onTapGesture {
-                            isEditing.toggle()
-                            // isShowingSearchModal.toggle()
-                        }
-                    .padding()
-                    // Text("This is a modal view.")
-                    Button("Show Modal") {
-                        isShowingSearchModal.toggle()
-                    }
-                    .sheet(isPresented: $isShowingSearchModal) {
-                        NavigationView {
-                            NavigationLink(destination: SearchCatView(showConversationView: .constant(false))) {
-                                Text("Go to Another View")
-                            }
-                            .navigationBarTitle("Modal View")
-                        }
-                    }
                     
-                    ScrollView{
-                        VStack(spacing:1){
-                            SearchCatView(showConversationView: .constant(false))
-                        }
-                    }
-                    // TextField("ori", text: $searchText)
-                    //     .padding()
-                    //     .background(Color.gray.opacity(0.2))
-                    //     .cornerRadius(8)
-                    //     .padding()
+                   
+                            
                     
                     
-                    
+                    // SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal)
+                    //     .onTapGesture {
+                    //         isEditing.toggle()
+                    //     
+                    //     }
+                    // .padding()
+                 
                     ZStack(alignment: .topLeading){
-                        
                         Image("play_cat_background")
                             .resizable()
                             .scaledToFill() // 배경 이미지를 화면에 맞게 확대
