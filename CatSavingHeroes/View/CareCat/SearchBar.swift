@@ -24,6 +24,7 @@ struct SearchBar: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 10)
                 )
+              
             
             if isEditing {
                 Button(action: {

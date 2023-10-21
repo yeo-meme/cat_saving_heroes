@@ -59,7 +59,6 @@ struct CareCatView: View {
                 }
                 
                 CategoryItemView(isShowingModal: $isShowingModal)
-                   
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack{
@@ -94,7 +93,7 @@ struct CareCatView: View {
                         }
                         .sheet(isPresented: $isShowingModal) {
                             // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(model: eventAddViewModel)
+                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel)
                         }
                     }
                 }

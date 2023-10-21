@@ -37,7 +37,7 @@ struct CapsuleButton: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         .frame(width: 330, height: 50)
-                        .background(Color.purple)
+                        .background(Color.primaryColor)
                         .clipShape(Capsule())
                         .padding()
                 } else {
@@ -45,7 +45,7 @@ struct CapsuleButton: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(width: 330, height: 50)
-                        .background(Color.purple)
+                        .background(Color.primaryColor)
                         .clipShape(Capsule())
                         .padding()
                 }
