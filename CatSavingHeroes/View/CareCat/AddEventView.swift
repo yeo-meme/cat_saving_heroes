@@ -13,8 +13,9 @@ struct AddEventView: View {
     @EnvironmentObject var addressManager : Model
     @Binding var isShowingModal:Bool
     @State var isShowingSearchModal = false
+    @State var isSearchEnd = false
     
-    
+    @State var catName : [String] = []
     @State private var isButtonClicked1 = false
     @State private var isButtonClicked2 = false
     @State private var isButtonClicked3 = false
@@ -67,14 +68,19 @@ struct AddEventView: View {
                 
                 
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal)
+                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catArr: $catName, isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
                         }
                         .padding()
                     
                     if isEditing {
-                        SearchCatView(showConversationView: .constant(false))
+                        if isSearchEnd {
+                            SearchCatView(showConversationView: .constant(false), catNames:$catName )
+                        } else {
+                            SearchCatView(showConversationView: .constant(false), catNames: .constant([]))
+                        }
+                    
                     } else {
                         ZStack {
                             Image("play_cat_background")
@@ -264,7 +270,71 @@ struct AddEventView: View {
 }
 
 
-//
+struct SearchBar: View {
+    @Binding var text: String
+    @Binding var isEditing: Bool
+    @Binding var isShowingSearchModal:Bool
+    @Binding var catArr:[String]
+    @State var isCatArrfinish:Bool = false
+    @Binding var isSearchEnd:Bool
+    
+    var body: some View {
+           
+                HStack {
+                    TextField("Search...", text: $text)
+                        .padding(8)
+                        .padding(.horizontal, 32)
+                        .background(Color(.systemGroupedBackground))
+                        .cornerRadius(8)
+                        .overlay(
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(Color(.systemGray2))
+                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 10)
+                        )
+                        .onSubmit {
+                            realmCall()
+                        }
+                    
+                    
+                    // .sheet(isPresented: $isShowingSearchModal) {
+                    //     SearchCatView(showConversationView: .constant(false), catNames:$catArr) }
+                    
+                   
+                    
+                    
+                    
+                    if isEditing {
+                        Button(action: {
+                            isEditing = false
+                            text = ""
+                            UIApplication.shared.endEditing()
+                        }, label: {
+                            Text("Cancel")
+                                .foregroundColor(.black)
+                        })
+                        .padding(.trailing, 8)
+                    }
+        }
+                // .onAppear{
+                //     realmCall()
+                // }
+ 
+    }
+    func realmCall() {
+       
+        let cats = RealmHelper.shared.readCats(withName: text)
+        catArr = cats.map { $0.name }
+       print("리얼엠에서 부른 캣: \(cats)")
+        
+        $catArr.wrappedValue = catArr.map { $0 }
+        print("리얼엠에서 부른 캣 catArr.map: \($catArr)")
+        
+      isSearchEnd = true
+   }
+}
+
+
 #Preview {
     AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)])))
     )}

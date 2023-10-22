@@ -50,4 +50,17 @@ class RealmHelper {
                 return [] // 오류 시 빈 배열을 반환하거나 다른 오류 처리 방법을 사용할 수 있음
             }
     }
+    
+    func readCats(withName name: String) -> [CatRealmModel] {
+        do {
+            let results = realm.objects(CatRealmModel.self).filter("name CONTAINS[c] %@", name)
+            // "name CONTAINS[c] %@"는 고양이 이름에 name 문자열이 포함된 결과를 반환합니다.
+            // [c] 옵션은 대소문자를 구분하지 않고 검색합니다.
+
+            return Array(results)
+        } catch {
+            print("Error reading cats from Realm: \(error)")
+            return []
+        }
+    }
 }

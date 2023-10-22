@@ -10,6 +10,7 @@ import Kingfisher
 
 struct SearchCatCell: View {
     // let user: User
+    @Binding var cats:[String]
     
     var body: some View {
         VStack(spacing: 1) {
@@ -22,8 +23,9 @@ struct SearchCatCell: View {
                     .clipShape(Circle())
                     .padding(.leading)
                 
+                //TODO
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("냥냥이")
+                    Text("냥")
                         .bold()
                         .foregroundColor(.black)
                     
@@ -42,5 +44,5 @@ struct SearchCatCell: View {
 }
 
 #Preview {
-    SearchCatCell()
+    SearchCatCell(cats: .constant([]))
 }
