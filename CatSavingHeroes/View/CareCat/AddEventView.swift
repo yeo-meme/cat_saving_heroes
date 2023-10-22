@@ -7,16 +7,20 @@
 
 import SwiftUI
 import RealmSwift
+import MapKit
 
 struct AddEventView: View {
     @EnvironmentObject var addressManager : Model
     @Binding var isShowingModal:Bool
     @State var isShowingSearchModal = false
-    @State private var isButtonClicked1 = false //버튼 클릭시 상태
-    @State private var isButtonClicked2 = false //버튼 클릭시 상태
-    @State private var isButtonClicked3 = false //버튼 클릭시 상태
-    @State private var isButtonClicked4 = false //버튼 클릭시 상태
-    @State private var isButtonClicked5 = false //버튼 클릭시 상태
+    
+    
+    @State private var isButtonClicked1 = false
+    @State private var isButtonClicked2 = false
+    @State private var isButtonClicked3 = false
+    @State private var isButtonClicked4 = false
+    @State private var isButtonClicked5 = false
+    @State var buttonStates: [Bool] = [false, false, false, false, false]
     
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
@@ -66,75 +70,104 @@ struct AddEventView: View {
                     SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal)
                         .onTapGesture {
                             isEditing.toggle()
-                            
                         }
                         .padding()
+                    
                     if isEditing {
                         SearchCatView(showConversationView: .constant(false))
                     } else {
-                        VStack{
+                        ZStack {
                             Image("play_cat_background")
                                 .resizable()
-                                .scaledToFill() // 배경 이미지를 화면에 맞게 확대
-                                .edgesIgnoringSafeArea(.all) // 이미지가 화면 전체를 덮도록 설정
+                                .scaledToFill()
+                                .edgesIgnoringSafeArea(.all)
                             
-                                VStack{
-                                    VStack(spacing: 0){
-                                        Capsule()
-                                            .frame(width: 100, height: 50)
-                                            .foregroundColor(Color.primaryColor)
-                                            .overlay(
-                                                Text("#12.24")
-                                                    .foregroundColor(.white)
-                                                    .font(.headline)
-                                            )
-                                    }.padding(.top, 10)
+                            VStack(spacing: 0) {
+                                Capsule()
+                                    .frame(width: 100, height: 50)
+                                    .foregroundColor(Color.primaryColor)
+                                    .overlay(
+                                        Text("#12.24")
+                                            .foregroundColor(.white)
+                                            .font(.headline)
+                                    )
+                                // Other content specific to this VStack
+                            }
+                            .padding(.top, 10)
+                            .offset(y: -200)
+                            
+                            VStack {
+                                HStack(spacing: 10) {
                                     
+                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                        careStateIndex=0
+                                    })
+                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                        careStateIndex=1
+                                    })
+                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                        careStateIndex=2
+                                    })
+                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                        careStateIndex=3
+                                    })
+                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                        careStateIndex=4
+                                    })
+                                    // Button(action: {
+                                    //     print("button 1: \($isButtonClicked1.wrappedValue)")
+                                    //     isButtonClicked1.toggle()
+                                    //    
+                                    //     // buttonStates[0].toggle() //false
+                                    //     print("button 이벤트 후 토글 : \(buttonStates[0])")
+                                    //     toggleState(index: 0)
+                                    //     // 버튼 클릭 시 수행할 작업
+                                    // }) {
+                                    //     EventAddButton(buttonStates: $buttonStates, text: "찾음", action: {})
+                                    //     
+                                    //     
+                                    // }
+                                    // 
+                                    // Button(action: {
+                                    //     isButtonClicked2.toggle()
+                                    //     toggleState(index: 1)
+                                    //     print("button 2: \($isButtonClicked2)")
+                                    // }) {
+                                    //     EventAddButton(buttonStates: $buttonStates, text: "인사", action: {})
+                                    // }
+                                    // 
+                                    // Button(action: {
+                                    //     isButtonClicked3.toggle()
+                                    //     toggleState(index: 2)
+                                    //     print("button 3: \($isButtonClicked3)")
+                                    // }) {
+                                    // 
+                                    //     EventAddButton(buttonStates: $buttonStates, text: "놀이", action: {})
+                                    // }
+                                    // 
+                                    // Button(action: {
+                                    //     // 버튼 클릭 시 수행할 작업
+                                    //     isButtonClicked4.toggle()
+                                    //     toggleState(index: 3)
+                                    //     print("button 4: \($isButtonClicked4)")
+                                    // }) {
+                                    //     EventAddButton(buttonStates: $buttonStates, text: "밥줌", action: {})
+                                    // }
+                                    // Button(action: {
+                                    //     isButtonClicked5.toggle()
+                                    //     toggleState(index: 4)
+                                    //     print("button 5: \($isButtonClicked5)")
+                                    // }) {
+                                    //     EventAddButton(buttonStates: $buttonStates, text: "아픔", action: {})
+                                    // }
                                     
-                                    VStack(spacing: 0){
-                                        HStack{
-                                            Button(action: {
-                                                isButtonClicked1.toggle()
-                                                // 버튼 클릭 시 수행할 작업
-                                            }) {
-                                                EventAddButton(isButtonClicked: $isButtonClicked1, text: "찾음", action:{})
-                                            }
-                                            Button(action: {
-                                                isButtonClicked5.toggle()
-                                            }) {
-                                                EventAddButton(isButtonClicked: $isButtonClicked5, text: "인사", action:{})
-                                            }
-                                            Button(action: {
-                                                isButtonClicked4.toggle()
-                                            }) {
-                                                EventAddButton(isButtonClicked: $isButtonClicked4, text: "놀이", action:{})
-                                            }
-                                        }
-                                        HStack(spacing: 0){
-                                            Button(action: {
-                                                // 버튼 클릭 시 수행할 작업
-                                                isButtonClicked2.toggle()
-                                            }) {
-                                                //"밥줌", "인사", "놀이", "아픔"
-                                                EventAddButton(isButtonClicked: $isButtonClicked2, text: "밥줌", action:{})
-                                            }
-                                            // .background(Color.black)
-                                            
-                                            Button(action: {
-                                                isButtonClicked3.toggle()
-                                            }) {
-                                                EventAddButton(isButtonClicked: $isButtonClicked3, text: "아픔", action:{})
-                                            }
-                                            
-                                        }
-                                        
-                                        // .offset(x: 50, y: 50) // 버튼의 위치를 조절 (원하는 위치로 설정)
-                                    }
-                                    .frame(height: 50)
-                                }//:VSTACK
-                            }//: VSTACK
-                            
-                            
+                                }
+                            }
+                            .frame(height: 50)
+                            .offset(y: -130)
+                        }
+                        
+                        
                         VStack{
                             VStack{
                                 TextField("나만의 메모", text: $memo)
@@ -169,7 +202,7 @@ struct AddEventView: View {
                                     }
                                 }//:VSTACK
                             }//:VSTACK
-                        }//:VSTACK
+                        }//:VSTACK 메모, 저장하기
                     }
                     
                     
@@ -200,10 +233,38 @@ struct AddEventView: View {
             }//: VSTACK
         }//: NAVIGATIONVIEW
     }
+    
+ 
+    
+    
+    // func haha() {
+    //     
+    //     // print("button 들어와서 토글 : \(buttonStates[buttonNumber])")
+    //     // for i in 0..<buttonStates.count {
+    //     //     if i == buttonNumber {
+    //     //         buttonStates[i] = !buttonStates[i]
+    //     //         print("button 같은면 전환 : \(buttonStates[i])")
+    //     //     } else {
+    //     //         buttonStates[i] = false
+    //     //         print("button 다르면 false : \(buttonStates[i])")
+    //     //     }
+    //     // }
+    //     //
+    //     // buttonStates[index].toggle() // 토글해 true->false
+    //     for i in 0..<buttonStates.count {
+    //               if i != index {
+    //                   buttonStates[i] = false
+    //                   print("button 아닌거 변환값 : \(buttonStates[i])")
+    //               } else {
+    //                   buttonStates[i] = true
+    //                   print("button 긴거 변환값 : \(buttonStates[i])")
+    //               }
+    //           }
+    // }
 }
 
 
 //
-// #Preview {
-//     AddEventView(model: EventAddViewModel(model: <#Model#>), isShowingModal: .constant(false))
-// }
+#Preview {
+    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)])))
+    )}
