@@ -51,7 +51,7 @@ struct AddCatView: View {
                             Text("내가 등록한 고양이를 관리할 수 있어요")
                                 .font(.title3)
                                 .bold()
-                                .foregroundColor(.purple)
+                                .foregroundColor(Color.primaryColor)
                             
                         }
                         .padding(.horizontal, 32)
@@ -120,20 +120,21 @@ struct AddCatView: View {
                     }//:VStack
                 }//: ScrollView
                 
-                Text("* 이름과 사진을 필수로 등록이 필요해요")
+                Text("* 이름과 사진을 필수로 등록이 필요해요").padding(0)
                 CapsuleButton(text: "완료", disabled: catImage == nil || catName == "", isAnimating: isIndicatorAnimating,
                               action: {
                     isIndicatorAnimating = true
+                    catAddress = locationManager.currentPlace
+                    
+                    // 위도와 경도를 문자열로 변환
+                    let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
+                    let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
+                    catLocation = "\(latitudeString),\(longitudeString)"
+                    
                     catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
                         if success {
                             print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
-                            catAddress = locationManager.currentPlace
-                            
-                            // 위도와 경도를 문자열로 변환
-                            let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
-                            let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
-                            
-                            catLocation = "\(latitudeString),\(longitudeString)"
+                           
                             
                             if let profileImage = imageUrl {
                                 catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)

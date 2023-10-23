@@ -22,7 +22,6 @@ struct TrackingHeroView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
-            
             HStack{
                 Text("현재 나의 위치")
                

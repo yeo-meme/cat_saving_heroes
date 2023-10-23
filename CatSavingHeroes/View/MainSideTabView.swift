@@ -39,10 +39,17 @@ struct MainSideTabView: View {
                     .tag(1)
                 
                 
-                AddCatView(presentSideMenu: $presentSideMenu, catViewModel: catModel)
+                // AddCatView(presentSideMenu: $presentSideMenu, catViewModel: catModel)
+                //     .tabItem {
+                //         Image(systemName: "message.fill")
+                //         Text("냥이추가")
+                //     }
+                //     .tag(2)
+                
+                StateView(presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "message.fill")
-                        Text("냥이추가")
+                        Text("냥이들")
                     }
                     .tag(2)
                 

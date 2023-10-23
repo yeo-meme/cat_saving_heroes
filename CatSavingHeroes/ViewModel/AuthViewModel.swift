@@ -89,6 +89,10 @@ class AuthViewModel: NSObject, ObservableObject {
         }
     }
     
+    func profileImageget() {
+        
+    }
+    
     func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {
         guard let uid = tempCurrentUser?.uid else {return}
         

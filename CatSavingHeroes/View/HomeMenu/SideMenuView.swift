@@ -141,7 +141,6 @@ struct SideMenuView: View {
                 }
               
                 
-                
             
                 // Image("profile-image")
                 //     .resizable()
