@@ -25,10 +25,12 @@ struct SearchCatCell: View {
                 
                 //TODO
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("냥")
-                        .bold()
-                        .foregroundColor(.black)
-                    
+                    ForEach(cats, id: \.self) { cat in
+                        Text(cat)
+                            .bold()
+                            .foregroundColor(.black)
+                        
+                    }
                     Text("user.status.title")
                         .foregroundColor(Color(.systemGray))
                 }
