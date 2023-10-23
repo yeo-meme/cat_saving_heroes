@@ -12,10 +12,10 @@ import MapKit
 
 
 struct AddCatView: View {
-    
+    @Environment(\.presentationMode) var mode
     @EnvironmentObject var locationManager: AddressManager
     
-    @Binding var presentSideMenu: Bool
+    // @Binding var presentSideMenu: Bool
     
     @State private var catName = ""
     @State private var catAge = ""
@@ -43,7 +43,6 @@ struct AddCatView: View {
                 VStack{
                     VStack{
                         VStack(alignment: .leading, spacing: 8) {
-                            
                             Text("고양이를 등록하면")
                                 .font(.title3)
                                 .bold()
@@ -139,6 +138,7 @@ struct AddCatView: View {
                             if let profileImage = imageUrl {
                                 catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
                                 isIndicatorAnimating = false
+                                mode.wrappedValue.dismiss()
                             }
                         } else {
                             print("고양이 사진 등록 않됐음")
@@ -160,6 +160,5 @@ struct AddCatView: View {
 
 
 #Preview {
-    AddCatView(presentSideMenu: Binding.constant(false), catViewModel: AddCatViewModel()
-    )
+    AddCatView( catViewModel: AddCatViewModel())
 }

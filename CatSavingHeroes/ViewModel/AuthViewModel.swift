@@ -16,6 +16,7 @@ import FirebaseFirestoreSwift
 
 class AuthViewModel: NSObject, ObservableObject {
     
+    @Published var presentNavigationBar = false //네비게이션바
     @Published var userSession:FirebaseAuth.User?
     @Published var currentUser: UserInfo?
     

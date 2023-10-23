@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavigationBarView: View {
   // MARK: - PROPERTY
-@Binding var presentSideMenu:Bool
+    @Binding var presentNavigationBar:Bool
   @State private var isAnimated: Bool = false
   
   // MARK: - BODY
@@ -36,7 +36,7 @@ struct NavigationBarView: View {
       Spacer()
       
       Button(action: {
-          self.presentSideMenu.toggle()
+          // self.presentNavigationBar.toggle()
       }, label: {
         ZStack {
           Image(systemName: "line.horizontal.3")

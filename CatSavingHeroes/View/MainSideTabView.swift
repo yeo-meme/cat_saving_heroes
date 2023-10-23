@@ -9,18 +9,22 @@ import SwiftUI
 
 struct MainSideTabView: View {
     @State var presentSideMenu = false
+    @State var presentNavigationBar = false
     @State var selectedSideMenuTab = 0
-    @State var catModel = AddCatViewModel()
+    @EnvironmentObject var model : AuthViewModel
     
     var body: some View {
         ZStack{
-            NavigationBarView(presentSideMenu: $presentSideMenu)
-                .padding(.horizontal, 15)
-                .padding(.bottom)
-            // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                .background(Color.white)
-                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
-            .background(Color.yellow)}
+            
+            if !model.presentNavigationBar{
+                NavigationBarView(presentNavigationBar: $presentNavigationBar)
+                    .padding(.horizontal, 15)
+                    .padding(.bottom)
+                // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+                    .background(Color.white)
+                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+            }
+        }
             
             TabView(selection: $selectedSideMenuTab) {
                 
@@ -46,7 +50,7 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(2)
                 
-                StateView(presentSideMenu: $presentSideMenu)
+                StateView(presentSideMenu: $presentSideMenu, presentNavigationBar: $presentNavigationBar)
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이들")
