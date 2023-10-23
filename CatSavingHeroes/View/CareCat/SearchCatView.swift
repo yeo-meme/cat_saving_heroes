@@ -12,44 +12,32 @@ import RealmSwift
 struct SearchCatView: View {
     
     @Environment(\.presentationMode) var mode
-    // @ObservedObject var viewModel = ChatPartnersViewModel()
-    @Binding var showConversationView: Bool  
-    @Binding var catNames: [String]
+    @Binding var showConversationView: Bool
     @State private var searchText = ""
-    @State private var isEditing = false
-    // @Binding var user: User?
-    // var catNames = ["톰", "휴", "루시", "미스터 피부", "맥스", "미뉴엣", "오레오", "휴", "릴리", "히스테어", "오스카", "제리", "올리버"]
-    // 
-    // @State var cat : [CatRealmModel]
+    @Binding var isEditing:Bool
+    @Binding var selectedCatArr: [CatRealmModel] // 선택한 셀의 내용을 저장할 변수
+    @Binding var selectedCat: CatRealmModel? // 선택한 셀의 내용을 저장할 변수
     
-
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            
-            // ScrollView{
-            //     VStack(spacing:1){
-            //         SearchCatView(showConversationView: .constant(false))
-            //     }
-            // }
-            
-            
             ScrollView {
                 ScrollView {
                     VStack(spacing: 1) {
-                        ForEach(catNames, id:\.self) { user in
+                        ForEach(selectedCatArr, id:\.self) { user in
                             Button(action: {
                                 showConversationView.toggle()
-                                // self.user = user
-                                mode.wrappedValue.dismiss()
+                                // self.selectedCatArr = selectedCatArr
+                                self.selectedCat = user
+                                print("selectedCat :\( user)")
+                                isEditing = false
+                                // mode.wrappedValue.dismiss()
                             }, label: {
-                                SearchCatCell(cats: $catNames)
+                                SearchCatCell(catsRealmArr: $selectedCatArr)
                             })
                         }
                     }
-                    .onAppear{
-                       print("cat arrrrrr: \(catNames)")
-                    }
+                  
                 }
             }
         }
@@ -58,7 +46,7 @@ struct SearchCatView: View {
     
     
 }
-// 
+
 // #Preview {
-//     SearchCatView()
+//     SearchCatView(showConversationView: .constant(<#T##value: Bool##Bool#>), selectedCatArr: <#Binding<[CatRealmModel]>#>, selectedCat: <#Binding<CatRealmModel?>#>)
 // }

@@ -11,6 +11,7 @@ struct CategoryItemView: View {
 
     @Binding var isShowingModal:Bool
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
+    // @Binding var selectedCat: CatRealmModel?
     
   var body: some View {
     
@@ -40,12 +41,8 @@ struct CategoryItemView: View {
     }) //: BUTTON
     .sheet(isPresented: $isShowingModal) {
         // 모달이 표시되면 addEvent 뷰가 열립니다.
-        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel)
+        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [])
     }
   }
   
 }
-
-// #Preview {
-//     CategoryItemView()
-// }

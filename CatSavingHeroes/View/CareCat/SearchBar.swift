@@ -67,7 +67,7 @@ import SwiftUI
 //         print("리얼엠에서 부른 캣 catArr.map: \($catArr)")
 //       
 //    }
-// }
+// /}/ }
 
 // 
 // #Preview {

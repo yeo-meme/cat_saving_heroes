@@ -58,6 +58,8 @@ struct CareCatView: View {
                         .frame(height: 300)
                 }
                 
+         
+                
                 CategoryItemView(isShowingModal: $isShowingModal)
                 
                 ScrollView(.vertical, showsIndicators: false) {
@@ -88,7 +90,6 @@ struct CareCatView: View {
                             OvalButton(text: "주변냥")
                         }.shadow(color: .black, radius: 10, x: 10, y: 10)
                         
-                        
                         Button(action: {
                             isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
                         }) {
@@ -100,7 +101,7 @@ struct CareCatView: View {
                         }
                         .sheet(isPresented: $isShowingModal) {
                             // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel)
+                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [])
                         }
                     }
                 }

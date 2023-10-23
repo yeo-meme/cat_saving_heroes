@@ -15,14 +15,13 @@ struct AddEventView: View {
     @State var isShowingSearchModal = false
     @State var isSearchEnd = false
     
-    @State var catName : [String] = []
+    //이벤트
     @State private var isButtonClicked1 = false
     @State private var isButtonClicked2 = false
     @State private var isButtonClicked3 = false
     @State private var isButtonClicked4 = false
     @State private var isButtonClicked5 = false
     @State var buttonStates: [Bool] = [false, false, false, false, false]
-    
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
     
@@ -37,6 +36,9 @@ struct AddEventView: View {
     @State var date = Date()
     @State private var isEditing = false
     
+    //검색관련
+    @State var catModelData:[CatRealmModel]
+    @State var selectedCat : CatRealmModel?
     
     @State var isLinkActive = false
     var body: some View {
@@ -68,7 +70,7 @@ struct AddEventView: View {
                 
                 
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catArr: $catName, isSearchEnd: $isSearchEnd)
+                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catRealmArr: $catModelData,  isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
                         }
@@ -76,17 +78,22 @@ struct AddEventView: View {
                     
                     if isEditing {
                         if isSearchEnd {
-                            SearchCatView(showConversationView: .constant(false), catNames:$catName )
+                            SearchCatView(showConversationView: .constant(false),  isEditing: $isEditing, selectedCatArr: $catModelData, selectedCat: $selectedCat )
                         } else {
-                            SearchCatView(showConversationView: .constant(false), catNames: .constant([]))
+                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
                         }
-                    
                     } else {
                         ZStack {
                             Image("play_cat_background")
                                 .resizable()
                                 .scaledToFill()
                                 .edgesIgnoringSafeArea(.all)
+                            
+                            if let aa = selectedCat {
+                                Text(aa.name)
+                            } else {
+                                Text("값엄쓰")
+                            }
                             
                             VStack(spacing: 0) {
                                 Capsule()
@@ -123,17 +130,17 @@ struct AddEventView: View {
                                     // Button(action: {
                                     //     print("button 1: \($isButtonClicked1.wrappedValue)")
                                     //     isButtonClicked1.toggle()
-                                    //    
+                                    //
                                     //     // buttonStates[0].toggle() //false
                                     //     print("button 이벤트 후 토글 : \(buttonStates[0])")
                                     //     toggleState(index: 0)
                                     //     // 버튼 클릭 시 수행할 작업
                                     // }) {
                                     //     EventAddButton(buttonStates: $buttonStates, text: "찾음", action: {})
-                                    //     
-                                    //     
+                                    //
+                                    //
                                     // }
-                                    // 
+                                    //
                                     // Button(action: {
                                     //     isButtonClicked2.toggle()
                                     //     toggleState(index: 1)
@@ -141,16 +148,16 @@ struct AddEventView: View {
                                     // }) {
                                     //     EventAddButton(buttonStates: $buttonStates, text: "인사", action: {})
                                     // }
-                                    // 
+                                    //
                                     // Button(action: {
                                     //     isButtonClicked3.toggle()
                                     //     toggleState(index: 2)
                                     //     print("button 3: \($isButtonClicked3)")
                                     // }) {
-                                    // 
+                                    //
                                     //     EventAddButton(buttonStates: $buttonStates, text: "놀이", action: {})
                                     // }
-                                    // 
+                                    //
                                     // Button(action: {
                                     //     // 버튼 클릭 시 수행할 작업
                                     //     isButtonClicked4.toggle()
@@ -210,63 +217,11 @@ struct AddEventView: View {
                             }//:VSTACK
                         }//:VSTACK 메모, 저장하기
                     }
-                    
-                    
-                    
-                    
-                    
-                    // Image("menu_cat")
-                    //   .resizable()
-                    //   .scaledToFit()
-                    //   .padding(3)
-                    //   .background(Color.white.cornerRadius(12))
-                    //   .background(
-                    //     RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1)
-                    //   )
-                    
-                    // Picker("고냥이의 이벤트 등록하기", selection: $careStateIndex) {
-                    //     ForEach(0 ..< catState.count) {
-                    //         Text(self.catState[$0])
-                    //     }
-                    // }
-                    // .pickerStyle(SegmentedPickerStyle())
-                    // .padding()
-                    //
-                    // Text("You've chosen '\(catState[careStateIndex])'.")
-                    
-                    
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
     }
     
- 
-    
-    
-    // func haha() {
-    //     
-    //     // print("button 들어와서 토글 : \(buttonStates[buttonNumber])")
-    //     // for i in 0..<buttonStates.count {
-    //     //     if i == buttonNumber {
-    //     //         buttonStates[i] = !buttonStates[i]
-    //     //         print("button 같은면 전환 : \(buttonStates[i])")
-    //     //     } else {
-    //     //         buttonStates[i] = false
-    //     //         print("button 다르면 false : \(buttonStates[i])")
-    //     //     }
-    //     // }
-    //     //
-    //     // buttonStates[index].toggle() // 토글해 true->false
-    //     for i in 0..<buttonStates.count {
-    //               if i != index {
-    //                   buttonStates[i] = false
-    //                   print("button 아닌거 변환값 : \(buttonStates[i])")
-    //               } else {
-    //                   buttonStates[i] = true
-    //                   print("button 긴거 변환값 : \(buttonStates[i])")
-    //               }
-    //           }
-    // }
 }
 
 
@@ -274,67 +229,49 @@ struct SearchBar: View {
     @Binding var text: String
     @Binding var isEditing: Bool
     @Binding var isShowingSearchModal:Bool
-    @Binding var catArr:[String]
+    @Binding var catRealmArr:[CatRealmModel] //String
+    
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
     
     var body: some View {
-           
-                HStack {
-                    TextField("Search...", text: $text)
-                        .padding(8)
-                        .padding(.horizontal, 32)
-                        .background(Color(.systemGroupedBackground))
-                        .cornerRadius(8)
-                        .overlay(
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(Color(.systemGray2))
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 10)
-                        )
-                        .onSubmit {
-                            realmCall()
-                        }
-                    
-                    
-                    // .sheet(isPresented: $isShowingSearchModal) {
-                    //     SearchCatView(showConversationView: .constant(false), catNames:$catArr) }
-                    
-                   
-                    
-                    
-                    
-                    if isEditing {
-                        Button(action: {
-                            isEditing = false
-                            text = ""
-                            UIApplication.shared.endEditing()
-                        }, label: {
-                            Text("Cancel")
-                                .foregroundColor(.black)
-                        })
-                        .padding(.trailing, 8)
-                    }
+        HStack {
+            TextField("Search...", text: $text)
+                .padding(8)
+                .padding(.horizontal, 32)
+                .background(Color(.systemGroupedBackground))
+                .cornerRadius(8)
+                .overlay(
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(Color(.systemGray2))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                )
+                .onSubmit {
+                    realmCall()
+                }
+            if isEditing {
+                Button(action: {
+                    isEditing = false
+                    text = ""
+                    UIApplication.shared.endEditing()
+                }, label: {
+                    Text("Cancel")
+                        .foregroundColor(.black)
+                })
+                .padding(.trailing, 8)
+            }
         }
-                // .onAppear{
-                //     realmCall()
-                // }
- 
+        
     }
     func realmCall() {
-       
         let cats = RealmHelper.shared.readCats(withName: text)
-        catArr = cats.map { $0.name }
-       print("리얼엠에서 부른 캣: \(cats)")
-        
-        $catArr.wrappedValue = catArr.map { $0 }
-        print("리얼엠에서 부른 캣 catArr.map: \($catArr)")
-        
-      isSearchEnd = true
-   }
+        catRealmArr = cats
+        isSearchEnd = true
+    }
 }
 
 
 #Preview {
-    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)])))
+    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: []
     )}
