@@ -70,152 +70,188 @@ struct AddEventView: View {
                 
                 
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catRealmArr: $catModelData,  isSearchEnd: $isSearchEnd)
+                   
+                    
+                    
+                    
+                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catRealmArr: $catModelData, selectedCat: $selectedCat,  isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
+                            print("토글 : \(isEditing)")
                         }
                         .padding()
                     
-                    if isEditing {
-                        if isSearchEnd {
-                            SearchCatView(showConversationView: .constant(false),  isEditing: $isEditing, selectedCatArr: $catModelData, selectedCat: $selectedCat )
-                        } else {
+                    VStack{
+                        if isEditing {
+                            // if isSearchEnd {
+                            //     SearchCatView(showConversationView: .constant(false),  isEditing: $isEditing, selectedCatArr: $catModelData, selectedCat: $selectedCat )
+                            // } else {
+                            //     SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
+                            // }
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
-                        }
-                    } else {
-                        ZStack {
-                            Image("play_cat_background")
-                                .resizable()
-                                .scaledToFill()
-                                .edgesIgnoringSafeArea(.all)
-                            
-                            if let aa = selectedCat {
-                                Text(aa.name)
-                            } else {
-                                Text("값엄쓰")
-                            }
-                            
-                            VStack(spacing: 0) {
-                                Capsule()
-                                    .frame(width: 100, height: 50)
-                                    .foregroundColor(Color.primaryColor)
-                                    .overlay(
-                                        Text("#12.24")
-                                            .foregroundColor(.white)
-                                            .font(.headline)
-                                    )
-                                // Other content specific to this VStack
-                            }
-                            .padding(.top, 10)
-                            .offset(y: -200)
-                            
-                            VStack {
-                                HStack(spacing: 10) {
-                                    
-                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                        careStateIndex=0
-                                    })
-                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                        careStateIndex=1
-                                    })
-                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                        careStateIndex=2
-                                    })
-                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                        careStateIndex=3
-                                    })
-                                    EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                        careStateIndex=4
-                                    })
-                                    // Button(action: {
-                                    //     print("button 1: \($isButtonClicked1.wrappedValue)")
-                                    //     isButtonClicked1.toggle()
-                                    //
-                                    //     // buttonStates[0].toggle() //false
-                                    //     print("button 이벤트 후 토글 : \(buttonStates[0])")
-                                    //     toggleState(index: 0)
-                                    //     // 버튼 클릭 시 수행할 작업
-                                    // }) {
-                                    //     EventAddButton(buttonStates: $buttonStates, text: "찾음", action: {})
-                                    //
-                                    //
-                                    // }
-                                    //
-                                    // Button(action: {
-                                    //     isButtonClicked2.toggle()
-                                    //     toggleState(index: 1)
-                                    //     print("button 2: \($isButtonClicked2)")
-                                    // }) {
-                                    //     EventAddButton(buttonStates: $buttonStates, text: "인사", action: {})
-                                    // }
-                                    //
-                                    // Button(action: {
-                                    //     isButtonClicked3.toggle()
-                                    //     toggleState(index: 2)
-                                    //     print("button 3: \($isButtonClicked3)")
-                                    // }) {
-                                    //
-                                    //     EventAddButton(buttonStates: $buttonStates, text: "놀이", action: {})
-                                    // }
-                                    //
-                                    // Button(action: {
-                                    //     // 버튼 클릭 시 수행할 작업
-                                    //     isButtonClicked4.toggle()
-                                    //     toggleState(index: 3)
-                                    //     print("button 4: \($isButtonClicked4)")
-                                    // }) {
-                                    //     EventAddButton(buttonStates: $buttonStates, text: "밥줌", action: {})
-                                    // }
-                                    // Button(action: {
-                                    //     isButtonClicked5.toggle()
-                                    //     toggleState(index: 4)
-                                    //     print("button 5: \($isButtonClicked5)")
-                                    // }) {
-                                    //     EventAddButton(buttonStates: $buttonStates, text: "아픔", action: {})
-                                    // }
-                                    
-                                }
-                            }
-                            .frame(height: 50)
-                            .offset(y: -130)
-                        }
-                        
-                        
-                        VStack{
-                            VStack{
-                                TextField("나만의 메모", text: $memo)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle()) // 선택적으로 스타일 지정
-                                    .padding()
+                        } else {
+                            ZStack {
+                                Image("play_cat_background")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .edgesIgnoringSafeArea(.all)
+                                    .padding(8)
                                 
-                                //false가 저장하기 텍스트 true가 인디케팅되는 상태
-                                CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
-                                    print("이벤트 기록하기 ")
-                                    // model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
-                                    
-                                    //리얼엠 마이그레이션
-                                    let config = Realm.Configuration(
-                                        schemaVersion: 0, // 스키마 버전을 0으로 설정
-                                        deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
-                                    )
-                                    Realm.Configuration.defaultConfiguration = config
-                                    
-                                    if addressManager.isLocationTrackingEnabled {
-                                        let locationRecord = LocationRecord()
-                                        locationRecord.latitude = addressManager.lastLocation.latitude
-                                        locationRecord.longitude = addressManager.lastLocation.longitude
-                                        model.isRunningCatWalk(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
-                                        print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                
+                                VStack(spacing: 0) {
+                                    Capsule()
+                                        .frame(width: 100, height: 50)
+                                        .foregroundColor(Color.primaryColor)
+                                        .overlay(
+                                            Text("#12.24")
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                        )
+                                    // Other content specific to this VStack
+                                }//:Date
+                                .padding(.top, 10)
+                                .offset(y: -200)
+                                
+                                VStack {
+                                    HStack(spacing: 10) {
                                         
-                                    } else {
-                                        let locationRecord = LocationRecord()
-                                        locationRecord.latitude = addressManager.lastLocation.latitude
-                                        locationRecord.longitude = addressManager.lastLocation.longitude
-                                        model.isNotRuningCatWalk(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
-                                        print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                            careStateIndex=0
+                                        })
+                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                            careStateIndex=1
+                                        })
+                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                            careStateIndex=2
+                                        })
+                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                            careStateIndex=3
+                                        })
+                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
+                                            careStateIndex=4
+                                        })
+                                        // Button(action: {
+                                        //     print("button 1: \($isButtonClicked1.wrappedValue)")
+                                        //     isButtonClicked1.toggle()
+                                        //
+                                        //     // buttonStates[0].toggle() //false
+                                        //     print("button 이벤트 후 토글 : \(buttonStates[0])")
+                                        //     toggleState(index: 0)
+                                        //     // 버튼 클릭 시 수행할 작업
+                                        // }) {
+                                        //     EventAddButton(buttonStates: $buttonStates, text: "찾음", action: {})
+                                        //
+                                        //
+                                        // }
+                                        //
+                                        // Button(action: {
+                                        //     isButtonClicked2.toggle()
+                                        //     toggleState(index: 1)
+                                        //     print("button 2: \($isButtonClicked2)")
+                                        // }) {
+                                        //     EventAddButton(buttonStates: $buttonStates, text: "인사", action: {})
+                                        // }
+                                        //
+                                        // Button(action: {
+                                        //     isButtonClicked3.toggle()
+                                        //     toggleState(index: 2)
+                                        //     print("button 3: \($isButtonClicked3)")
+                                        // }) {
+                                        //
+                                        //     EventAddButton(buttonStates: $buttonStates, text: "놀이", action: {})
+                                        // }
+                                        //
+                                        // Button(action: {
+                                        //     // 버튼 클릭 시 수행할 작업
+                                        //     isButtonClicked4.toggle()
+                                        //     toggleState(index: 3)
+                                        //     print("button 4: \($isButtonClicked4)")
+                                        // }) {
+                                        //     EventAddButton(buttonStates: $buttonStates, text: "밥줌", action: {})
+                                        // }
+                                        // Button(action: {
+                                        //     isButtonClicked5.toggle()
+                                        //     toggleState(index: 4)
+                                        //     print("button 5: \($isButtonClicked5)")
+                                        // }) {
+                                        //     EventAddButton(buttonStates: $buttonStates, text: "아픔", action: {})
+                                        // }
+                                        
                                     }
+                                }
+                                .frame(height: 50)
+                                .offset(y: -130)
+                                
+                                
+                                VStack(spacing: 0) {
+                                    if let cat = selectedCat {
+                                        Capsule()
+                                            .frame(width: 100, height: 50)
+                                            .foregroundColor(Color.primaryColor)
+                                            .overlay(
+                                                Text(cat.name)
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                            )
+                                    }
+                                    
+                                    // Capsule()
+                                    //     .frame(width: 100, height: 50)
+                                    //     .foregroundColor(Color.primaryColor)
+                                    //     .overlay(
+                                    //         Text(selectedCat?.name ?? "")
+                                    //             .foregroundColor(.white)
+                                    //             .font(.headline)
+                                    //     )
+                                    // Other content specific to this VStack
+                                }//:Date
+                                .padding(.top, 10)
+                                .offset(y: 100)
+                            }
+                         
+                            
+                            
+                            VStack{
+                                VStack{
+                                    
+                                    CustomTextField(imageName: "OIGG",
+                                                    placeholder: "나만의 메모를 남겨보세요",
+                                                    isSecureField: false,
+                                                    text: $memo)
+                                    // TextField("나만의 메모", text: $memo)
+                                    //     .textFieldStyle(RoundedBorderTextFieldStyle()) // 선택적으로 스타일 지정
+                                    //     .padding()
+                                    
+                                    //false가 저장하기 텍스트 true가 인디케팅되는 상태
+                                    CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
+                                        print("이벤트 기록하기 ")
+                                        // model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                        
+                                        //리얼엠 마이그레이션
+                                        let config = Realm.Configuration(
+                                            schemaVersion: 0, // 스키마 버전을 0으로 설정
+                                            deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
+                                        )
+                                        Realm.Configuration.defaultConfiguration = config
+                                        
+                                        if addressManager.isLocationTrackingEnabled {
+                                            let locationRecord = LocationRecord()
+                                            locationRecord.latitude = addressManager.lastLocation.latitude
+                                            locationRecord.longitude = addressManager.lastLocation.longitude
+                                            model.isRunningCatWalk(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                            
+                                        } else {
+                                            let locationRecord = LocationRecord()
+                                            locationRecord.latitude = addressManager.lastLocation.latitude
+                                            locationRecord.longitude = addressManager.lastLocation.longitude
+                                            model.isNotRuningCatWalk(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                        }
+                                    }//:VSTACK
                                 }//:VSTACK
-                            }//:VSTACK
-                        }//:VSTACK 메모, 저장하기
+                            }//:VSTACK 메모, 저장하기
+                        }
                     }
                 }//:SCROLLVIEW
             }//: VSTACK
@@ -230,7 +266,7 @@ struct SearchBar: View {
     @Binding var isEditing: Bool
     @Binding var isShowingSearchModal:Bool
     @Binding var catRealmArr:[CatRealmModel] //String
-    
+    @Binding var selectedCat : CatRealmModel?
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
     
@@ -254,6 +290,7 @@ struct SearchBar: View {
                 Button(action: {
                     isEditing = false
                     text = ""
+                    // selectedCat = ""
                     UIApplication.shared.endEditing()
                 }, label: {
                     Text("Cancel")

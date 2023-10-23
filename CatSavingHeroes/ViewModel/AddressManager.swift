@@ -35,7 +35,8 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     @Published var currentPlace: String = "" // 현재 위치의 도로명 주소를 저장하는 프로퍼티
     
     private var manager: CLLocationManager = .init()
-    private var currentGeoPoint: CLLocationCoordinate2D? // 현재 위치를 저장하는 프로퍼티
+    @Published var currentGeoPoint: CLLocationCoordinate2D? // 현재 위치를 저장하는 프로퍼티
+    @Published var currentGeoLocation: CLLocation? // 현재 위치를 저장하는 프로퍼티
     var annotationsInCircle: [MKPointAnnotation] = []
     
     
@@ -98,6 +99,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         // 현재 위치
         let catLocation = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
         
+       
         // 반경 3km 이내 마커
         let circle = MKCircle(center: catLocation.coordinate, radius: 3000)
         
@@ -197,6 +199,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     /// startUpdatingLocation 메서드 또는 requestLocation 메서드를 호출했을 때에만 이 메서드가 호출
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("[SUCCESS] Did Update Locations")
+        self.currentGeoLocation = locations.first
     }
     
     // MARK: - 사용자의 현재 위치를 가져오는 것을 실패했을 때 호출되는 메서드
@@ -220,7 +223,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     //고양이 CareRealmModel 이벤트 표시 realm 호출
     func loadCatEventAnnotationsFromRealm() {
         do {
-            // deleteAll()
+            deleteAll()
             
             let trackingDatas = RealmHelper.shared.read(Tracking.self)
             print("++> 리얼엠에서 잘 불러왔니? 1 : \(trackingDatas)")

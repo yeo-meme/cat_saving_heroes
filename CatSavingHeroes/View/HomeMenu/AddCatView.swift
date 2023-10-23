@@ -8,9 +8,13 @@
 import SwiftUI
 import Charts
 import RealmSwift
+import MapKit
 
 
 struct AddCatView: View {
+    
+    @EnvironmentObject var locationManager: AddressManager
+    
     @Binding var presentSideMenu: Bool
     
     @State private var catName = ""
@@ -18,6 +22,7 @@ struct AddCatView: View {
     @State private var catGender = ""
     @State private var catMemo = ""
     @State private var catAddress = ""
+    @State private var catLocation = ""
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
     
@@ -38,14 +43,13 @@ struct AddCatView: View {
                 VStack{
                     VStack{
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack{ Spacer() }
                             
-                            Text("이름도 알아듣는 고양이들 있어요!")
-                                .font(.title2)
+                            Text("고양이를 등록하면")
+                                .font(.title3)
                                 .bold()
                             
-                            Text("당신이 지어주세요 멋진이름을!")
-                                .font(.title2)
+                            Text("내가 등록한 고양이를 관리할 수 있어요")
+                                .font(.title3)
                                 .bold()
                                 .foregroundColor(.purple)
                             
@@ -78,62 +82,70 @@ struct AddCatView: View {
                         })
                         
                         
-                        Form {
-                            Section(header: Text("기본 정보")) {
-                                TextField("이름", text: $catName)
-                                TextField("Age", text: $catAge)
-                                TextField("발견동네", text: $catAddress)
-                                Picker("성별", selection: $catGender) {
-                                    ForEach(genders, id: \.self) { gender in
-                                        Text(gender).tag(gender)
-                                    }
+                        VStack{
+                            
+                            CustomTextField(imageName: "flag.checkered.circle.fill", placeholder: "고양이 이름을 지어주세요", isSecureField: false, text: $catName)
+                            // CustomTextField(imageName: "questionmark.key.filled", placeholder: "추정 나이를 입력해주세요", isSecureField: false, text: $cat)
+                            // CustomTextField(imageName: "questionmark.key.filled", placeholder: "상세주소없이 발견동까지만 입력해주세요", isSecureField: false, text: $catName)
+                            Picker("성별", selection: $catGender) {
+                                ForEach(genders, id: \.self) { gender in
+                                    Text(gender).tag(gender)
                                 }
-                                .pickerStyle(SegmentedPickerStyle())
-                                Picker("나이", selection: $selectedAge) {
-                                    ForEach(ageRange, id: \.self) { age in
-                                        Text("\(age)").tag(age)
-                                    }
-                                }
-                                .pickerStyle(.automatic)
-                            }
-                            Button(action: {
-                                catViewModel.loadCats()
-                            }, label: {
-                                VStack{
-                                    Text("불러오기")
-                                    }
-                                }
-                            )
-                            Section(header: Text("필요한 메모를 남겨보세요")) {
-                                TextEditor(text: $catMemo)
-                            }
-                            .frame(height: 100)
-                        }
-                        .frame(height: 300)
-                        // .scrollDisabled(true)
+                            }  .pickerStyle(SegmentedPickerStyle())
+                            
+                            
+                            HStack {
+                                 Text("고양이의 나이를 입력해주세요")
+                                Spacer()
+                                 Picker("나이", selection: $selectedAge) {
+                                   ForEach(ageRange, id: \.self) { age in
+                                     Text("\(age)")
+                                           .foregroundColor(Color.black)
+                                   }
+                                 }
+                               }
+                            CustomTextField(imageName: "questionmark.key.filled", placeholder: "필요한 메모", isSecureField: false, text: $catMemo)
+                        }.padding(.horizontal, 32)
+                        
+                        //TEST
+                        // Button(action: {
+                        //     catViewModel.loadCats()
+                        // }, label: {
+                        //     VStack{
+                        //         Text("불러오기")
+                        //         }
+                        //     }
+                        // )
+                  
                     }//:VStack
                 }//: ScrollView
                 
-                CapsuleButton(text: "완료", disabled: catImage == nil, isAnimating: isIndicatorAnimating,
+                Text("* 이름과 사진을 필수로 등록이 필요해요")
+                CapsuleButton(text: "완료", disabled: catImage == nil || catName == "", isAnimating: isIndicatorAnimating,
                               action: {
-                    // isIndicatorAnimating = true
-                    // RealmHelper.shared.createCat(name: catName, age: catAge, gender: catGender, memo: catMemo)
+                    isIndicatorAnimating = true
                     catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
                         if success {
                             print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
+                            catAddress = locationManager.currentPlace
+                            
+                            // 위도와 경도를 문자열로 변환
+                            let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
+                            let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
+                            
+                            catLocation = "\(latitudeString),\(longitudeString)"
                             
                             if let profileImage = imageUrl {
-                                catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage)
+                                catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
+                                isIndicatorAnimating = false
                             }
                         } else {
                             print("고양이 사진 등록 않됐음")
+                            isIndicatorAnimating = false
                         }
                     }
                 })
             }
-            // .navigationBarItems(leading: Text("냥추가"),
-            //     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
-            // 
         }
     }
     

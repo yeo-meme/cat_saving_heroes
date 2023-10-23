@@ -30,7 +30,6 @@ struct CareCatView: View {
     var body: some View {
         NavigationView{
             VStack {
-       
                 VStack{
                     HStack{
                         Picker("반경선택", selection: $selectedNumber) {

@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import MapKit
 
 
 
@@ -68,9 +69,20 @@ class AddCatViewModel: ObservableObject {
         }
     }
     
-    func saveCat(name: String, age: String, address: String, gender: String, memo: String,profileImage:String) {
+    func saveCat(
+        name: String,
+        age: String,
+        address: String,
+        gender: String,
+        memo: String,
+        profileImage:String,
+        location:String) {
+            
         do {
             
+            print("save Cat String \(address)")
+            print("save Cat String location: \(location)")
+            print("save Cat String gender: \(gender)")
             //마이그레이션 초기화
             // let config = Realm.Configuration(
             //      schemaVersion: 0, // 스키마 버전을 0으로 설정

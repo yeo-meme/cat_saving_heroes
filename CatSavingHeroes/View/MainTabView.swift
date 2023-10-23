@@ -18,9 +18,6 @@ struct MainTabView: View {
     var body: some View {
         ZStack{
             VStack{
-             
-
-                
                 Spacer()
                 Image("OIGG")
                     .resizable()
