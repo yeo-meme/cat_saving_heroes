@@ -13,7 +13,7 @@ import FirebaseFirestore
 
 
 @main
-struct CatSavingHeroesApp: App {
+ struct CatSavingHeroesApp: App {
     // @StateObject private var locationManager = AddressManager()
     @StateObject private var addressManager = Model(userLocation: .constant(nil), locations: .constant([])) // 환경 객체
     // @StateObject private var locationManager = Model() // 환경 객체
@@ -23,6 +23,7 @@ struct CatSavingHeroesApp: App {
     init() {
         FirebaseApp.configure()
         let db = Firestore.firestore()
+      
     }
    
     var body: some Scene {

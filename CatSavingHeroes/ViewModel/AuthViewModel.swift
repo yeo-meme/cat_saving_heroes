@@ -12,7 +12,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestoreSwift
-
+import RealmSwift
 
 class AuthViewModel: NSObject, ObservableObject {
     
@@ -39,6 +39,13 @@ class AuthViewModel: NSObject, ObservableObject {
         if let user = Auth.auth().currentUser {
                   self.didAuthenticateUser = true
               }
+        
+        //리얼엠 마이그레이션
+        let config = Realm.Configuration(
+            schemaVersion: 0, // 스키마 버전을 0으로 설정
+            deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
+        )
+        Realm.Configuration.defaultConfiguration = config
         
     }
     

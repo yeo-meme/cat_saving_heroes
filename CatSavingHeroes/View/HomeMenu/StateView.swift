@@ -15,11 +15,10 @@ struct StateView: View {
     @State private var tabIndex = 0
     @EnvironmentObject var viewModel : AuthViewModel
     @State var tag:Int? = nil
-    // @ObservedObject var catViewModel: AddCatViewModel
     
     var body: some View {
         NavigationView{
-            VStack{
+            ZStack{
                 VStack(spacing: 1) {
                     HStack(spacing: 12) {
                         if let imageUrl = viewModel.currentUser?.profileImageUrl {
@@ -31,7 +30,7 @@ struct StateView: View {
                                 .padding(.leading)
                         } else {
                             Image("profile1")
-                                .resizable()
+                            // .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 48, height: 48)
                                 .clipShape(Circle())
@@ -56,25 +55,24 @@ struct StateView: View {
                     .frame(height: 70)
                     .background(Color.white)
                     CustomDivider(leadingSpace: 76)
-                }//:User Profile
-                
-                        VStack{
-                            SlidingTabView(selection: $tabIndex, tabs: ["보는냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
-                            if tabIndex == 0 {
-                                Text("0")
-                            } else if tabIndex == 1 {
-                                Text("2")
-                            } else if tabIndex == 2 {
-                                Text("3")
-                            }
-                        }
-                ZStack(alignment: .bottom){
+                    // }//:User Profile
                     
+                    VStack{
+                        SlidingTabView(selection: $tabIndex, tabs: ["보는냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
+                        if tabIndex == 0 {
+                            // WatchCatView()
+                        } else if tabIndex == 1 {
+                            Text("2")
+                        } else if tabIndex == 2 {
+                            Text("3")
+                        }
+                    }.zIndex(0)
+                    ZStack(alignment: .bottom){
                         goToAddViewButton
-                       
-                }.padding(.bottom, 10)
+                    }.padding(.bottom, 10)
+                }
+                .padding(.top, -300)
             }
-            .padding(.top, -300)
         }
     }
     
@@ -85,12 +83,12 @@ struct StateView: View {
                 HStack {
                     Image(systemName: "waveform.path.badge.plus")
                         .foregroundColor(.white)
-                        .padding(.leading, 5)
+                        // .padding(.leading, 5)
                     
                     Text("냥이추가")
                         .foregroundColor(.white)
                         .padding(.all, 5)
-                        .frame(width: 70, height: 40)
+                        .frame(width: 55, height: 40)
                     
                 }
                 .background(
@@ -103,6 +101,6 @@ struct StateView: View {
 
 
 
-#Preview {
-    StateView( presentSideMenu: .constant(false), presentNavigationBar: .constant(false))
-}
+// #Preview {
+//     StateView( presentSideMenu: .constant(false), presentNavigationBar: .constant(false), catViewModel: )
+// }

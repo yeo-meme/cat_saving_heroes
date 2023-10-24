@@ -227,12 +227,12 @@ struct AddEventView: View {
                                         print("이벤트 기록하기 ")
                                         // model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
                                         
-                                        //리얼엠 마이그레이션
-                                        let config = Realm.Configuration(
-                                            schemaVersion: 0, // 스키마 버전을 0으로 설정
-                                            deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
-                                        )
-                                        Realm.Configuration.defaultConfiguration = config
+                                        // //리얼엠 마이그레이션
+                                        // let config = Realm.Configuration(
+                                        //     schemaVersion: 0, // 스키마 버전을 0으로 설정
+                                        //     deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
+                                        // )
+                                        // Realm.Configuration.defaultConfiguration = config
                                         
                                         if addressManager.isLocationTrackingEnabled {
                                             let locationRecord = LocationRecord()

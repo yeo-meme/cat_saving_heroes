@@ -9,22 +9,29 @@ import Foundation
 
 
 struct Cat: Identifiable, Decodable, Encodable {
+   
     var id: String
     var name: String
-    var age: String
+    var age: Int
     var address: String
     var gender: String
     var memo: String
     var profileImage: String
+    var user_id: String
+    var location: String
+    var state: Int
 
     enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case name = "name"
-        case age = "age"
-        case address = "address"
-        case gender = "gender"
-        case memo = "memo"
-        case profileImage = "profileImage"
-    }
+          case id
+          case name
+          case age
+          case address
+          case gender
+          case memo
+          case profileImage
+          case user_id
+          case location
+          case state
+      }
 }
 

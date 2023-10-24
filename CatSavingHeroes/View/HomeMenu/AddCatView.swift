@@ -18,7 +18,7 @@ struct AddCatView: View {
     // @Binding var presentSideMenu: Bool
     
     @State private var catName = ""
-    @State private var catAge = ""
+    @State private var catAge = 0
     @State private var catGender = ""
     @State private var catMemo = ""
     @State private var catAddress = ""
@@ -124,7 +124,7 @@ struct AddCatView: View {
                               action: {
                     isIndicatorAnimating = true
                     catAddress = locationManager.currentPlace
-                    
+                    catViewModel.fetchCats()
                     // 위도와 경도를 문자열로 변환
                     let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
                     let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
@@ -136,7 +136,7 @@ struct AddCatView: View {
                            
                             
                             if let profileImage = imageUrl {
-                                catViewModel.saveCat(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
+                                catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
                                 isIndicatorAnimating = false
                                 mode.wrappedValue.dismiss()
                             }

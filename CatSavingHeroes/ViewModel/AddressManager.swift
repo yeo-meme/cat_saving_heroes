@@ -223,7 +223,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     //고양이 CareRealmModel 이벤트 표시 realm 호출
     func loadCatEventAnnotationsFromRealm() {
         do {
-            deleteAll()
+            // deleteAll()
             
             let trackingDatas = RealmHelper.shared.read(Tracking.self)
             print("++> 리얼엠에서 잘 불러왔니? 1 : \(trackingDatas)")
@@ -332,15 +332,16 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     }
     
     func deleteAll() {
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.deleteAll()
-            }
-        } catch {
-            print("리얼엠 올 딜리트 에러!!")
-            // handle error
-        }
+        RealmHelper.shared.realm.deleteAll()
+        // do {
+        //     let realm = try! Realm()
+        //     try realm.write {
+        //         realm.deleteAll()
+        //     }
+        // } catch {
+        //     print("리얼엠 올 딜리트 에러!!")
+        //     // handle error
+        // }
     }
 }
 

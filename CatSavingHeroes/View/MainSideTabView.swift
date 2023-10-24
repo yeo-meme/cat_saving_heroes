@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct MainSideTabView: View {
     @State var presentSideMenu = false
@@ -15,7 +16,7 @@ struct MainSideTabView: View {
     
     var body: some View {
         ZStack{
-            
+       
             if !model.presentNavigationBar{
                 NavigationBarView(presentNavigationBar: $presentNavigationBar)
                     .padding(.horizontal, 15)
@@ -27,7 +28,7 @@ struct MainSideTabView: View {
         }
             
             TabView(selection: $selectedSideMenuTab) {
-                
+         
                 MainTabView(presentSideMenu: presentSideMenu)
                     .tabItem {
                         Image(systemName: "house.fill")
