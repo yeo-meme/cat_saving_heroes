@@ -21,15 +21,15 @@ struct StateView: View {
     
     
     @State var isDataLoaded = false
-    @ObservedObject var catModel = WatchCellViewModel()
+    // @ObservedObject var catModel = WatchCellViewModel()
     
     var body: some View {
         NavigationView{
             ZStack(alignment:.bottomTrailing){
                 VStack{
-                    if !catModel.isDataLoaded {
-                        ProgressView()
-                    }else {
+                    // if !catModel.isDataLoaded {
+                        // ProgressView()
+                    // }else {
                         VStack{
                             VStack(spacing: 1) {
                                 HStack(spacing: 12) {
@@ -80,26 +80,27 @@ struct StateView: View {
                             }
                             
                             
-                            ScrollView{
-                                VStack(spacing: 1) {
-                                    ForEach(catModel.arrUsercats) { userCat in //데이터 파생
-                                        WatchCatCell(viewModel: WatchItemCellModel(userCat))
-                    
-                                    }
-                                }
-                            }
+                            // ScrollView{
+                            //     VStack(spacing: 1) {
+                            //         ForEach(catModel.arrUsercats) { userCat in //데이터 파생
+                            //             WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                            // 
+                            //         }
+                            //     }
+                            // }
                         }
                         
                         HStack(alignment: .bottom){
                             goToAddViewButton
                         }
                         .padding(.bottom, 10)
-                    }
-                }.onAppear {
-                    // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-                    catModel.fetchMatchCat()
-                    print("임마 : \(catModel.arrUsercats)")
+                    // }
                 }
+                // .onAppear {
+                //     // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
+                //     catModel.fetchMatchCat()
+                //     print("임마 : \(catModel.arrUsercats)")
+                // }
                 
              
                 

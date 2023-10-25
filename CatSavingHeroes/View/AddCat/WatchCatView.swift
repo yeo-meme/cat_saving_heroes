@@ -14,49 +14,22 @@ struct WatchCatView: View {
     // @EnvironmentObject var model:AuthViewModel
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
+    @ObservedObject var catModel = WatchCellViewModel()
     
     var body: some View {
-        VStack{
-            ScrollView {
-                
-                VStack (spacing: 1){
-                    if isDataLoaded {
-                        VStack{
-                            List(viewModel.arrUsercats) { userCat in //데이터 파생
-                                VStack(spacing: 1) {
-                                    HStack(spacing: 12) {
-                                        KFImage(URL(string:userCat.cat_photo))
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 48, height: 48)
-                                            .clipShape(Circle())
-                                            .padding(.leading)
-                                        
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(userCat.name)
-                                                .bold()
-                                                .foregroundColor(.black)
-                                            Text("나는 고양이의 상태입니다")
-                                                .foregroundColor(Color(.systemGray))
-                                        }//:catName
-                                        Spacer()
-                                    }
-                                    frame(height: 80)
-                                        .background(Color.white)
-                                    CustomDivider(leadingSpace: 84)
-                                }
-                            }}
-                        
-                    } else {
-                        Text("로딩중")
+        ZStack{
+            ScrollView{
+                VStack(spacing: 1) {
+                    ForEach(catModel.arrUsercats) { userCat in //데이터 파생
+                        WatchCatCell(viewModel: WatchItemCellModel(userCat))
                     }
-                }.frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)//:ZSTACK
-                    .padding(.top, 300 )
-                    .onAppear{
-                        viewModel.fetchMatchCat()
-                        print("임마 : \(viewModel.arrUsercats)")
-                    }
+                }
             }
+        }
+        .onAppear {
+            // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
+            catModel.fetchMatchCat()
+            print("임마 : \(catModel.arrUsercats)")
         }
     }
 }
