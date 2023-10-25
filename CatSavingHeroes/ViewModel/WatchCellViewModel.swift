@@ -12,6 +12,7 @@ class WatchCellViewModel: ObservableObject {
     @Published var userCats=[CatRealmModel]()
     // @Published var userCats = [CatRealmModel]()
     @Published var finishedLoad = false
+    @Published var catsM:[Cat]=[]
     
     init() {
         fetchUsercat()
@@ -56,4 +57,5 @@ class WatchCellViewModel: ObservableObject {
             // finishedLoad = true
         }
     }
-}
+
+    }

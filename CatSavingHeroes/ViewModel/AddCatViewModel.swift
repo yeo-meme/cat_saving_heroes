@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import MapKit
+import Alamofire
 
 
 
@@ -70,6 +71,42 @@ class AddCatViewModel: ObservableObject {
             print("Error initializing Realm: \(error)")
         }
     }
+    
+    
+    func postCatInfotoMongo(name: String,age: Int,address: String,gender: String,memo: String,profileImage:String,location:String) {
+        
+        guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
+        
+        print()
+        let param: [String:Any] = [
+            "_id":"dddd",
+            "name": name,
+            "age": 00,
+            "gender":gender,
+            "cat_photo":profileImage,
+            "location":location,
+            "uuid": generateUUID(),
+            "discover_address":address,
+            "insert_user":userId,
+        ]
+        
+        
+        // AF.request(CAT_ADD_API_URL, method: .post, parameters: param, encoding: JSONEncoding.default)
+        //     .responseData(completionHandler: { response in
+        //         switch response.result {
+        //         case .success(let data):
+        //             if let catData = try? JSONDecoder().decode(Cats.self, from: data) {
+        //                 print("Mongo Response: \(catData)")
+        //             }
+        //         case .failure(let error):
+        //             print("Error: \(error)")
+        //         }
+        //     })
+        
+        AF.request(CAT_ADD_API_URL, method: .post, parameters: param, encoding: JSONEncoding.default).responseDecodable(of: Cats.self) { response in
+            print("POST DEBUG : \(response)")
+        }
+        }
     
     func saveCat(
         name: String,
@@ -219,73 +256,124 @@ class AddCatViewModel: ObservableObject {
                      memo: String,
                      profileImage:String,
                      location:String) {
-            let apiUrl = "https://cat-saving-heros.azurewebsites.net/api/cat/add"
-            
-            guard let url = URL(string: apiUrl) else {
-                print("Invalid URL")
-                return
-            }
+     
             guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
             
-            let catData = [
+   
+        print("타입체크 \(name),\(age),\(gender),\(profileImage),\(location),\(generateUUID()),\(address),\(userId)")
+        
+         
+      
+        
+        do {
+            let jsonData = [
+                // "_id": generateUUID(),
                 "name": name,
-                "age": age,
+                "age": 3,
                 "gender":gender,
+                "memo":"되라고",
                 "cat_photo":profileImage,
-                "location":location,
-                "uuid": generateUUID(),
                 "discover_address":address,
+                "location":"location",
+                "uuid": generateUUID(),
                 "insert_user":userId,
+                "state":0
             ] as [String : Any] // 데이터를 JSON 형식으로 준비
+            // 
+            // let catData = try JSONSerialization.data(withJSONObject: jsonData, options: [])
+            // let cat = try JSONDecoder().decode(Cat.self, from: catData)
+            // 
+            guard let url = URL(string: CAT_ADD_API_URL) else { return }
             
-            guard let jsonData = try? JSONSerialization.data(withJSONObject: catData) else {
-                print("Failed to serialize data")
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = jsonData
+            // var request = URLRequest(url: url)
+            //  request.httpMethod = "POST"
+            //  request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            //  request.httpBody = jsonData
 
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error: \(error)")
-                    return
-                }
-                
-                if let data = data {
-                    if let jsonString = String(data: data, encoding: .utf8) {
-                        print("Response: \(jsonString)")
-                        // 여기에서 서버의 응답을 처리할 수 있습니다.
-                    }
-                }
-            }.resume()
+            
+            AF.request(url, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
+                        .responseDecodable(of: Cats.self) { response in
+                            print("POST DEBUG : \(response)")
+                        }
+            
+            
+        }catch{
+            print("디코딩 에러: \(error)")
+        }
+        // let cat = Cats(
+        //     // _id: UUID().uuidString,
+        //     // _id: <#String#>, 
+        //     name: name,
+        //     age: 3,
+        //     cat_photo: profileImage,
+        //     discover_address: address,
+        //     uuid: UUID().uuidString,
+        //     insert_user: userId,
+        //     location: "location",
+        //     status: 0
+        //     timestamps: ""
+        // )
+        
+        
+        // let jsonData = try? JSONEncoder().encode(cat)
+        // 요청 본문에 설정
+        
+     
+         // API 요청 보내기
+         // AF.request(request)
+         //     .responseData(completionHandler: { response in
+         //         switch response.result {
+         //         case .success(let data):
+         //             if let catData = try? JSONDecoder().decode(Cats.self, from: data) {
+         //                 print("Mongo Response: \(catData)")
+         //             }
+         //         case .failure(let error):
+         //             print("Error: \(error)")
+         //         }
+         //     })
+        
+        
+        // AF.request(CAT_ADD_API_URL, method: .post).responseData { response in
+        //     switch response.result {
+        //     case .success(let data):
+        //         if let catData = try? JSONDecoder().decode(Cats.self, from: data) {
+        //             print("Mongo Response : \(catData)")
+        //         }
+        //     case .failure(let error):
+        //         print("Error : \(error)")
+        //     }
+        // }
+            // guard let jsonData = try? JSONSerialization.data(withJSONObject: catData) else {
+            //     print("Failed to serialize data")
+            //     return
+            // }
+            // 
+            // var request = URLRequest(url: url)
+            // request.httpMethod = "POST"
+            // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            // request.httpBody = jsonData
+
+            // URLSession.shared.dataTask(with: request) { data, response, error in
+            //     if let error = error {
+            //         print("Error: \(error)")
+            //         return
+            //     }
+            //     
+            //     if let data = data {
+            //         if let jsonString = String(data: data, encoding: .utf8) {
+            //             print("Mongo Response: \(jsonString)")
+            //             // 여기에서 서버의 응답을 처리할 수 있습니다.
+            //         }
+            //     }
+            // }.resume()
        
         }
  
     func fetchCats() {
-          let apiUrl = "https://cat-saving-heros.azurewebsites.net/api/cat" // 데이터를 불러올 API 엔드포인트
-          
-          guard let url = URL(string: apiUrl) else {
-              print("Invalid URL")
-              return
-          }
-          
-          URLSession.shared.dataTask(with: url) { data, response, error in
-              if let error = error {
-                  print("Error: \(error)")
-                  return
-              }
-              
-              if let data = data {
-                  if let decodedCats = try? JSONDecoder().decode([Cat].self, from: data) {
-                      DispatchQueue.main.async {
-                          self.catsM = decodedCats // 불러온 데이터를 배열에 저장
-                          print("몽고에서 불러오기 : \(self.catsM)")
-                      }
-                  }
-              }
-          }.resume()
+               AF.request(CAT_SELECT_API_URL, method: .get)
+                   .responseDecodable(of: [Cats].self) { data in
+                       guard let data = data.value else { return }
+                    print("catsssssss : \(data)")
+                   }
       }
 }

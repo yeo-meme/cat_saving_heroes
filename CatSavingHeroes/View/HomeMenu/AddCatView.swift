@@ -134,7 +134,7 @@ struct AddCatView: View {
                         if success {
                             print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
                            
-                            
+                            print("ageeeee : \(catAge)")
                             if let profileImage = imageUrl {
                                 catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
                                 isIndicatorAnimating = false

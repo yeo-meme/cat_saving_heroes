@@ -51,3 +51,13 @@ let WEATHER_API_KEY = "159e98ac01ffc30824c47cc4c5e9e004"
 
 //DUMMY
 let products: [Product] = Bundle.main.decode("product.json")
+
+
+//mongo
+let CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/add"
+let CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"
+let CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/delete"
+
+let CARE_CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/add"
+let CARE_CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat"
+let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete"

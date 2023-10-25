@@ -8,6 +8,8 @@
 import SwiftUI
 import SlidingTabView
 import Kingfisher
+import Alamofire
+
 
 struct StateView: View {
     @Binding var presentSideMenu: Bool
@@ -60,7 +62,7 @@ struct StateView: View {
                     VStack{
                         SlidingTabView(selection: $tabIndex, tabs: ["보는냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
                         if tabIndex == 0 {
-                            // WatchCatView()
+                            WatchCatView()
                         } else if tabIndex == 1 {
                             Text("2")
                         } else if tabIndex == 2 {
@@ -71,11 +73,35 @@ struct StateView: View {
                         goToAddViewButton
                     }.padding(.bottom, 10)
                 }
+                .onAppear{
+                    // deleteAllMongo()
+                    fetchCatsCommon()
+                }
                 .padding(.top, -300)
             }
         }
     }
     
+    func deleteAllMongo() {
+        AF.request(CAT_DELETE_API_URL, method: .delete).response { response in
+            if let error = response.error{
+                print("Error: \(error)")
+            }else {
+                print("All todos deleted successfully")
+            }}
+    }
+    func fetchCatsCommon() {
+        
+        AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+             switch response.result {
+             case .success(let value):
+              print("성공 디코딩 : \(value)")
+             case .failure(let error):
+                 print("실패 디코딩 : \(error.localizedDescription)")
+             }
+         }
+      }
+
     
     var goToAddViewButton: some View {
         NavigationLink(
