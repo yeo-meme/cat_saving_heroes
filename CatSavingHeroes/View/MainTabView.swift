@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import Alamofire
+import Kingfisher
 
 struct MainTabView: View {
     @State var presentSideMenu: Bool
@@ -17,13 +18,16 @@ struct MainTabView: View {
     
     var body: some View {
         ZStack{
-            VStack{
-                Spacer()
-                Image("OIGG")
+                Image("home_weather_cat")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)
-                Text("날씨 정보: \(weatherModel.wetherData?.description ?? "")")
+                    .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+                    .edgesIgnoringSafeArea(.all)
+                
+                
+                VStack{
+                    Text("날씨 정보: \(weatherModel.wetherData?.description ?? "")")
+                }
                 
                 Button(action: { self.showSheet = true },
                        label: { Text("Log out").font(.system(size: 18, weight: .semibold)) }
@@ -41,11 +45,7 @@ struct MainTabView: View {
                     
                     
                 }
-       
-                Spacer()
-       
-            }
-          
+                .offset(y: 300)
         }
         
     }

@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct Cats: Codable {
-    // var _id: String
+struct Cats: Identifiable ,Codable {
+     var id: String?
     var name: String
     var age: Int
     var memo:String

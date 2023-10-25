@@ -32,7 +32,7 @@ struct SearchCatCell: View {
                             .foregroundColor(.black)
                         
                     }
-                    Text("user.status.title")
+                    Text("나는 고양이의 상태")
                         .foregroundColor(Color(.systemGray))
                 }
                 

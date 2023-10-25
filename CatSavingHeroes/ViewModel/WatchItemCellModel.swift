@@ -8,19 +8,20 @@
 import Foundation
 
 class WatchItemCellModel: ObservableObject{
-    @Published var userCats:CatRealmModel?
+    @Published var userCats:Cats
     
-    init(_ userCats: CatRealmModel) {
+    init(_ userCats: Cats) {
         self.userCats = userCats
+        print("item cell : \(self.userCats)")
     }
     
     var accessUserCatName: String {
-        print("WatchItemCellModel : \(userCats?.name)")
-        return userCats?.name ?? ""
+        print("WatchItemCellModel name : \(userCats.name)")
+        return userCats.name
     }
-    
+    // 
     var accessUserCatProfileImage: String {
-        print("WatchItemCellModel : \(userCats?.profileImage)")
-        return userCats?.profileImage ?? ""
+        print("WatchItemCellModel cat_photo : \(userCats.cat_photo)")
+        return userCats.cat_photo
     }
 }
