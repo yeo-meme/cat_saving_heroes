@@ -14,7 +14,10 @@ class WatchCellViewModel: ObservableObject {
     @Published var arrUsercats=[Cats]()
     @Published var isDataLoaded = false
 
+    @Published  var filteredCats:[Cats] = []
     init() {
+        self.arrUsercats = []
+        self.filteredCats = []
         fetchMatchCat()
     }
     
@@ -24,11 +27,25 @@ class WatchCellViewModel: ObservableObject {
              case .success(let value):
               print("성공 디코딩 : \(value)")
                  self.arrUsercats = value
-                 self.isDataLoaded = true
+                 self.getFilteredUsercats()
              case .failure(let error):
                  print("실패 디코딩 : \(error.localizedDescription)")
              }
          }
+    }
+    
+    func getFilteredUsercats(){
+        guard let user = AuthViewModel.shared.currentUser?.uid else { return }
+        
+        print("getFilteredUsercats AuthViewModel : \(user)")
+        for userCat in self.arrUsercats {
+            if userCat.insert_user == user {
+                print("getFilteredUsercats insert_user: \(userCat.insert_user)")
+                self.filteredCats.append(userCat)
+                self.isDataLoaded = true
+                print("filteredCats : \(String(describing: self.filteredCats))")
+            }
+        }
     }
 
     

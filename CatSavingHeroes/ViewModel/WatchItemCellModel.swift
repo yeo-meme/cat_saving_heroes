@@ -8,20 +8,20 @@
 import Foundation
 
 class WatchItemCellModel: ObservableObject{
-    @Published var userCats:Cats
+    @Published var userCat:Cats
     
-    init(_ userCats: Cats) {
-        self.userCats = userCats
-        print("item cell : \(self.userCats)")
+    init(_ userCat: Cats) {
+        self.userCat = userCat
+        print("item cell : \(self.userCat)")
     }
     
-    var accessUserCatName: String {
-        print("WatchItemCellModel name : \(userCats.name)")
-        return userCats.name
-    }
-    // 
-    var accessUserCatProfileImage: String {
-        print("WatchItemCellModel cat_photo : \(userCats.cat_photo)")
-        return userCats.cat_photo
-    }
+    // var accessUserCatName: String {
+    //     print("WatchItemCellModel name : \(userCat.name)")
+    //     return userCat.name
+    // }
+    // // 
+    // var accessUserCatProfileImage: String {
+    //     print("WatchItemCellModel cat_photo : \(userCat.cat_photo)")
+    //     return userCat.cat_photo
+    // }
 }

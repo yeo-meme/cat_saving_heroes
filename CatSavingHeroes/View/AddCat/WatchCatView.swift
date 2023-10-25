@@ -10,7 +10,7 @@ import Kingfisher
 
 struct WatchCatView: View {
     
-    @ObservedObject var viewModel = WatchCellViewModel()
+    // @ObservedObject var viewModel = WatchCellViewModel()
     // @EnvironmentObject var model:AuthViewModel
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
@@ -20,8 +20,10 @@ struct WatchCatView: View {
         ZStack{
             ScrollView{
                 VStack(spacing: 1) {
-                    ForEach(catModel.arrUsercats) { userCat in //데이터 파생
-                        WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                    if !catModel.filteredCats.isEmpty {
+                        ForEach(catModel.filteredCats) { userCat in //데이터 파생
+                            WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                        }
                     }
                 }
             }
@@ -29,7 +31,7 @@ struct WatchCatView: View {
         .onAppear {
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
             catModel.fetchMatchCat()
-            print("임마 : \(catModel.arrUsercats)")
+            print("임마 : \(catModel.filteredCats)")
         }
     }
 }
