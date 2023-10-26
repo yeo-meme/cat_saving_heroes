@@ -11,7 +11,7 @@ import Kingfisher
 struct SearchCatCell: View {
     // let user: User
     // @Binding var cats:[String]
-    @Binding var catsRealmArr:[CatRealmModel]
+    @Binding var catsSearchedArr:[Cats]
     
     var body: some View {
         VStack(spacing: 1) {
@@ -26,11 +26,10 @@ struct SearchCatCell: View {
                 
                 //TODO
                 VStack(alignment: .leading, spacing: 4) {
-                    ForEach(catsRealmArr, id: \.self) { cat in
+                    ForEach(catsSearchedArr) { cat in
                         Text(cat.name)
                             .bold()
                             .foregroundColor(.black)
-                        
                     }
                     Text("나는 고양이의 상태")
                         .foregroundColor(Color(.systemGray))
@@ -47,5 +46,5 @@ struct SearchCatCell: View {
 }
 
 #Preview {
-    SearchCatCell(catsRealmArr: .constant([]))
+    SearchCatCell(catsSearchedArr: .constant([]))
 }

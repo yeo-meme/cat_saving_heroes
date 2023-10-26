@@ -6,9 +6,9 @@
 
 import SwiftUI
 
-struct ProductItemView: View {
-  // MARK: - PROPERTY
-  
+struct StrayCatsItemView: View {
+ 
+    // MARK: - PROPERTY
   let product: Product
   
   // MARK: - BODY

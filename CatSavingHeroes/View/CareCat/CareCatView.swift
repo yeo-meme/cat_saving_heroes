@@ -68,7 +68,7 @@ struct CareCatView: View {
                               NavigationLink(
                                       destination: CatDetailView(),
                                       label: {
-                                        ProductItemView(product: product)
+                                        StrayCatsItemView(product: product)
                                       })
                                       // ProductItemView(product: product)
                                       //     .onTapGesture {
@@ -100,7 +100,7 @@ struct CareCatView: View {
                         }
                         .sheet(isPresented: $isShowingModal) {
                             // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [])
+                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                         }
                     }
                 }

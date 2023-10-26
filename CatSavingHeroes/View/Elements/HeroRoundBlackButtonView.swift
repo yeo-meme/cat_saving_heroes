@@ -13,8 +13,8 @@ struct HeroRoundBlackButtonView: View {
     let selected : Bool
     var body: some View {
         Button(action:
-            action
-        , label: {
+                action
+               , label: {
             if selected {
                 Text(text)
                     .font(.headline)
@@ -23,7 +23,11 @@ struct HeroRoundBlackButtonView: View {
                     .background(Color.complementColor)
                     .cornerRadius(13)
                     .padding()
-                    // .stroke(Color.black, lineWidth: 1)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 13)
+                            .stroke(Color.complementColor, lineWidth: 1)
+                    )
+                // .stroke(Color.black, lineWidth: 1)
             }else {
                 Text(text)
                     .font(.headline)
@@ -32,10 +36,12 @@ struct HeroRoundBlackButtonView: View {
                     .background(.white)
                     .cornerRadius(13)
                     .padding()
-                    .border(Color.black, width: 1)
-                    // .stroke(Color.black, lineWidth: 1)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 13)
+                            .stroke(Color.complementColor, lineWidth: 1)
+                    )
             }
-         
+            
         })
         .disabled(true)
         .padding()

@@ -8,6 +8,7 @@
 import SwiftUI
 import RealmSwift
 import MapKit
+import Alamofire
 
 struct AddEventView: View {
     @EnvironmentObject var addressManager : Model
@@ -36,9 +37,15 @@ struct AddEventView: View {
     @State var date = Date()
     @State private var isEditing = false
     
-    //검색관련
+    //realm 검색관련
     @State var catModelData:[CatRealmModel]
     @State var selectedCat : CatRealmModel?
+    
+    //몽고 검색관련
+    @State var catListData : [Cats]
+    @State var catSearchListData : [Cats]
+    @State var catSearchData : Cats?
+    
     
     @State var isLinkActive = false
     var body: some View {
@@ -70,17 +77,12 @@ struct AddEventView: View {
                 
                 
                 ScrollView{
-                   
-                    
-                    
-                    
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catRealmArr: $catModelData, selectedCat: $selectedCat,  isSearchEnd: $isSearchEnd)
+                   SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, catSearchData: $catSearchData, isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
                         }
                         .padding()
-                    
                     VStack{
                         if isEditing {
                             // if isSearchEnd {
@@ -88,7 +90,7 @@ struct AddEventView: View {
                             // } else {
                             //     SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
                             // }
-                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
+                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,selectedCat:$catSearchData)
                         } else {
                             ZStack {
                                 Image("play_cat_background")
@@ -265,10 +267,16 @@ struct SearchBar: View {
     @Binding var text: String
     @Binding var isEditing: Bool
     @Binding var isShowingSearchModal:Bool
-    @Binding var catRealmArr:[CatRealmModel] //String
-    @Binding var selectedCat : CatRealmModel?
+    // @Binding var catRealmArr:[CatRealmModel] //String
+    // @Binding var selectedCat : CatRealmModel?    
+    @Binding var catSearchListData:[Cats] //String
+    @Binding var catSearchData : Cats?
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
+    
+    // @Binding var catSearchListData : [Cats]?
+    // @Binding var catSearchData : Cats?
+    
     
     var body: some View {
         HStack {
@@ -284,7 +292,8 @@ struct SearchBar: View {
                         .padding(.leading, 10)
                 )
                 .onSubmit {
-                    realmCall()
+                    catsSearch()
+                    // realmCall()
                 }
             if isEditing {
                 Button(action: {
@@ -301,14 +310,39 @@ struct SearchBar: View {
         }
         
     }
-    func realmCall() {
-        let cats = RealmHelper.shared.readCats(withName: text)
-        catRealmArr = cats
-        isSearchEnd = true
+    // func realmCall() {
+    //     let cats = RealmHelper.shared.readCats(withName: text)
+    //     catRealmArr = cats
+    //     isSearchEnd = true
+    // }
+    
+    func catsFilterSearch(){
+        print("고양이 검색어 : \(text)")
+            for catsData in self.catSearchListData {
+                if catsData.name == text {
+                    self.catSearchListData.append(catsData)
+                    print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
+                }
+            }
+            isSearchEnd = true
+    }
+    
+    //TODO: 몽고디비 호출
+    func catsSearch() {
+        AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+            switch response.result {
+            case .success(let value):
+                print("성공 디코딩 : \(value)")
+                self.catSearchListData = value
+                catsFilterSearch()
+            case .failure(let error):
+                print("실패 디코딩 : \(error.localizedDescription)")
+            }
+        }
     }
 }
 
 
-#Preview {
-    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: []
-    )}
+// #Preview {
+//     AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catSearchListData: [], catListData: []
+//     )}

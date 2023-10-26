@@ -179,7 +179,7 @@ class AddCatViewModel: ObservableObject {
                            
                            // Create an array of Cat objects
                                // Populate the array with Cat objects
-                let catString = Cat(id: id, name: name , age: age, address: address, gender: gender, memo: memo, profileImage: profileImage,user_id:user_id,location: location, state: state)
+                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address, uuid: id, insert_user: user_id, status: state)
                              
                            
                             //로드할때 UserDefaults에 저장하고

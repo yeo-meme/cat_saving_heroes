@@ -15,16 +15,19 @@ struct SearchCatView: View {
     @Binding var showConversationView: Bool
     @State private var searchText = ""
     @Binding var isEditing:Bool
-    @Binding var selectedCatArr: [CatRealmModel] // 선택한 셀의 내용을 저장할 변수
-    @Binding var selectedCat: CatRealmModel? // 선택한 셀의 내용을 저장할 변수
+    // @Binding var selectedCatArr: [CatRealmModel] // 선택한 셀의 내용을 저장할 변수
+    // @Binding var selectedCat: CatRealmModel? // 선택한 셀의 내용을 저장할 변수
     
+    
+    @Binding var selectedCatArr: [Cats] // 선택한 셀의 내용을 저장할 변수
+    @Binding var selectedCat: Cats? // 선택한 셀의 내용을 저장할 변수
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
                 ScrollView {
                     VStack(spacing: 1) {
-                        ForEach(selectedCatArr, id:\.self) { user in
+                        ForEach(selectedCatArr) { user in
                             Button(action: {
                                 showConversationView.toggle()
                                 // self.selectedCatArr = selectedCatArr
@@ -33,7 +36,7 @@ struct SearchCatView: View {
                                 isEditing = false
                                 // mode.wrappedValue.dismiss()
                             }, label: {
-                                SearchCatCell(catsRealmArr: $selectedCatArr)
+                                SearchCatCell(catsSearchedArr: $selectedCatArr)
                             })
                         }
                     }

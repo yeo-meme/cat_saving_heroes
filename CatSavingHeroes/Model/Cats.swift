@@ -8,8 +8,10 @@
 import Foundation
 
 
-struct Cats: Identifiable ,Codable {
-     var id: String?
+struct Cats: Identifiable , Codable{
+    var id: String {
+        return NSUUID().uuidString
+    }
     var name: String
     var age: Int
     var memo:String
@@ -41,8 +43,3 @@ struct Cats: Identifiable ,Codable {
         // case updated_at
     }
 }
-
-// struct Timestamps: Decodable, Encodable {
-//     var createdAt: String
-//     var updatedAt: String
-// }
