@@ -22,9 +22,9 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         return mapRegion
     }()
     
-    var test_map :CLLocationCoordinate2D?
-    var test_mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
-    let test_region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)) //남산
+    // var test_map :CLLocationCoordinate2D?
+    // var test_mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
+    // let test_region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)) //남산
     
     @Published var annotations: [MKPointAnnotation] = []
     @Published private var annotationViews: [MKAnnotationView] = []
@@ -56,24 +56,32 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         if status == .notDetermined {
             manager.requestAlwaysAuthorization()
         } else if status == .authorizedAlways || status == .authorizedWhenInUse {
-            mapView.showsUserLocation = true // 사용자의 현재 위치를 확인할 수 있도록
-            manager.startUpdatingLocation()
-            
+            // mapView.showsUserLocation = true // 사용자의 현재 위치를 확인할 수 있도록
+            // manager.startUpdatingLocation()
+            self.moveFocusOnUserLocation()
             
             // configureLocationManager() 메서드 내부의 해당 부분을 수정합니다.
-            if let location = manager.location {
-                let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-                let region = MKCoordinateRegion(center: location.coordinate, span: span)
-                mapView.setRegion(region, animated: true)
-            } else {
-                // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
-                let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-                let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
-                let region = MKCoordinateRegion(center: defaultLocation, span: span)
-                mapView.setRegion(region, animated: true)
-            }
+          
         }
     }
+    
+    // MARK: - 사용자의 현재 위치로 MapView를 이동하는 메서드
+       func moveFocusOnUserLocation() {
+           mapView.showsUserLocation = true
+           mapView.setUserTrackingMode(.follow, animated: true)
+           
+           if let location = manager.location {
+               let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+               let region = MKCoordinateRegion(center: location.coordinate, span: span)
+               mapView.setRegion(region, animated: true)
+           } else {
+               // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
+               let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+               let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
+               let region = MKCoordinateRegion(center: defaultLocation, span: span)
+               mapView.setRegion(region, animated: true)
+           }
+       }
     
     // MARK: - MapView에서 화면이 이동하면 호출되는 메서드
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -146,12 +154,10 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         // 트랙킹 Realm 객체를 읽습니다.
         let trackingEvents = RealmHelper.shared.read(Tracking.self)
         
-        
         let realm = try! Realm()
         
         // `Tracking` 테이블에서 모든 데이터를 가져옵니다.
         // let trackingEvents = realm.objects(Tracking.self)
-        
         
         
         // print("++> 제대로 불러오니? \(trackingEvents)")
@@ -175,11 +181,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     // MARK: - 특정 위치로 MapView의 Focus를 이동하는 메서드
     func mapViewFocusChange() {
         print("[SUCCESS] Map Focus Changed")
-        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        // let region = MKCoordinateRegion(center: self.currentGeoPoint ??  CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span) //현재위치
-        
-        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880), span: span) //남산
-        mapView.setRegion(region, animated: true)
     }
     
     // MARK: - 사용자에게 위치 권한이 변경되면 호출되는 메서드 (LocationManager 인스턴스가 생성될 때도 호출)
@@ -200,6 +201,9 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("[SUCCESS] Did Update Locations")
         self.currentGeoLocation = locations.first
+        
+     
+     
     }
     
     // MARK: - 사용자의 현재 위치를 가져오는 것을 실패했을 때 호출되는 메서드
@@ -245,42 +249,16 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
                     print("++> 리얼엠에서 잘 불러왔니? 2 : \(tracking.event_longitude)")
                     
                     annotations.append(annotation)
-                    
-                    // print("화면 이동이 종료 markers  annotation.coordinate : \(annotations) ")
-                    // dummyCatCareLocation = CatCareLocation(
-                    //     id: "1",
-                    //     name: "고양이 돌봄 센터 1",
-                    //     image: "cat1",
-                    //     latitude: tracking.event_latitude,
-                    //     longitude: tracking.event_longitude
-                    // )
-                    // 
-                    // customAnnotation = CustomAnnotation(title: "고양이", subtitle: "고영이", coordinate: annotation.coordinate, image: "OIGG")
-                    // 
-                    // test_map = CLLocationCoordinate2D(latitude: tracking.event_latitude, longitude: tracking.event_longitude)
-                    // print("이미지 테스트: \(tracking.event_latitude)")
-                    // 
-                    // 
-                    // // 이미지 표시
-                    // if let test_map = self.test_map {
-                    //     MapAnnotation(coordinate:test_map) {
-                    //         MapAnnotationView(location: dummyCatCareLocation ?? MOCK_UP)
-                    //     }
-                    // }else {
-                    //     print("dummyCatCareLocation가 nil")
-                    // }
+        
                 }
             }
-            
             mapView.addAnnotations(annotations)
-         
-            
         } catch {
             print("Error loading data from Realm: \(error)")
         }
     }
     
-    //TODO :// 어노테이션뷰 재사용
+    //TODO :// 어노테이션뷰 재사용 : 그림표시하기
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 식별자
         let identifier = "Custom"
@@ -298,7 +276,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             // annotationView?.image = UIImage(systemName: "star.fill")
             // 
             if let image = UIImage(named: "OIGG") {
-               
                 annotationView?.image = image
                 annotationView?.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
 
@@ -333,15 +310,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     
     func deleteAll() {
         RealmHelper.shared.realm.deleteAll()
-        // do {
-        //     let realm = try! Realm()
-        //     try realm.write {
-        //         realm.deleteAll()
-        //     }
-        // } catch {
-        //     print("리얼엠 올 딜리트 에러!!")
-        //     // handle error
-        // }
     }
 }
 

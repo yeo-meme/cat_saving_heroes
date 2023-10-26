@@ -26,7 +26,10 @@ struct CareCatView: View {
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
     
     @ObservedObject var strayModel = StrayCatsALLViewModel()
-    // @State var strayCatList:[Cats]
+    
+    //데이터 추가 로드시 8개씩
+    @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
+    @State private var visibleCount = 8 // 현재 표시 중인 아이템 수
     
     // Model 클래스의 인스턴스를 생성
     var body: some View {
@@ -79,42 +82,35 @@ struct CareCatView: View {
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     if let strayCatList = strayModel.arrCats {
+                        ForEach(strayCatList.prefix(visibleCount)) { strayCat in
                             VStack{
-                                ForEach(strayCatList) { strayCat in
                                 LazyVGrid(columns: gridLayout, spacing: 15, content: {
                                     StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                   
+                                    
                                 }
                                 )}
                         }
+                        
+                        if visibleCount < strayCatList.count {
+                            Button("더 보기") {
+                                visibleCount += 8 // 다음 8개 아이템을 표시
+                                if visibleCount > strayCatList.count {
+                                    visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
+                                }
+                            }
+                        }
                     }
                     
-                    // DropdownButton()
-                    // VStack{
-                    //     OvalButton(text: "주변냥")
-                    // }.shadow(color: .black, radius: 10, x: 10, y: 10)
                     
-                    //이벤트 등록 기존 버튼
-                    // Button(action: {
-                    //     isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                    // }) {
-                    //     Text("Add Event")
-                    //         .padding()
-                    //         .background(Color.blue)
-                    //         .foregroundColor(.white)
-                    //         .cornerRadius(8)
-                    // }
                 }
-                    .sheet(isPresented: $isShowingModal) {
-                        // 모달이 표시되면 addEvent 뷰가 열립니다.
-                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                    }
+                .sheet(isPresented: $isShowingModal) {
+                    // 모달이 표시되면 addEvent 뷰가 열립니다.
+                    AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                 }
             }
-            
         }
-        // .navigationBarItems(leading: Text("주변돌봄"),
-        //                     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+        
+    }
         
     }
 
