@@ -9,7 +9,7 @@ import Foundation
 
 
 class StrayCatsItemViewModel: ObservableObject {
-    @Published var strayArrCats:Cats?
+    @Published var strayArrCats:Cats
     
     init(_ strayArrCats: Cats) {
         self.strayArrCats = strayArrCats

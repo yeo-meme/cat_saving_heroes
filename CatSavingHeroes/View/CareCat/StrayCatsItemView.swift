@@ -13,48 +13,30 @@ struct StrayCatsItemView: View {
   
     
     var body: some View {
-        if let strayCat = viewModel.strayArrCats {
-            NavigationLink(destination: CatDetailView()) {
                 VStack(alignment: .leading, spacing: 6){
+                    if viewModel.strayArrCats != nil {
+                        NavigationLink(destination: CatDetailView()) {
                     // PHOTO
                     ZStack {
-                        // Image(product.image)
-                        //     .resizable()
-                        //     .scaledToFit()
-                        //     .padding(10)
-                        
-                        // HStack(spacing: 12) {
-                        KFImage(URL(string:strayCat.cat_photo))
+                        KFImage(URL(string: viewModel.strayArrCats.cat_photo))
                             .resizable()
                             .scaledToFit()
+                            .cornerRadius(12)
                             .padding(10)
                         
-                        // VStack(alignment: .leading, spacing: 4) {
-                        //     Text(viewModel.strayArrCats?.name)
-                        //         .font(.system(size: 18, weight: .semibold))
-                        //         .foregroundColor(.black)
-                        //
-                        //     Text(viewModel.strayArrCats?.gender)
-                        //         .font(.system(size: 15))
-                        //         .foregroundColor(Color(.systemGray))
-                        // }
-                        // }
-                    } //: ZSTACK
-                    // .background(Color(red: product.red, green: product.green, blue: product.blue))
-                    .cornerRadius(12)
+                    }.cornerRadius(12)
+                                
+                   
                     
-                    Text(strayCat.name)
+                    Text(viewModel.strayArrCats.name)
                         .font(.title3)
                         .fontWeight(.black)
                     
-                    Text(strayCat.gender)
+                    Text(viewModel.strayArrCats.gender)
                         .fontWeight(.semibold)
                         .foregroundColor(.gray)
-                    
                 } //: VSTACK
-             
             }
         }
-            
     }
 }

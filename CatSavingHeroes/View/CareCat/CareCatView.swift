@@ -52,7 +52,7 @@ struct CareCatView: View {
                         
                         Text("반경 \(selectedNumber)km이내 고양이들")
                             .font(.system(size: 15, weight: .bold, design: .default))
-                            
+                        
                         
                         Button(action:
                                 {
@@ -71,87 +71,73 @@ struct CareCatView: View {
                                 )
                         })
                     }
-                        MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                            .frame(height: 300)
-                    }
-                    
-                    CategoryItemView(isShowingModal: $isShowingModal)
-                    
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack{
-                            if let strayCatList = strayModel.arrCats {
-                                ForEach(strayCatList) { strayCat in
-                                    LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                        
-                                        NavigationLink(
-                                            destination: CatDetailView(),
-                                            label: {
-                                                StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                            })
-                                        // ProductItemView(product: product)
-                                        //     .onTapGesture {
-                                        //
-                                        //       // feedback.impactOccurred()
-                                        //       //
-                                        //       // withAnimation(.easeOut) {
-                                        //       //   shop.selectedProduct = product
-                                        //       //   shop.showingProduct = true
-                                        //
-                                        //       }
-                                    }//: LazyVGrid
-                                              )}//: ForEach
-                                              }
-                                              } //: VStack
-                                    .padding(15)
-                                    // DropdownButton()
-                                    // VStack{
-                                    //     OvalButton(text: "주변냥")
-                                    // }.shadow(color: .black, radius: 10, x: 10, y: 10)
-                                    
-                                    //이벤트 등록 기존 버튼
-                                    // Button(action: {
-                                    //     isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                                    // }) {
-                                    //     Text("Add Event")
-                                    //         .padding()
-                                    //         .background(Color.blue)
-                                    //         .foregroundColor(.white)
-                                    //         .cornerRadius(8)
-                                    // }
-                                    .sheet(isPresented: $isShowingModal) {
-                                        // 모달이 표시되면 addEvent 뷰가 열립니다.
-                                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                                    }
-                                }
-                    }
-                    
+                    MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                        .frame(height: 300)
                 }
-                // .navigationBarItems(leading: Text("주변돌봄"),
-                //                     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
                 
+                // CategoryItemView(isShowingModal: $isShowingModal)
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    if let strayCatList = strayModel.arrCats {
+                            VStack{
+                                ForEach(strayCatList) { strayCat in
+                                LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                    StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                   
+                                }
+                                )}
+                        }
+                    }
+                    
+                    // DropdownButton()
+                    // VStack{
+                    //     OvalButton(text: "주변냥")
+                    // }.shadow(color: .black, radius: 10, x: 10, y: 10)
+                    
+                    //이벤트 등록 기존 버튼
+                    // Button(action: {
+                    //     isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                    // }) {
+                    //     Text("Add Event")
+                    //         .padding()
+                    //         .background(Color.blue)
+                    //         .foregroundColor(.white)
+                    //         .cornerRadius(8)
+                    // }
+                }
+                    .sheet(isPresented: $isShowingModal) {
+                        // 모달이 표시되면 addEvent 뷰가 열립니다.
+                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                    }
+                }
             }
-        }
-        
-        
-        
-    
-    struct MapViewCoordinator: UIViewRepresentable {
-        
-        @ObservedObject var locationManager: AddressManager
-        @State private var annotations: [MKPointAnnotation] = []
-        @ObservedObject var eventAddViewModel:EventAddViewModel
-        // @ObservedObject var mkAnnotation: [MKPointAnnotation]
-        
-        func makeUIView(context: Context) -> some UIView {
-            print("MapViewCoordinator 맵을 그리는 시작")
-            return locationManager.mapView
-        }
-        
-        func updateUIView(_ uiView: UIViewType, context: Context) {
             
         }
+        // .navigationBarItems(leading: Text("주변돌봄"),
+        //                     trailing: NavigationMenuView(presentSideMenu: $presentSideMenu))
+        
+    }
+
+
+
+
+struct MapViewCoordinator: UIViewRepresentable {
+    
+    @ObservedObject var locationManager: AddressManager
+    @State private var annotations: [MKPointAnnotation] = []
+    @ObservedObject var eventAddViewModel:EventAddViewModel
+    // @ObservedObject var mkAnnotation: [MKPointAnnotation]
+    
+    func makeUIView(context: Context) -> some UIView {
+        print("MapViewCoordinator 맵을 그리는 시작")
+        return locationManager.mapView
     }
     
-    // #Preview {
-    //     CareCatView(presentSideMenu: Binding.constant(false))
-    // }
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        
+    }
+}
+
+// #Preview {
+//     CareCatView(presentSideMenu: Binding.constant(false))
+// }
