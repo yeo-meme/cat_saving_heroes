@@ -20,19 +20,19 @@ struct SearchCatView: View {
     
     
     @Binding var selectedCatArr: [Cats] // 선택한 셀의 내용을 저장할 변수
-    @Binding var selectedCat: Cats? // 선택한 셀의 내용을 저장할 변수
+    @Binding var choiceCat: Cats? // 선택한 셀의 내용을 저장할 변수
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
                 ScrollView {
                     VStack(spacing: 1) {
-                        ForEach(selectedCatArr) { user in
+                        ForEach(selectedCatArr) { choiceCat in
                             Button(action: {
                                 showConversationView.toggle()
                                 // self.selectedCatArr = selectedCatArr
-                                self.selectedCat = user
-                                print("selectedCat :\( user)")
+                                self.choiceCat = choiceCat
+                                print("selectedCat :\( choiceCat)")
                                 isEditing = false
                                 // mode.wrappedValue.dismiss()
                             }, label: {

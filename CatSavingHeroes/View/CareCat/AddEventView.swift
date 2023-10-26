@@ -44,7 +44,7 @@ struct AddEventView: View {
     //몽고 검색관련
     @State var catListData : [Cats]
     @State var catSearchListData : [Cats]
-    @State var catSearchData : Cats?
+    @State var choiceCat : Cats?
     
     
     @State var isLinkActive = false
@@ -77,7 +77,7 @@ struct AddEventView: View {
                 
                 
                 ScrollView{
-                   SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, catSearchData: $catSearchData, isSearchEnd: $isSearchEnd)
+                   SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
@@ -90,7 +90,7 @@ struct AddEventView: View {
                             // } else {
                             //     SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
                             // }
-                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,selectedCat:$catSearchData)
+                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
                         } else {
                             ZStack {
                                 Image("play_cat_background")
@@ -186,7 +186,7 @@ struct AddEventView: View {
                                 
                                 
                                 VStack(spacing: 0) {
-                                    if let cat = selectedCat {
+                                    if let cat = choiceCat {
                                         Capsule()
                                             .frame(width: 100, height: 50)
                                             .foregroundColor(Color.primaryColor)
@@ -270,7 +270,7 @@ struct SearchBar: View {
     // @Binding var catRealmArr:[CatRealmModel] //String
     // @Binding var selectedCat : CatRealmModel?    
     @Binding var catSearchListData:[Cats] //String
-    @Binding var catSearchData : Cats?
+    @Binding var choiceCat : Cats?
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
     
