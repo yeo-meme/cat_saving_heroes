@@ -35,6 +35,80 @@ class EventAddViewModel: ObservableObject {
     }
     
     
+    func notRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date) {
+        
+        let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
+        print("선택 냥이 가제 : \(catId)")
+        let idFromSavedData = catId
+        print("test cat idFromSavedData : \(idFromSavedData)")
+        
+        guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
+        if !readLocationUserDefaults() {
+            let jsonData = [
+                // "_id": generateUUID(),
+                "visible": 0,
+                "event": 3,
+                "user_uuid":userId,
+                "cat_uuid":idFromSavedData,
+                "view_count":0,
+                "save_count":0,
+                "care_count":0,
+                "address": "우리집",
+                "latitude": 0.0,
+                "longitude": 0.0,
+                "status":0,
+            ] as [String : Any] // 데이터를 JSON 형식으로 준비
+            
+            AF.request(CARE_CAT_ADD_API_URL, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
+                .responseDecodable(of: EventCat.self) { response in
+                    switch response.result {
+                    case .success(let value) :
+                        print("POST DEBUG not running: \(value)")
+                    case .failure(let error) :
+                        print("not runging 인서트 에러 : \(error.localizedDescription)")
+                    }
+                }
+        }
+    }
+    
+    func isRuningCatWalkEventAdd(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date) {
+        
+        let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
+        print("선택 냥이 가제 : \(catId)")
+        let idFromSavedData = catId
+        print("test cat idFromSavedData : \(idFromSavedData)")
+        
+        guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
+        
+        
+        if readLocationUserDefaults() {
+            let jsonData = [
+                // "_id": generateUUID(),
+                "visible": 0,
+                "event": 3,
+                "user_uuid":userId,
+                "cat_uuid":idFromSavedData,
+                "view_count":0,
+                "save_count":0,
+                "care_count":0,
+                "address": "우리집",
+                "latitude": latitude,
+                "longitude": logtitude,
+                "status":0,
+            ] as [String : Any] // 데이터를 JSON 형식으로 준비
+            
+            AF.request(CARE_CAT_ADD_API_URL, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
+                .responseDecodable(of: EventCat.self) { response in
+                    switch response.result {
+                    case .success(let value) :
+                        print("POST DEBUG running: \(value)")
+                    case .failure(let error) :
+                        print("runging 인서트 에러 : \(error.localizedDescription)")
+                    }
+                }
+        }
+    }
+    
     //트랙킹 하고 있는 동안 이벤트 남기기
     func isRunningCatWalk(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date){
         
@@ -50,6 +124,10 @@ class EventAddViewModel: ObservableObject {
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
         
+        
+        
+        
+        
         if readLocationUserDefaults() {
             //고양이 데이터 선택했을 경우
             if let jsonData = UserDefaults.standard.data(forKey: "catsData") {
@@ -57,9 +135,17 @@ class EventAddViewModel: ObservableObject {
                     // Decode the JSON data into a Cat object
                     let decoder = JSONDecoder()
                     let cat = try decoder.decode(Cats.self, from: jsonData)
+                    print("test cat : \(cat)")
+                    
+                    
+                    
+                    let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
+                    print("선택 냥이 가제 : \(catId)")
                     let idFromSavedData = cat.id
+                    print("test cat idFromSavedData : \(cat.id)")
                     
                     guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
+                    
                     let jsonData = [
                         // "_id": generateUUID(),
                         "visible": 0,
@@ -77,7 +163,12 @@ class EventAddViewModel: ObservableObject {
                     
                     AF.request(CARE_CAT_ADD_API_URL, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
                         .responseDecodable(of: EventCat.self) { response in
-                            print("POST DEBUG : \(response)")
+                            switch response.result {
+                            case .success(let value) :
+                                print("POST DEBUG not running: \(value)")
+                            case .failure(let error) :
+                                print("runging 인서트 에러 : \(error.localizedDescription)")
+                            }
                         }
                     
                     // realmCareModel()
@@ -254,7 +345,13 @@ class EventAddViewModel: ObservableObject {
                     
                     AF.request(CARE_CAT_ADD_API_URL, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
                         .responseDecodable(of: EventCat.self) { response in
-                            print("POST DEBUG : \(response)")
+                            switch response.result {
+                            case .success(let value) :
+                                print("POST DEBUG not running: \(value)")
+                            case .failure(let error) :
+                                print("not runging 인서트 에러 : \(error.localizedDescription)")
+                         
+                            }
                         }
                     
                     

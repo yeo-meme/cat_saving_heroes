@@ -240,14 +240,14 @@ struct AddEventView: View {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
                                             locationRecord.longitude = addressManager.lastLocation.longitude
-                                            model.isRunningCatWalk(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                            model.isRuningCatWalkEventAdd(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
                                             print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
                                             
                                         } else {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
                                             locationRecord.longitude = addressManager.lastLocation.longitude
-                                            model.isNotRuningCatWalk(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                            model.notRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
                                             print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
                                         }
                                     }//:VSTACK

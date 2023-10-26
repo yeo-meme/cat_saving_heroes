@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CatDetailView: View {
+    // @State var arrCat:[Cats]
+    
+    
     var body: some View {
       VStack(alignment: .leading, spacing: 5, content: {
         // NAVBAR
@@ -66,6 +69,6 @@ struct CatDetailView: View {
     }
 }
 
-#Preview {
-    CatDetailView()
-}
+// #Preview {
+//     CatDetailView(arrCat: [])
+// }

@@ -34,6 +34,9 @@ struct SearchCatView: View {
                                 self.choiceCat = choiceCat
                                 print("selectedCat :\( choiceCat)")
                                 isEditing = false
+                                
+                                print("cat Id stringValue: \(choiceCat.id)")
+                                UserDefaults.standard.set(choiceCat.id, forKey: "CatId")
                                 // mode.wrappedValue.dismiss()
                             }, label: {
                                 SearchCatCell(catsSearchedArr: $selectedCatArr)

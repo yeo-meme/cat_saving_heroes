@@ -20,7 +20,8 @@ struct Cats: Identifiable , Codable{
     var discover_address: String
     var uuid: String
     var insert_user: String
-    var location: String?
+    var latitude: String?
+    var longitude: String?
     var status: Int
     // var timestamps:Timestamps
     // var created_at:String
@@ -35,7 +36,8 @@ struct Cats: Identifiable , Codable{
         case discover_address
         case uuid
         case insert_user
-        case location
+        case latitude
+        case longitude
         case status
         case memo
         // case timestamps

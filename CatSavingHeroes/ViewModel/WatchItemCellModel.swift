@@ -12,7 +12,7 @@ class WatchItemCellModel: ObservableObject{
     
     init(_ userCat: Cats) {
         self.userCat = userCat
-        print("item cell : \(self.userCat)")
+        print("item cell WatchItemCellModel : \(self.userCat)")
     }
     
     // var accessUserCatName: String {

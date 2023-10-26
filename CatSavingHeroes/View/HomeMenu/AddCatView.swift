@@ -16,7 +16,6 @@ struct AddCatView: View {
     @EnvironmentObject var locationManager: AddressManager
     
     // @Binding var presentSideMenu: Bool
-    
     @State private var catName = ""
     @State private var catAge = 0
     @State private var catGender = ""
@@ -139,6 +138,8 @@ struct AddCatView: View {
                                 catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
                                 isIndicatorAnimating = false
                                 mode.wrappedValue.dismiss()
+                                
+                                catViewModel.loadCats()
                             }
                         } else {
                             print("고양이 사진 등록 않됐음")
