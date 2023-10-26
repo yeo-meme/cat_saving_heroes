@@ -10,6 +10,7 @@ import CoreLocation
 import MapKit
 import RealmSwift
 import _MapKit_SwiftUI
+import Alamofire
 
 
 class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
@@ -39,10 +40,14 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     @Published var currentGeoLocation: CLLocation? // 현재 위치를 저장하는 프로퍼티
     var annotationsInCircle: [MKPointAnnotation] = []
     
+    @Published var mainUpdateResion:MKCoordinateRegion?
     
+    
+    @Published var arrCatsEventList:[EventCat]?
     override init() {
         super.init()
-        loadCatEventAnnotationsFromRealm()
+        // loadCatEventAnnotationsFromRealm()
+        locdCatEventFromCareCatAPI()
         self.configureLocationManager()
     }
     
@@ -59,29 +64,64 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             // mapView.showsUserLocation = true // 사용자의 현재 위치를 확인할 수 있도록
             // manager.startUpdatingLocation()
             self.moveFocusOnUserLocation()
-            
+            self.addMyLocationMarker()
             // configureLocationManager() 메서드 내부의 해당 부분을 수정합니다.
-          
+            
         }
     }
     
+    // MARK: - 특정 반경을 표시하는 메서드
+    func addCircleOverlay(center: CLLocationCoordinate2D, radius: CLLocationDistance) {
+        let circle = MKCircle(center: center, radius: radius)
+        let circleRenderer = MKCircleRenderer(circle: circle)
+        circleRenderer.fillColor = .red
+        circleRenderer.alpha = 0.5
+        mapView.addOverlay(circleRenderer as! MKOverlay)
+    }
+    
     // MARK: - 사용자의 현재 위치로 MapView를 이동하는 메서드
-       func moveFocusOnUserLocation() {
-           mapView.showsUserLocation = true
-           mapView.setUserTrackingMode(.follow, animated: true)
-           
-           if let location = manager.location {
-               let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-               let region = MKCoordinateRegion(center: location.coordinate, span: span)
-               mapView.setRegion(region, animated: true)
-           } else {
-               // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
-               let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-               let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
-               let region = MKCoordinateRegion(center: defaultLocation, span: span)
-               mapView.setRegion(region, animated: true)
-           }
-       }
+    func moveFocusOnUserLocation() {
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(.follow, animated: true)
+        
+        if let location = manager.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mainUpdateResion = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+            
+            
+            // 반경 3km 이내 마커를 표시합니다.
+            //       let circle = MKCircle(center: location.coordinate, radius: 3000)
+            //       let circleRenderer = MKCircleRenderer(circle: circle)
+            //       circleRenderer.fillColor = .red
+            //       circleRenderer.alpha = 0.5
+            // if circleRenderer is MKOverlay {
+            //     mapView.addOverlay(circleRenderer as! MKOverlay)
+            //      }
+            
+            let circle = MKCircle(center: location.coordinate, radius: 3000)
+            mapView.addOverlay(circle)
+            
+        } else {
+            // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
+            let region = MKCoordinateRegion(center: defaultLocation, span: span)
+            mapView.setRegion(region, animated: true)
+        }
+        self.addMyLocationMarker()
+    }
+    
+    // MARK: - 내 위치에 마커를 표시하는 메서드
+    func addMyLocationMarker() {
+        if let location = manager.location {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location.coordinate
+            annotation.title = "내 위치"
+            mapView.addAnnotation(annotation)
+        }
+    }
     
     // MARK: - MapView에서 화면이 이동하면 호출되는 메서드
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -90,6 +130,14 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         }
     }
     
+    
+    func isTarketLocation() {
+        if let currentGeoLocation = currentGeoLocation {
+            print("현재 위치 : \(currentGeoLocation)")
+            
+            
+        }
+    }
     // MARK: - MapView에서 화면 이동이 종료되면 호출되는 메서드
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
         //주소록 불러오기
@@ -107,7 +155,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         // 현재 위치
         let catLocation = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
         
-       
+        
         // 반경 3km 이내 마커
         let circle = MKCircle(center: catLocation.coordinate, radius: 3000)
         
@@ -161,7 +209,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         
         
         // print("++> 제대로 불러오니? \(trackingEvents)")
-        //TODO : 저장된값중에 0.0 이 아닌값만 출력하기 test 중
+        //저장된값중에 0.0 이 아닌값만 출력하기 test 중
         // latitude와 longitude 값이 0.0이 아닌 값만 필터링합니다.
         var filteredTrackingEvents = [Tracking]()
         
@@ -175,7 +223,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         }
         return filteredTrackingEvents
     }
-    
     
     
     // MARK: - 특정 위치로 MapView의 Focus를 이동하는 메서드
@@ -202,8 +249,8 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         print("[SUCCESS] Did Update Locations")
         self.currentGeoLocation = locations.first
         
-     
-     
+        
+        
     }
     
     // MARK: - 사용자의 현재 위치를 가져오는 것을 실패했을 때 호출되는 메서드
@@ -221,6 +268,39 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             guard let placemark = placemarks?.first else { return }
             self.currentPlace = "\(placemark.country ?? "") \(placemark.locality ?? "") \(placemark.name ?? "")"
             print("주소 : \(placemark.country ?? "") \(placemark.locality ?? "") \(placemark.name ?? "")")
+        }
+    }
+    
+    
+    func locdCatEventFromCareCatAPI() {
+        AF.request(CARE_CAT_SELECT_API_URL, method: .get).responseDecodable(of: [EventCat].self) { response in
+            switch response.result {
+            case .success(let value):
+                print("성공 디코딩 EventItemViewModel: \(value)")
+                self.arrCatsEventList = value
+                self.filterTrackingFromEventCats()
+                print("성공 디코딩 EventItemViewModel arrCats: \(self.arrCatsEventList)")
+            case .failure(let error):
+                print("실패 디코딩 EventItemViewModel : \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func filterTrackingFromEventCats() {
+        if let arrCatsEventList = arrCatsEventList {
+            for eventItem in arrCatsEventList {
+        
+                if let la = Double(eventItem.latitude), let lo = Double(eventItem.longitude) {
+                    if la != 0.0 && lo != 0.0 {
+                        let annotation = MKPointAnnotation()
+                        annotation.coordinate = CLLocationCoordinate2D(latitude: la, longitude: lo)
+                        //리스트 복수
+                        print("++> 리얼엠에서 잘 불러왔니? 2 : \(la) , lo :\(lo)")
+                        annotations.append(annotation)
+                    }
+                }
+            }
+            mapView.addAnnotations(annotations)
         }
     }
     
@@ -258,7 +338,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         }
     }
     
-    //TODO :// 어노테이션뷰 재사용 : 그림표시하기
+    // 어노테이션뷰 재사용 : 그림표시하기
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 식별자
         let identifier = "Custom"

@@ -24,7 +24,6 @@ struct CareCatView: View {
     @EnvironmentObject var model: Model
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
-    
     @ObservedObject var strayModel = StrayCatsALLViewModel()
     
     //데이터 추가 로드시 8개씩
@@ -74,14 +73,16 @@ struct CareCatView: View {
                                 )
                         })
                     }
+                    
                     MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                         .frame(height: 300)
+                    
                 }
                 
                 // CategoryItemView(isShowingModal: $isShowingModal)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    if let strayCatList = strayModel.arrCats {
+                    if let strayCatList = strayModel.arrCatsList {
                         ForEach(strayCatList.prefix(visibleCount)) { strayCat in
                             VStack{
                                 LazyVGrid(columns: gridLayout, spacing: 15, content: {
@@ -125,6 +126,7 @@ struct MapViewCoordinator: UIViewRepresentable {
     // @ObservedObject var mkAnnotation: [MKPointAnnotation]
     
     func makeUIView(context: Context) -> some UIView {
+    
         print("MapViewCoordinator 맵을 그리는 시작")
         return locationManager.mapView
     }

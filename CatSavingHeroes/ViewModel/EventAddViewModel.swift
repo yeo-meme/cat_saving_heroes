@@ -120,7 +120,7 @@ class EventAddViewModel: ObservableObject {
         // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
         print("현재 user: \(sessionId)")
         
-        //TODO 고양이 아이디외의 모든 정보 리스트로 담기
+        //고양이 아이디외의 모든 정보 리스트로 담기
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
         
@@ -312,7 +312,7 @@ class EventAddViewModel: ObservableObject {
         // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
         print("현재 user: \(sessionId)")
         
-        //TODO 고양이 아이디외의 모든 정보 리스트로 담기
+        // 고양이 아이디외의 모든 정보 리스트로 담기
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
         
@@ -459,7 +459,7 @@ class EventAddViewModel: ObservableObject {
                 // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
                 print("현재 user: \(sessionId)")
                 
-                //TODO 고양이 아이디외의 모든 정보 리스트로 담기
+                // 고양이 아이디외의 모든 정보 리스트로 담기
                 let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
                 print("선택 냥이 가제 : \(catId)")
                 

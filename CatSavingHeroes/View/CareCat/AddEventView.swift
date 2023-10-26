@@ -327,7 +327,7 @@ struct SearchBar: View {
             isSearchEnd = true
     }
     
-    //TODO: 몽고디비 호출
+ 
     func catsSearch() {
         AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
             switch response.result {

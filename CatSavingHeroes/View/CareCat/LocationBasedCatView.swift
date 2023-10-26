@@ -103,8 +103,6 @@ struct LocationBasedCatView: View {
         // 트랙킹 Realm 객체를 읽습니다.
         let trackingEvents = RealmHelper.shared.read(Tracking.self)
 
-        //TODO : 저장된값중에 0.0 이 아닌값만 출력하기 test 중
-        // latitude와 longitude 값이 0.0이 아닌 값만 필터링합니다.
         for trackingEvent in trackingEvents {
             if Double(trackingEvent.event_latitude) != 0.0{
                 print("이벤트 캣 : \(trackingEvent.event_latitude)" )
