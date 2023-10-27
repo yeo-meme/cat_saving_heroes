@@ -16,27 +16,26 @@ struct MainSideTabView: View {
     
     var body: some View {
         ZStack{
-       
-            if !model.presentNavigationBar{
-                NavigationBarView(presentNavigationBar: $presentNavigationBar)
-                    .padding(.horizontal, 15)
-                    .padding(.bottom)
-                // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                    .background(Color.white)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
-            }
-        }
+            
+            // if !model.presentNavigationBar{
+            NavigationBarView(presentNavigationBar: $presentNavigationBar)
+                .padding(.horizontal, 15)
+                .padding(.bottom)
+            // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+                .background(Color.white)
+                .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+            // }
             
             TabView(selection: $selectedSideMenuTab) {
-         
-                MainTabView(presentSideMenu: presentSideMenu)
-                    .tabItem {
-                        Image(systemName: "house.fill")
-                        Text("Home")
-                    }
-                    .tag(0)
+                //
+                // MainTabView(presentSideMenu: presentSideMenu)
+                //     .tabItem {
+                //         Image(systemName: "house.fill")
+                //         Text("Home")
+                //     }
+                //     .tag(0)
                 
-                CareCatView(presentSideMenu: $presentSideMenu)
+                CareCatView(presentNavigationBar: $presentNavigationBar, presentSideMenu: $presentSideMenu)
                     .tabItem {
                         Image(systemName: "heart.fill")
                         Text("주변돌봄")
@@ -50,13 +49,13 @@ struct MainSideTabView: View {
                 //         Text("냥이추가")
                 //     }
                 //     .tag(2)
-                
-                StateView(presentSideMenu: $presentSideMenu, presentNavigationBar: $presentNavigationBar)
-                    .tabItem {
-                        Image(systemName: "message.fill")
-                        Text("냥이들")
-                    }
-                    .tag(2)
+                //
+                // StateView(presentSideMenu: $presentSideMenu, presentNavigationBar: $presentNavigationBar)
+                //     .tabItem {
+                //         Image(systemName: "message.fill")
+                //         Text("냥이들")
+                //     }
+                //     .tag(2)
                 
                 LocationFollowView(presentSideMenu: $presentSideMenu)
                     .tabItem {
@@ -67,7 +66,8 @@ struct MainSideTabView: View {
                 
             }
             
-            // SideMenu(isShowing: $presentSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
+            SideMenu(isShowing: $presentNavigationBar, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
+        }
     }
 }
 
@@ -87,6 +87,6 @@ struct NavigationMenuView: View {
 }
 
 // #Preview {
-//     MainSideTabView(catModel: $catModel)
+//     MainSideTabView()
 // }
 

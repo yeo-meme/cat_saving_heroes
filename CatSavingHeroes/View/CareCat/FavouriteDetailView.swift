@@ -13,39 +13,18 @@ struct FavouriteDetailView: View {
     @State private var counter: Int = 0
     
     // MARK: - BODY
-    
     var body: some View {
         HStack(alignment: .center, spacing: 6, content: {
-            // Button(action: {
-            //   if counter > 0 {
-            //     // feedback.impactOccurred()
-            //     counter -= 1
-            //   }
-            // }, label: {
-            //   Image(systemName: "minus.circle")
-            // })
-            //
-            // Text("\(counter)")
-            //   .fontWeight(.semibold)
-            //   .frame(minWidth: 36)
-            //
-            // Button(action: {
-            //   if counter < 100 {
-            //     // feedback.impactOccurred()
-            //     counter += 1
-            //   }
-            // }, label: {
-            //   Image(systemName: "plus.circle")
-            // })
-            
+      
             Spacer()
-            
             VStack{
                 Button(action: {
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "lasso.and.sparkles")
-                        .foregroundColor(.pink)
+                        .resizable()
+                        .foregroundColor(.gray)
+                            .frame(width: 40, height: 40)
                 })
                 Text("보는냥")
                     .font(.headline)
@@ -58,7 +37,9 @@ struct FavouriteDetailView: View {
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "heart.circle")
-                        .foregroundColor(.pink)
+                        .resizable()
+                        .foregroundColor(.gray)
+                        .frame(width: 40, height: 40)
                 })
                 Text("관심냥")
                     .font(.headline)
@@ -71,7 +52,9 @@ struct FavouriteDetailView: View {
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "bolt.heart.fill")
-                        .foregroundColor(.pink)
+                        .resizable()
+                        .foregroundColor(.gray)
+                        .frame(width: 40, height: 40)
                 })
                 Text("돌봄냥")
                     .font(.headline)

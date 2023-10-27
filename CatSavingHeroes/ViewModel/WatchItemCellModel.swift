@@ -11,8 +11,8 @@ class WatchItemCellModel: ObservableObject{
     @Published var userCat:Cats
     
     init(_ userCat: Cats) {
-        self.userCat = userCat
-        print("item cell WatchItemCellModel : \(self.userCat)")
+            self.userCat = userCat
+            print("item cell WatchItemCellModel : \(self.userCat)")
     }
     
     // var accessUserCatName: String {

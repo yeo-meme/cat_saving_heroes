@@ -16,8 +16,9 @@ class WatchCellViewModel: ObservableObject {
 
     @Published  var filteredCats:[Cats] = []
     init() {
-        self.arrUsercats = []
-        self.filteredCats = []
+        
+        
+               
         fetchMatchCat()
     }
     
@@ -38,9 +39,11 @@ class WatchCellViewModel: ObservableObject {
         guard let user = AuthViewModel.shared.currentUser?.uid else { return }
         
         print("getFilteredUsercats AuthViewModel : \(user)")
+        self.filteredCats.removeAll()
         for userCat in self.arrUsercats {
             if userCat.insert_user == user {
                 print("getFilteredUsercats insert_user: \(userCat.insert_user)")
+               
                 self.filteredCats.append(userCat)
                 self.isDataLoaded = true
                 print("filteredCats : \(String(describing: self.filteredCats))")

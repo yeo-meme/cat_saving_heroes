@@ -15,12 +15,13 @@ struct WatchCatView: View {
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
     @ObservedObject var catModel = WatchCellViewModel()
-    
+    var watchCatList:[Cats]?
     var body: some View {
         ZStack{
             ScrollView{
                 VStack(spacing: 1) {
                     if !catModel.filteredCats.isEmpty {
+                        
                         ForEach(catModel.filteredCats) { userCat in //데이터 파생
                             WatchCatCell(viewModel: WatchItemCellModel(userCat))
                         }

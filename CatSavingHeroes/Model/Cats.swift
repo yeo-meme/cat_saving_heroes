@@ -23,6 +23,13 @@ struct Cats: Identifiable , Codable{
     var latitude: String?
     var longitude: String?
     var status: Int
+    // var watch_count: Int
+    // var interest_count: Int
+    // var care_count: Int
+    // var watch_id: Array<String>
+    // var interest_id: Array<String>
+    // var care_id: Array<String>
+
     // var timestamps:Timestamps
     // var created_at:String
     // var updated_at:String
@@ -40,6 +47,12 @@ struct Cats: Identifiable , Codable{
         case longitude
         case status
         case memo
+        // case watch_count
+        // case interest_count
+        // case care_count
+        // case watch_id
+        // case interest_id
+        // case care_id
         // case timestamps
         // case created_at
         // case updated_at

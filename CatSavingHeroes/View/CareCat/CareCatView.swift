@@ -18,7 +18,11 @@ struct CareCatView: View {
     }
     let rowSpacing: CGFloat = 10
     
+    //네비게이션아이템
+    @Binding var presentNavigationBar: Bool //네비게이션바아이템
     @Binding var presentSideMenu: Bool //네비게이션바아이템
+    
+    
     @State private var isShowingModal = false
     @EnvironmentObject var locationManager: AddressManager
     @EnvironmentObject var model: Model
@@ -30,10 +34,19 @@ struct CareCatView: View {
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
     @State private var visibleCount = 8 // 현재 표시 중인 아이템 수
     
+    
+    
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
+            
             VStack {
+                NavigationBarView(presentNavigationBar: $presentNavigationBar)
+                    .padding(.horizontal, 15)
+                    .padding(.bottom)
+                // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+                    .background(Color.white)
+                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
                 VStack{
                     HStack{
                         Picker("", selection: $selectedNumber) {
@@ -87,7 +100,6 @@ struct CareCatView: View {
                             VStack{
                                 LazyVGrid(columns: gridLayout, spacing: 15, content: {
                                     StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                    
                                 }
                                 )}
                         }

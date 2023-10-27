@@ -16,7 +16,9 @@ struct NavigationBarView: View {
   
   var body: some View {
     HStack {
-      Button(action: {}, label: {
+      Button(action: {
+          
+      }, label: {
         Image(systemName: "magnifyingglass")
           .font(.title)
           .foregroundColor(.black)
@@ -36,7 +38,7 @@ struct NavigationBarView: View {
       Spacer()
       
       Button(action: {
-          // self.presentNavigationBar.toggle()
+          self.presentNavigationBar.toggle()
       }, label: {
         ZStack {
           Image(systemName: "line.horizontal.3")
