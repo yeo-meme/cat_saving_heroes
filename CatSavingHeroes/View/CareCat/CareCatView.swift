@@ -20,7 +20,7 @@ struct CareCatView: View {
     
     //네비게이션아이템
     @Binding var presentNavigationBar: Bool //네비게이션바아이템
-    @Binding var presentSideMenu: Bool //네비게이션바아이템
+    // @Binding var presentSideMenu: Bool //네비게이션바아이템
     
     
     @State private var isShowingModal = false
@@ -39,93 +39,117 @@ struct CareCatView: View {
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
+            ZStack(alignment: .bottomTrailing){
+                VStack {
+                    NavigationBarView(presentNavigationBar: $presentNavigationBar)
+                        .padding(.horizontal, 15)
+                        .padding(.bottom)
+                    // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+                        .background(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+                    VStack{
+                        HStack{
+                            Picker("", selection: $selectedNumber) {
+                                ForEach(numbers, id: \.self) { number in
+                                    Text("\(number)")
+                                        .foregroundColor(.purple)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle())
+                            .cornerRadius(13)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(Color.purple, lineWidth: 1)
+                            )
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            
+                            Text("반경 \(selectedNumber)km이내 고양이들")
+                                .font(.system(size: 15, weight: .bold, design: .default))
+                            
+                            
+                            Button(action:
+                                    {
+                                isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                            }
+                                   , label: {
+                                
+                                // Image(systemName: "plus.bubble")
+                                //     .resizable()
+                                //     .frame(width: 60,height: 60)
+                                // Text("이벤트")
+                                //     .font(.headline)
+                                //     .foregroundColor(.white)
+                                //     .frame(width: 80, height: 30)
+                                //     .background(Color.complementColor)
+                                //     .cornerRadius(13)
+                                //     .overlay(
+                                //         RoundedRectangle(cornerRadius: 13)
+                                //             .stroke(Color.complementColor, lineWidth: 1)
+                                //     )
+                            })
+                        }
+                        
+                        MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                            .frame(height: 300)
+                        
+                    }
+                    
+                    // CategoryItemView(isShowingModal: $isShowingModal)
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        if let strayCatList = strayModel.arrAllCatsList {
+                            ForEach(strayCatList.prefix(visibleCount)) { strayCat in
+                                VStack{
+                                    LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                        StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                    }
+                                    )}
+                            }
+                            
+                            if visibleCount < strayCatList.count {
+                                Button("더 보기") {
+                                    visibleCount += 8 // 다음 8개 아이템을 표시
+                                    if visibleCount > strayCatList.count {
+                                        visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
+                    }
+                    .sheet(isPresented: $isShowingModal) {
+                        // 모달이 표시되면 addEvent 뷰가 열립니다.
+                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                    }
             
-            VStack {
-                NavigationBarView(presentNavigationBar: $presentNavigationBar)
-                    .padding(.horizontal, 15)
-                    .padding(.bottom)
-                // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                    .background(Color.white)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+                }
+                
                 VStack{
-                    HStack{
-                        Picker("", selection: $selectedNumber) {
-                            ForEach(numbers, id: \.self) { number in
-                                Text("\(number)")
-                                    .foregroundColor(.purple)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .cornerRadius(13)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(Color.purple, lineWidth: 1)
-                        )
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .font(.headline)
-                        
-                        Text("반경 \(selectedNumber)km이내 고양이들")
-                            .font(.system(size: 15, weight: .bold, design: .default))
-                        
-                        
-                        Button(action:
-                                {
-                            isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                        }
-                               , label: {
-                            Text("이벤트")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 80, height: 30)
-                                .background(Color.complementColor)
-                                .cornerRadius(13)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 13)
-                                        .stroke(Color.complementColor, lineWidth: 1)
-                                )
-                        })
+                    Button(action:
+                            {
+                        isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
                     }
-                    
-                    MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                        .frame(height: 300)
-                    
+                           , label: {
+                        Image(systemName: "plus")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(width: 60, height: 60)
+                            .background(Color.primaryColor)
+                            .clipShape(Capsule())
+                            .padding()
+                    })
+                    .padding()
+                    .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                 }
                 
-                // CategoryItemView(isShowingModal: $isShowingModal)
                 
-                ScrollView(.vertical, showsIndicators: false) {
-                    if let strayCatList = strayModel.arrAllCatsList {
-                        ForEach(strayCatList.prefix(visibleCount)) { strayCat in
-                            VStack{
-                                LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                    StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                }
-                                )}
-                        }
-                        
-                        if visibleCount < strayCatList.count {
-                            Button("더 보기") {
-                                visibleCount += 8 // 다음 8개 아이템을 표시
-                                if visibleCount > strayCatList.count {
-                                    visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
-                                }
-                            }
-                        }
-                    }
-                    
-                    
-                }
-                .sheet(isPresented: $isShowingModal) {
-                    // 모달이 표시되면 addEvent 뷰가 열립니다.
-                    AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                }
             }
         }
-        
     }
-        
-    }
+}
 
 
 
@@ -138,7 +162,7 @@ struct MapViewCoordinator: UIViewRepresentable {
     // @ObservedObject var mkAnnotation: [MKPointAnnotation]
     
     func makeUIView(context: Context) -> some UIView {
-    
+        
         print("MapViewCoordinator 맵을 그리는 시작")
         return locationManager.mapView
     }

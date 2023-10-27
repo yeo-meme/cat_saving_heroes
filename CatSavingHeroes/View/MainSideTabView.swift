@@ -9,7 +9,7 @@ import SwiftUI
 import RealmSwift
 
 struct MainSideTabView: View {
-    @State var presentSideMenu = false
+    // @State var presentSideMenu = false
     @State var presentNavigationBar = false
     @State var selectedSideMenuTab = 0
     @EnvironmentObject var model : AuthViewModel
@@ -35,7 +35,7 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(0)
                 
-                CareCatView(presentNavigationBar: $presentNavigationBar, presentSideMenu: $presentSideMenu)
+                CareCatView(presentNavigationBar: $presentNavigationBar)
                     .tabItem {
                         Image(systemName: "heart.fill")
                         Text("주변돌봄")
@@ -57,7 +57,7 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(2)
                 
-                LocationFollowView(presentSideMenu: $presentSideMenu)
+                LocationFollowView(presentSideMenu: $presentNavigationBar)
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("영웅업무")
@@ -66,7 +66,10 @@ struct MainSideTabView: View {
                 
             }
             
-            SideMenu(isShowing: $presentNavigationBar, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentSideMenu)))
+            SideMenu(isShowing: $presentNavigationBar, content: 
+                        AnyView(
+                            SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $presentNavigationBar)
+                        ))
         }
     }
 }

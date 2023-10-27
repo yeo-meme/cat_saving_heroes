@@ -18,7 +18,7 @@ enum SideMenuRowType: Int, CaseIterable{
     var title: String{
         switch self {
         case .home:
-            return "dd"
+            return ""
         case .favorite:
             return "내 저장"
         case .chat:
@@ -37,7 +37,7 @@ enum SideMenuRowType: Int, CaseIterable{
         case .chat:
             return "chat"
         case .logout:
-            return "logout"
+            return "rectangle.portrait.and.arrow.right"
         }
     }
 }
@@ -47,6 +47,9 @@ struct SideMenuView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
+    
+    
+    @State private var isPresentingSecondView = false
     
     var body: some View {
         HStack {
@@ -178,6 +181,9 @@ struct SideMenuView: View {
                 }
             }
         }
+        // .sheet(isPresented: $presentSideMenu) {
+        //     CareCatView(presentNavigationBar: $presentSideMenu)
+        //                }
         .frame(height: 50)
         .background(
             LinearGradient(colors: [isSelected ? .purple.opacity(0.5) : .white, .white], startPoint: .leading, endPoint: .trailing)
