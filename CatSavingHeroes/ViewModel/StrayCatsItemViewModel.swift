@@ -9,9 +9,9 @@ import Foundation
 
 
 class StrayCatsItemViewModel: ObservableObject {
-    @Published var strayArrCats:EventCat
+    @Published var strayArrCats:Cats
     
-    init(_ strayArrCats: EventCat) {
+    init(_ strayArrCats: Cats) {
         self.strayArrCats = strayArrCats
         print("item cell strayArrCats : \(self.strayArrCats)")
     }

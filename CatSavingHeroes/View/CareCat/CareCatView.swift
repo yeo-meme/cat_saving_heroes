@@ -82,7 +82,7 @@ struct CareCatView: View {
                 // CategoryItemView(isShowingModal: $isShowingModal)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                    if let strayCatList = strayModel.arrCatsList {
+                    if let strayCatList = strayModel.arrAllCatsList {
                         ForEach(strayCatList.prefix(visibleCount)) { strayCat in
                             VStack{
                                 LazyVGrid(columns: gridLayout, spacing: 15, content: {

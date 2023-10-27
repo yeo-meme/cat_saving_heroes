@@ -289,7 +289,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     func filterTrackingFromEventCats() {
         if let arrCatsEventList = arrCatsEventList {
             for eventItem in arrCatsEventList {
-        
                 if let la = Double(eventItem.latitude), let lo = Double(eventItem.longitude) {
                     if la != 0.0 && lo != 0.0 {
                         let annotation = MKPointAnnotation()
@@ -303,6 +302,8 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             mapView.addAnnotations(annotations)
         }
     }
+    
+    
     
     //고양이 CareRealmModel 이벤트 표시 realm 호출
     func loadCatEventAnnotationsFromRealm() {
