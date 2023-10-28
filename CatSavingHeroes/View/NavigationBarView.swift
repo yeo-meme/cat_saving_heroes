@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavigationBarView: View {
   // MARK: - PROPERTY
-    // @Binding var presentNavigationBar:Bool
+    @Binding var presentNavigationBar:Bool
   @State private var isAnimated: Bool = false
   
   // MARK: - BODY
@@ -17,7 +17,7 @@ struct NavigationBarView: View {
   var body: some View {
     HStack {
         Button(action: {
-            // self.presentNavigationBar.toggle()
+            self.presentNavigationBar.toggle()
         }, label: {
           ZStack {
             Image(systemName: "line.horizontal.3")
@@ -31,16 +31,6 @@ struct NavigationBarView: View {
           }
         }) //: BUTTON
         
-        
-        //검색버튼
-      // Button(action: {
-      //     
-      // }, label: {
-      //   Image(systemName: "magnifyingglass")
-      //     .font(.title)
-      //     .foregroundColor(.black)
-      // }) //: BUTTON
-      
       Spacer()
       
       LogoView()

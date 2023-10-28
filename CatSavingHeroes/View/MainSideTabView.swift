@@ -48,7 +48,7 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     CareCatView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(), alignment: .top)
+                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
                 }
                         .tabItem {
                             Image(systemName: "heart.fill")
@@ -68,26 +68,11 @@ struct MainSideTabView: View {
                 NavigationView{
                     VStack{
                         if showTopCustomView {
-                            TopCustomView()
+                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
-                        
                         StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
-                        
-                        // if showTopCustomView {
-                        //     StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
-                        //         .overlay(TopCustomView(), alignment: .top)
-                        // } else {
-                        //     AddCatView(
-                        //         mode: _mode, // 프레젠테이션 모드
-                        //         locationManager: _locationManager, // 주소 관리자
-                        //         showTopCustomView: $showTopCustomView, // 상단 커스텀 뷰를 표시할지 여부를 바인딩하는 데 사용됨
-                        //         viewModel: _model, // AuthViewModel 환경 객체
-                        //         catViewModel: AddCatViewModel() // AddCatViewModel 초기 인스턴스
-                        //     )
-                        // }
                     }
-                }
-                    .tabItem {
+                }.tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이들")
                     }
@@ -95,7 +80,7 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     LocationFollowView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(), alignment: .top)
+                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
                 }
                     .tabItem {
                         Image(systemName: "person.fill")
@@ -105,15 +90,15 @@ struct MainSideTabView: View {
                 
                 
             }
-            // 
-            // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
+            SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
         }
     }
 }
 
 struct TopCustomView: View {
+    @Binding var presentNavigationBar :Bool
     var body: some View {
-        NavigationBarView()
+        NavigationBarView(presentNavigationBar: $presentNavigationBar)
             .padding(.horizontal, 15)
             .padding(.bottom)
         // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
