@@ -13,7 +13,11 @@ import MapKit
 
 struct AddCatView: View {
     @Environment(\.presentationMode) var mode
+    
     @EnvironmentObject var locationManager: AddressManager
+    
+    @Binding var showTopCustomView: Bool
+    
     
     // @Binding var presentSideMenu: Bool
     @State private var catName = ""
@@ -148,6 +152,11 @@ struct AddCatView: View {
                     }
                 })
             }
+        }.onAppear{
+            self.showTopCustomView = false
+        }
+        .onDisappear{
+            self.showTopCustomView = true
         }
     }
     
@@ -161,5 +170,5 @@ struct AddCatView: View {
 
 
 #Preview {
-    AddCatView( catViewModel: AddCatViewModel())
+    AddCatView( showTopCustomView: .constant(false), catViewModel: AddCatViewModel())
 }

@@ -49,7 +49,7 @@ struct SideMenuView: View {
     @Binding var presentSideMenu: Bool
     
     
-    @State private var isPresentingSecondView = false
+    // @State private var isPresentingSecondView = false
     
     var body: some View {
         HStack {
@@ -64,26 +64,39 @@ struct SideMenuView: View {
                         .frame(height: 140)
                         .padding(.bottom, 30)
                     
-                    //사이드 바
-                    ForEach(SideMenuRowType.allCases, id: \.self){ row in
-                        RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
-                            selectedSideMenuTab = row.rawValue
-                            presentSideMenu.toggle()
+                        //사이드 바
+                        ForEach(SideMenuRowType.allCases, id: \.self){ row in
+                            RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
+                                selectedSideMenuTab = row.rawValue
+                                presentSideMenu.toggle()
+                                
+                                if selectedSideMenuTab == 0 {
+                                    print("row index 0  : \(row.rawValue)")
+                                    NavigationLink(destination: CareCatView( presentSideMenu: $presentSideMenu)) {
+                                                Label("새로운 화면", systemImage: "plus")
+                                            }
+                                } else if selectedSideMenuTab == 1 {
+                                    print("row index 1 : \(row.rawValue)")
+                                    NavigationLink(destination: HeroTrackView()) {
+                                                Label("새로운 화면", systemImage: "plus")
+                                            }
+                                }
+                             
+                              
+                            }
                         }
-                    }
-                    Spacer()
-                }
-                .padding(.top, 100)
-                .frame(width: 270)
-                .background(
-                    Color.white
-                )
+                        Spacer()
+                }.padding(.top, 100)
+                    .frame(width: 270)
+                    .background(
+                        Color.white
+                    )
+           
             }
             Spacer()
         }
         .background(.clear)
     }
-    
     
     //여메메 이미지 뷰
     func ProfileImageView() -> some View{
@@ -160,6 +173,8 @@ struct SideMenuView: View {
     func RowView(isSelected: Bool, imageName: String, title: String, hideDivider: Bool = false, action: @escaping (()->())) -> some View{
         Button{
             action()
+            
+            // self.presentSideMenu.toggle()
         } label: {
             VStack(alignment: .leading){
                 HStack(spacing: 20){

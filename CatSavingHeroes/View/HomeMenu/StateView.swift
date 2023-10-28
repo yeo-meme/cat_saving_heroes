@@ -12,9 +12,10 @@ import Alamofire
 
 
 struct StateView: View {
-    
+    @Environment(\.presentationMode) var mode
+    @Binding var showTopCustomView: Bool
     @Binding var presentSideMenu: Bool
-    @Binding var presentNavigationBar: Bool
+    // @Binding var presentNavigationBar: Bool
     @State private var tabIndex = 0
     @EnvironmentObject var viewModel : AuthViewModel
     @State var tag:Int? = nil
@@ -22,6 +23,30 @@ struct StateView: View {
     
     @State var isDataLoaded = false
     // @ObservedObject var catModel = WatchCellViewModel()
+    
+    var goToAddViewButton: some View {
+        
+        NavigationLink(
+            destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
+                HStack {
+                    Image(systemName: "waveform.path.badge.plus")
+                        .foregroundColor(.white)
+                    // .padding(.leading, 5)
+                    
+                    Text("냥이추가")
+                        .foregroundColor(.white)
+                        .padding(.all, 5)
+                        .frame(width: 55, height: 40)
+                    
+                }
+                .background(
+                    Capsule()
+                        .fill(Color.primaryColor)
+                )
+                
+            }}
+
+
     
     var body: some View {
         NavigationView{
@@ -67,8 +92,7 @@ struct StateView: View {
                                 .frame(height: 70)
                                 .background(Color.white)
                                 CustomDivider(leadingSpace: 76)
-                                // }//:User Profile
-                            }
+                            }//:User Profile
                             
                             SlidingTabView(selection: $tabIndex, tabs: ["보는냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
@@ -130,27 +154,6 @@ func fetchCatsCommon() {
     }
 }
 
-
-var goToAddViewButton: some View {
-    NavigationLink(
-        destination: AddCatView(catViewModel: AddCatViewModel())) {
-            HStack {
-                Image(systemName: "waveform.path.badge.plus")
-                    .foregroundColor(.white)
-                // .padding(.leading, 5)
-                
-                Text("냥이추가")
-                    .foregroundColor(.white)
-                    .padding(.all, 5)
-                    .frame(width: 55, height: 40)
-                
-            }
-            .background(
-                Capsule()
-                    .fill(Color.primaryColor)
-            )
-            
-        }}
 
 
 

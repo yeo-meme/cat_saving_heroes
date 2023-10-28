@@ -30,7 +30,7 @@ class Tracking: Object {
     @Persisted var departure_point: String = "" //출발지점 coodinate
     @Persisted var destination_point: String = "" //목적지점 coodinate
     @Persisted var track_time: String = "" //루트한 시간
-    @Persisted var route: String = ""
+    @Persisted var route: String="" //!!!!!!!!!!!!!
     @Persisted var distance: String = "" //거리
     @Persisted var timestamp: String = "" //
     @Persisted var user: String = ""

@@ -21,15 +21,36 @@ struct TrackingHeroView: View {
     
     
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            HStack{
-                Text("현재 나의 위치")
-               
-            }
+        VStack(alignment: .center, spacing: 1) {
+         
             ZStack {
-                Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
-                    MapPin(coordinate: pin.coordinate, tint: .red)
-                }
+                HStack {
+                    Button(action: {
+                        model.moveFocusOnUserLocation2()
+                    }, label: {
+                        HStack{
+                            Image(systemName: "location.viewfinder")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .padding(.leading)
+                                .clipShape(Circle())
+                             Text("현위치")
+                        }
+                    })
+                   
+                    }
+                    .zIndex(1)
+                    .position(x: 0, y: 0)
+                   
+                
+                Group{
+                    Map(coordinateRegion: $model.region, annotationItems: model.pins) { pin in
+                        MapPin(coordinate: pin.coordinate, tint: .red)
+                        // for route in model.pins {
+                        //     MapPolyline(coordinates: route)
+                        // }
+                    }}
+                .padding(.top , 15)
                 Spacer()
                 
                 

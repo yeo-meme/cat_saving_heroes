@@ -61,3 +61,8 @@ let CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/del
 let CARE_CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/add"
 let CARE_CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat"
 let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete"
+
+
+
+//네비게이션바 높이
+let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height

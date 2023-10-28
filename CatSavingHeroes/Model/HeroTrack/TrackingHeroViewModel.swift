@@ -39,7 +39,7 @@ extension TrackingHeroView {
 }
 
 //영웅 트래킹
-class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
+class Model: NSObject, CLLocationManagerDelegate, ObservableObject, MKMapViewDelegate {
     
     @Published var isLocationTrackingEnabled = false
     @Published var location: CLLocation?
@@ -49,7 +49,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
     @Published var pins: [PinLocation] = []
     @Published var coordinates: [CLLocationCoordinate2D] = []
-    var mgr : CLLocationManager
+    var mgr : CLLocationManager = .init()
     
     @Published var lastLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
     private var locationManager = CLLocationManager()
@@ -57,6 +57,11 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Binding var userLocation: CLLocationCoordinate2D?
     @Binding var locations: [CLLocationCoordinate2D]
     
+    
+    //현위치 표시
+    @Published var mapView: MKMapView = .init()
+    private var manager: CLLocationManager = .init()
+    @Published var mainUpdateResion:MKCoordinateRegion?
     var previousLocation: CLLocation?
     
     // 인스턴스를 공유하기 위한 프로퍼티 추가 addEventModel에서
@@ -65,10 +70,11 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     
     init(userLocation: Binding<CLLocationCoordinate2D?>, locations: Binding<[CLLocationCoordinate2D]>) {
-        mgr = CLLocationManager()  // Initialize mgr here before calling
+        // mgr = CLLocationManager()  // Initialize mgr here before calling
         
         _userLocation = userLocation
         _locations = locations
+        
         
         mgr = CLLocationManager()
         mgr.requestWhenInUseAuthorization()
@@ -77,6 +83,47 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         super.init()
         mgr.delegate = self
         
+        
+    }
+    
+  
+    
+    
+    // MARK: - 사용자의 현재 위치로 MapView를 이동하는 메서드
+    func moveFocusOnUserLocation() {
+        mapView.delegate = self
+        manager.delegate = self
+        
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(.follow, animated: true)
+        
+        if let location = mgr.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mainUpdateResion = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+            
+            
+            // 반경 3km 이내 마커를 표시합니다.
+            //       let circle = MKCircle(center: location.coordinate, radius: 3000)
+            //       let circleRenderer = MKCircleRenderer(circle: circle)
+            //       circleRenderer.fillColor = .red
+            //       circleRenderer.alpha = 0.5
+            // if circleRenderer is MKOverlay {
+            //     mapView.addOverlay(circleRenderer as! MKOverlay)
+            //      }
+            
+            let circle = MKCircle(center: location.coordinate, radius: 3000)
+            mapView.addOverlay(circle)
+            
+        } else {
+            // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
+            let region = MKCoordinateRegion(center: defaultLocation, span: span)
+            mapView.setRegion(region, animated: true)
+        }
+        // self.addMyLocationMarker()
     }
     
     // static let shared = Model(userLocation: self.$userLocation, locations: self.$locations)
@@ -240,9 +287,34 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         
     }
     func appendPin(location: CLLocation) {
-        pins.append(PinLocation(coordinate: location.coordinate))
+        pins.append(PinLocation( coordinate: location.coordinate))
         print("뉴 경로:\(pins)")
     }
+    
+   
+    
+    func moveFocusOnUserLocation2() {
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(.follow, animated: true)
+        
+        if let location = mgr.location {
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let region = MKCoordinateRegion(center: location.coordinate, span: span)
+            mainUpdateResion = MKCoordinateRegion(center: location.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+          
+            let circle = MKCircle(center: location.coordinate, radius: 3000)
+            mapView.addOverlay(circle)
+            
+        } else {
+            // 사용자의 위치가 아직 가져오지 못했다면, 대한민국 남산으로 지도의 위치를 표시
+            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+            let defaultLocation = CLLocationCoordinate2D(latitude: 37.5514, longitude: 126.9880) // 기본 위치
+            let region = MKCoordinateRegion(center: defaultLocation, span: span)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
     
     func updateRegion(location: CLLocation) {
         region = MKCoordinateRegion(
@@ -263,9 +335,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
     }
     
-    func recordTrackingRealm() {
-        
-    }
+
     
     //UserDefaults 값 저장 트래킹 백그라운드 상태
     func insertLocationUserDefaults(state:Bool) {
@@ -289,6 +359,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject {
 
 
 struct PinLocation: Identifiable {
+    
     let id = UUID()
     var coordinate: CLLocationCoordinate2D
 }

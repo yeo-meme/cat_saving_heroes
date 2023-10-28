@@ -19,11 +19,15 @@ struct CareCatView: View {
     let rowSpacing: CGFloat = 10
     
     //네비게이션아이템
-    @Binding var presentNavigationBar: Bool //네비게이션바아이템
-    // @Binding var presentSideMenu: Bool //네비게이션바아이템
+    @State var presentNavigationBar: Bool=false //네비게이션바아이템
+    @Binding var presentSideMenu: Bool //네비게이션바아이템
     
+    
+    @State private var isShowingSideMenu = false //side
+    @State var selectedSideMenuTab = 0//side
     
     @State private var isShowingModal = false
+   
     @EnvironmentObject var locationManager: AddressManager
     @EnvironmentObject var model: Model
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
@@ -33,20 +37,14 @@ struct CareCatView: View {
     //데이터 추가 로드시 8개씩
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
     @State private var visibleCount = 8 // 현재 표시 중인 아이템 수
-    
-    
+    // @Binding var presentSideMenu: Bool
     
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
             ZStack(alignment: .bottomTrailing){
                 VStack {
-                    NavigationBarView(presentNavigationBar: $presentNavigationBar)
-                        .padding(.horizontal, 15)
-                        .padding(.bottom)
-                    // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                        .background(Color.white)
-                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+                 
                     VStack{
                         HStack{
                             Picker("", selection: $selectedNumber) {
@@ -67,64 +65,49 @@ struct CareCatView: View {
                             
                             Text("반경 \(selectedNumber)km이내 고양이들")
                                 .font(.system(size: 15, weight: .bold, design: .default))
-                            
-                            
-                            Button(action:
-                                    {
-                                isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                            }
-                                   , label: {
-                                
-                                // Image(systemName: "plus.bubble")
-                                //     .resizable()
-                                //     .frame(width: 60,height: 60)
-                                // Text("이벤트")
-                                //     .font(.headline)
-                                //     .foregroundColor(.white)
-                                //     .frame(width: 80, height: 30)
-                                //     .background(Color.complementColor)
-                                //     .cornerRadius(13)
-                                //     .overlay(
-                                //         RoundedRectangle(cornerRadius: 13)
-                                //             .stroke(Color.complementColor, lineWidth: 1)
-                                //     )
-                            })
+                    
                         }
-                        
                         MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                             .frame(height: 300)
-                        
                     }
                     
                     // CategoryItemView(isShowingModal: $isShowingModal)
-                    
-                    ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 6){
                         if let strayCatList = strayModel.arrAllCatsList {
-                            ForEach(strayCatList.prefix(visibleCount)) { strayCat in
-                                VStack{
-                                    LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                        StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                    }
-                                    )}
-                            }
-                            
-                            if visibleCount < strayCatList.count {
-                                Button("더 보기") {
-                                    visibleCount += 8 // 다음 8개 아이템을 표시
-                                    if visibleCount > strayCatList.count {
-                                        visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
+                            ScrollView(.vertical, showsIndicators: false) {
+                                HStack{
+                                    ForEach(strayCatList) { strayCat in
+                                        VStack{
+                                            StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                                .frame(width: 150)
+                                        }
+                                        //     ConversationCell(viewModel: ConversationCellViewModel(message))
+                                        // VStack{
+                                        //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                        //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                        //     }
+                                        //     )}
+                                        
                                     }
                                 }
+                                
+                                // if visibleCount < strayCatList.count {
+                                //     Button("더 보기") {
+                                //         visibleCount += 8 // 다음 8개 아이템을 표시
+                                //         if visibleCount > strayCatList.count {
+                                //             visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
+                                //         }
+                                //     }
+                                // }
                             }
+                        } else {
+                            Text("이벤트등록된 고양이가 없네요")
                         }
-                        
-                        
                     }
-                    .sheet(isPresented: $isShowingModal) {
-                        // 모달이 표시되면 addEvent 뷰가 열립니다.
-                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                    }
-            
+                        .sheet(isPresented: $isShowingModal) {
+                            // 모달이 표시되면 addEvent 뷰가 열립니다.
+                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                        }
                 }
                 
                 VStack{
@@ -144,9 +127,10 @@ struct CareCatView: View {
                     .padding()
                     .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                 }
-                
-                
+                // 
+                // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
             }
+       
         }
     }
 }
