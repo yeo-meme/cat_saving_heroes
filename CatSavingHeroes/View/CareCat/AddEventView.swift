@@ -11,10 +11,13 @@ import MapKit
 import Alamofire
 
 struct AddEventView: View {
+    @Environment(\.presentationMode) var mode
     @EnvironmentObject var addressManager : Model
     @Binding var isShowingModal:Bool
     @State var isShowingSearchModal = false
     @State var isSearchEnd = false
+    //Alamofire 컴플리트 핸들러
+    @State var completeAction = false
     
     //이벤트
     @State private var isButtonClicked1 = false
@@ -32,7 +35,7 @@ struct AddEventView: View {
     @State private var memo = ""
     let user_id = "User ID"
     let cat_id = "Cat ID"
-    @State var coordinate = "Coordinates"
+    // @State var coordinate = "Coordinates"
     @State var address = "Address"
     @State var date = Date()
     @State private var isEditing = false
@@ -72,9 +75,6 @@ struct AddEventView: View {
                 //                        .cornerRadius(8)
                 //                    }
                 //                }
-                
-                
-                
                 
                 ScrollView{
                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd)
@@ -116,7 +116,6 @@ struct AddEventView: View {
                                 
                                 VStack {
                                     HStack(spacing: 10) {
-                                        
                                         EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
                                             careStateIndex=0
                                         })
@@ -215,7 +214,6 @@ struct AddEventView: View {
                             
                             VStack{
                                 VStack{
-                                    
                                     CustomTextField(imageName: "OIGG",
                                                     placeholder: "나만의 메모를 남겨보세요",
                                                     isSecureField: false,
@@ -240,16 +238,24 @@ struct AddEventView: View {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
                                             locationRecord.longitude = addressManager.lastLocation.longitude
-                                            model.isRuningCatWalkEventAdd(latitude: locationRecord.latitude,logtitude:locationRecord.longitude,state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
-                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                            let coordinates = [locationRecord.longitude,locationRecord.latitude]
                                             
+                                         
+                                            model.isRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinates: coordinates, address: address,completeAction: completeAction)
+                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                             
                                         } else {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
                                             locationRecord.longitude = addressManager.lastLocation.longitude
-                                            model.notRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
+                                            let coordinates = [locationRecord.longitude,locationRecord.latitude]
+                                            
+                                            model.notRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, address: address, date: date, coordinates:coordinates)
                                             print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
                                         }
+                                        
+                                            mode.wrappedValue.dismiss()
+                                            print("모달 닫기 ")
                                     }//:VSTACK
                                 }//:VSTACK
                             }//:VSTACK 메모, 저장하기

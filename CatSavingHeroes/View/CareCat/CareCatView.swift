@@ -86,7 +86,7 @@ struct CareCatView: View {
                     } //List
                     .sheet(isPresented: $isShowingModal) {
                         // 모달이 표시되면 addEvent 뷰가 열립니다.
-                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                        AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                     }
                     
                 }

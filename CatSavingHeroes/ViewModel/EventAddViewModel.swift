@@ -23,7 +23,6 @@ class EventAddViewModel: ObservableObject {
         print("Where - Event Add ViewModel 초기 isLocationTrackingEnabled: \(model.isLocationTrackingEnabled)")
         
     }
-    
     @Published var eventCat: Results<CareRealmModel>?
     // @Published var careModel = Cat()
     
@@ -35,7 +34,7 @@ class EventAddViewModel: ObservableObject {
     }
     
     
-    func notRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date) {
+    func notRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, address: String, date: Date,coordinates:[Double]) {
         
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
@@ -54,8 +53,7 @@ class EventAddViewModel: ObservableObject {
                 "save_count":0,
                 "care_count":0,
                 "address": "우리집",
-                "latitude": 0.0,
-                "longitude": 0.0,
+                "coordinates": [0.0,0.0],
                 "status":0,
             ] as [String : Any] // 데이터를 JSON 형식으로 준비
             
@@ -71,7 +69,7 @@ class EventAddViewModel: ObservableObject {
         }
     }
     
-    func isRuningCatWalkEventAdd(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date) {
+    func isRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, coordinates: [Double], address: String,completeAction:Bool) {
         
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
@@ -92,8 +90,7 @@ class EventAddViewModel: ObservableObject {
                 "save_count":0,
                 "care_count":0,
                 "address": "우리집",
-                "latitude": latitude,
-                "longitude": logtitude,
+                "coordinates": coordinates,
                 "status":0,
             ] as [String : Any] // 데이터를 JSON 형식으로 준비
             

@@ -31,18 +31,18 @@ struct StateView: View {
                 HStack {
                     Image(systemName: "waveform.path.badge.plus")
                         .foregroundColor(.white)
-                    // .padding(.leading, 5)
+                        .padding(.leading,5)
                     
                     Text("냥이추가")
                         .foregroundColor(.white)
-                        .padding(.all, 5)
-                        .frame(width: 55, height: 40)
-                    
+                        .padding(.leading,5)
+                        .frame(width: 70, height: 36)
                 }
                 .background(
                     Capsule()
                         .fill(Color.primaryColor)
                 )
+                .padding(.bottom, 10)
                 
             }}
 
@@ -159,5 +159,5 @@ func fetchCatsCommon() {
 
 
 // #Preview {
-//     StateView( presentSideMenu: .constant(false), presentNavigationBar: .constant(false), catViewModel: )
+//     StateView(showTopCustomView: .constant(false), presentSideMenu: .constant(false))
 // }

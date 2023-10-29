@@ -23,9 +23,9 @@ struct HeroCalendarViewWrapper: UIViewControllerRepresentable {
 struct HeroCalendarView: View {
     var body: some View {
         NavigationView {
-           
             HeroCalendarViewWrapper()
                 .navigationBarTitle("Hero Calendar")
         }
+        
     }
 }

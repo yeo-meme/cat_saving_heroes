@@ -18,12 +18,31 @@ struct TrackingHeroView: View {
     
     @State private var coordinates: [CLLocationCoordinate2D] = []
     @State private var isShowingModal = false
-    
+
+    var goToRecordViewButton: some View {
+        Button(action: {
+            model.startStopLocationTracking()
+        }) {
+            HStack {
+                Image(systemName: "waveform.path.badge.plus")
+                    .foregroundColor(.white)
+                    .padding(.leading, 5)
+                
+                Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
+                    .foregroundColor(.white)
+                    .padding(.leading, 5)
+                    .frame(width: 70, height: 36)
+            }
+            .background(
+                Capsule()
+                    .fill(Color.primaryColor)
+            )
+        }.padding(.bottom, 10)
+    }
     
     var body: some View {
         VStack(alignment: .center, spacing: 1) {
-         
-            ZStack {
+            ZStack(alignment: .top) {
                 HStack {
                     Button(action: {
                         model.moveFocusOnUserLocation2()
@@ -56,17 +75,18 @@ struct TrackingHeroView: View {
                 
                 VStack{
                     Spacer()
-                    Button(action: {
-                        model.startStopLocationTracking()
-                    }) {
-                        Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(
-                                Capsule()
-                                    .fill(Color.purple)
-                            )
-                    }.padding(.bottom, 10)
+                    // Button(action: {
+                    //     model.startStopLocationTracking()
+                    // }) {
+                    //     Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
+                    //         .foregroundColor(.white)
+                    //         .padding()
+                    //         .background(
+                    //             Capsule()
+                    //                 .fill(Color.primaryColor)
+                    //         )
+                    // }
+                    goToRecordViewButton
                 }
             }
             
@@ -80,6 +100,7 @@ struct TrackingHeroView: View {
             //     BottomSheetModalView(isShowingModal: $isShowingModal)
             // })
         }
+        .padding(.top,50)
         
     }
 }

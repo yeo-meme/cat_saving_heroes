@@ -17,20 +17,12 @@ struct LocationFollowView: View {
     @State var selectedSideMenuTab = 0
     @State private var tabIndex = 0
     var body: some View {
-        
-        
         NavigationView{
-            ZStack{
+            ZStack(alignment: .top){
                 VStack{
-                    // NavigationBarView(presentNavigationBar: $presentSideMenu)
-                    //     .padding(.horizontal, 15)
-                    //     .padding(.bottom)
-                    // // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                    //     .background(Color.white)
-                    //     .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
-                    
+                    //SlidingTabView 상단여백있음
                     SlidingTabView(selection: $tabIndex, tabs: ["영웅업무시작","영웅일지"], selectionBarColor: .green)
-                    Spacer()
+                      
                     if tabIndex == 0 {
                         TrackingHeroView(weatherModel: WeatherViewModel())
                     } else if tabIndex == 1 {

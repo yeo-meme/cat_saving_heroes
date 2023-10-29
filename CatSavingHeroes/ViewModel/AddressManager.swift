@@ -289,7 +289,8 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     func filterTrackingFromEventCats() {
         if let arrCatsEventList = arrCatsEventList {
             for eventItem in arrCatsEventList {
-                if let la = Double(eventItem.latitude), let lo = Double(eventItem.longitude) {
+                let la = eventItem.coordinates[0]
+                let lo = eventItem.coordinates[1]
                     if la != 0.0 && lo != 0.0 {
                         let annotation = MKPointAnnotation()
                         annotation.coordinate = CLLocationCoordinate2D(latitude: la, longitude: lo)
@@ -301,7 +302,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
             }
             mapView.addAnnotations(annotations)
         }
-    }
     
     
     

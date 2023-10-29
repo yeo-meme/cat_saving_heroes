@@ -18,8 +18,7 @@ class EventCat : Identifiable, Codable {
     var save_count:Int
     var care_count:Int
     var address:String //위도 경도 이벤트발생
-    var latitude:String
-    var longitude:String
+    var coordinates:[Double]
     // var location:String //한글 주소
     var status:Int
 }
