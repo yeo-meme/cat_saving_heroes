@@ -19,16 +19,16 @@ class StrayCatsALLViewModel: ObservableObject {
     }
     
     func loadStrayAllCats() {
-            AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
-                switch response.result {
-                case .success(let value):
-                    print("성공 디코딩 StrayCatsItemViewModel: \(value)")
-                    self.arrAllCatsList = value
-                    print("성공 디코딩 StrayCatsItemViewModel arrCats: \(self.arrAllCatsList)")
-                case .failure(let error):
-                    print("실패 디코딩 StrayCatsItemViewModel : \(error.localizedDescription)")
-                }
-            }
+            // AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+            //     switch response.result {
+            //     case .success(let value):
+            //         print("성공 디코딩 StrayCatsItemViewModel: \(value)")
+            //         self.arrAllCatsList = value
+            //         print("성공 디코딩 StrayCatsItemViewModel arrCats: \(self.arrAllCatsList)")
+            //     case .failure(let error):
+            //         print("실패 디코딩 StrayCatsItemViewModel : \(error.localizedDescription)")
+            //     }
+            // }
     }
     
     

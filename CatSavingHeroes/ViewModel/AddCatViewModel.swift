@@ -358,15 +358,7 @@ class AddCatViewModel: ObservableObject {
         
     }
     
-    //최종
-    func adminDeleteAllCat() {
-        AF.request(DELETE_ALL_CAT, method: .post).response { response in
-            if let error = response.error{
-                print("Error: \(error)")
-            }else {
-                print("All deleted successfully")
-            }}
-    }
+
     
     func fetchCats() {
         AF.request(CAT_SELECT_API_URL, method: .get)

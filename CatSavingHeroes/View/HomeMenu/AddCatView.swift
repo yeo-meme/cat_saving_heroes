@@ -121,11 +121,7 @@ struct AddCatView: View {
                     }//:VStack
                 }//: ScrollView
                 
-                Button {
-                    catViewModel.adminDeleteAllCat()
-                } label: {
-                    Text("캣 전체삭제")
-                }
+          
 
                 
                 Text("* 이름과 사진을 필수로 등록이 필요해요").padding(0)

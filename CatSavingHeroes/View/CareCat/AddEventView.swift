@@ -323,6 +323,7 @@ struct SearchBar: View {
         }
         for catsData in self.catSearchListData {
                 if catsData.name == text {
+                    self.catSearchListData.removeAll()
                     self.catSearchListData.append(catsData)
                     print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
                 }
