@@ -39,7 +39,7 @@ struct CareCatView: View {
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
     @State private var visibleCount = 8 // 현재 표시 중인 아이템 수
     // @Binding var presentSideMenu: Bool
-    
+    @State private var geoCatuuId:[String]=[]
     
     
     // Model 클래스의 인스턴스를 생성
@@ -54,6 +54,9 @@ struct CareCatView: View {
                     // CategoryItemView(isShowingModal: $isShowingModal)
                     VStack(alignment: .leading, spacing: 6){
                         if let strayCatList = strayModel.arrGeoCatsList {
+                        
+                            
+                          
                             ScrollView(.vertical, showsIndicators: false) {
                                 HStack{
                                     ForEach(strayCatList) { strayCat in

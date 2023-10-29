@@ -18,10 +18,11 @@ struct Cats: Identifiable , Codable{
     var gender:String
     var cat_photo: String // cat_photo에 대한 매핑
     var discover_address: String
-    var uuid: String
+    // var uuid: String
     var insert_user: String
     var coordinates: Array<Double>
     var status: Int
+    var _id:String
     // var watch_count: Int
     // var interest_count: Int
     // var care_count: Int
@@ -34,17 +35,17 @@ struct Cats: Identifiable , Codable{
     // var updated_at:String
 
     enum CodingKeys: String, CodingKey {
-        // case _id
         case name
         case age
         case cat_photo
         case gender
         case discover_address
-        case uuid
+        // case uuid
         case insert_user
         case coordinates
         case status
         case memo
+        case _id
         // case watch_count
         // case interest_count
         // case care_count

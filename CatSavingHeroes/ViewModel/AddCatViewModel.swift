@@ -169,6 +169,7 @@ class AddCatViewModel: ObservableObject {
                 let location = cat.location
                 let state = cat.state
                 let coordinates = [0.0,0.0]
+                let _id = ""
                 print("Name: \(cat.name)")
                 print("Age: \(cat.age)")
                 print("Address: \(cat.address)")
@@ -179,7 +180,7 @@ class AddCatViewModel: ObservableObject {
                 print("----")
                 // Create an array of Cat objects
                 // Populate the array with Cat objects
-                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address, uuid: id, insert_user: user_id, coordinates: coordinates, status: state)
+                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address,  insert_user: user_id, coordinates: coordinates, status: state, _id: _id)
                 
                 
                 //로드할때 UserDefaults에 저장하고
@@ -212,7 +213,7 @@ class AddCatViewModel: ObservableObject {
                 // userDefaults.set(catData, forKey: "Cat")
                 
                 // userDefaults.set(cat, forKey: "Cat")
-                print("cat Id stringValue: \(id)")
+                print("cat Id stringValue 어디야: \(id)")
                 UserDefaults.standard.set(id, forKey: "CatId")
             }
             // self.cats=catArr
