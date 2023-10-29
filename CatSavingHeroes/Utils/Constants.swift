@@ -62,7 +62,9 @@ let CARE_CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carec
 let CARE_CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat"
 let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete"
 
-
+//mongo관리자 전체 삭제 -> 포스트맨으로하삼
+let DELETE_ALL_CAT = "https://cat-saving-heros.azurewebsites.net/api/cat/delete/all/yeomeme1030@!"
+let DELETE_ALL_CARE = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete/all/yeomeme1030@!"
 
 //네비게이션바 높이
 let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height

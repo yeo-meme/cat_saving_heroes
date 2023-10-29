@@ -27,7 +27,7 @@ struct CareCatView: View {
     @State var selectedSideMenuTab = 0//side
     
     @State private var isShowingModal = false
-   
+    
     @EnvironmentObject var locationManager: AddressManager
     @EnvironmentObject var model: Model
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
@@ -39,38 +39,17 @@ struct CareCatView: View {
     @State private var visibleCount = 8 // 현재 표시 중인 아이템 수
     // @Binding var presentSideMenu: Bool
     
+    
+    
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
             ZStack(alignment: .bottomTrailing){
-                VStack {
-                 
-                    VStack{
-                        HStack{
-                            Picker("", selection: $selectedNumber) {
-                                ForEach(numbers, id: \.self) { number in
-                                    Text("\(number)")
-                                        .foregroundColor(.purple)
-                                }
-                            }
-                            .pickerStyle(MenuPickerStyle())
-                            .cornerRadius(13)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(Color.purple, lineWidth: 1)
-                            )
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.white)
-                            .font(.headline)
-                            
-                            Text("반경 \(selectedNumber)km이내 고양이들")
-                                .font(.system(size: 15, weight: .bold, design: .default))
+                VStack{
+                    MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                        .frame(height: 300)
                     
-                        }
-                        MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                            .frame(height: 300)
-                    }
-                    
+                    // Spacer()
                     // CategoryItemView(isShowingModal: $isShowingModal)
                     VStack(alignment: .leading, spacing: 6){
                         if let strayCatList = strayModel.arrAllCatsList {
@@ -102,14 +81,15 @@ struct CareCatView: View {
                             }
                         } else {
                             Text("이벤트등록된 고양이가 없네요")
+                            Spacer()
                         }
+                    } //List
+                    .sheet(isPresented: $isShowingModal) {
+                        // 모달이 표시되면 addEvent 뷰가 열립니다.
+                        AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                     }
-                        .sheet(isPresented: $isShowingModal) {
-                            // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(isShowingModal: $isShowingModal, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                        }
+                    
                 }
-                
                 VStack{
                     Button(action:
                             {
@@ -127,15 +107,12 @@ struct CareCatView: View {
                     .padding()
                     .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                 }
-                // 
+                //
                 // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
             }
-       
         }
     }
 }
-
-
 
 
 struct MapViewCoordinator: UIViewRepresentable {

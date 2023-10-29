@@ -9,16 +9,13 @@ import Foundation
 import Alamofire
 
 class WatchCellViewModel: ObservableObject {
-    @Published var userCats=[CatRealmModel]()
+    // @Published var userCats=[CatRealmModel]()
     // @Published var userCats = [CatRealmModel]()
     @Published var arrUsercats=[Cats]()
     @Published var isDataLoaded = false
-
     @Published  var filteredCats:[Cats] = []
+    
     init() {
-        
-        
-               
         fetchMatchCat()
     }
     
@@ -26,11 +23,11 @@ class WatchCellViewModel: ObservableObject {
         AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
              switch response.result {
              case .success(let value):
-              print("성공 디코딩 : \(value)")
+              print("성공 디코딩 fetchMatchCat : \(value)")
                  self.arrUsercats = value
                  self.getFilteredUsercats()
              case .failure(let error):
-                 print("실패 디코딩 : \(error.localizedDescription)")
+                 print("실패 디코딩  fetchMatchCat: \(error.localizedDescription)")
              }
          }
     }

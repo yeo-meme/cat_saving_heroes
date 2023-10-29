@@ -168,6 +168,7 @@ class AddCatViewModel: ObservableObject {
                 let user_id = cat.user_id
                 let location = cat.location
                 let state = cat.state
+                let coordinates = [0.0,0.0]
                 print("Name: \(cat.name)")
                 print("Age: \(cat.age)")
                 print("Address: \(cat.address)")
@@ -178,7 +179,7 @@ class AddCatViewModel: ObservableObject {
                 print("----")
                 // Create an array of Cat objects
                 // Populate the array with Cat objects
-                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address, uuid: id, insert_user: user_id, status: state)
+                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address, uuid: id, insert_user: user_id, coordinates: coordinates, status: state)
                 
                 
                 //로드할때 UserDefaults에 저장하고
@@ -249,10 +250,11 @@ class AddCatViewModel: ObservableObject {
     }
     
     //고양이 새로 등록
-    func addCatMongo(name: String,age: Int,address: String,gender: String,memo: String,profileImage:String,location:String) {
+    func addCatMongo(name: String,age: Int,address: String,gender: String,memo: String,profileImage:String,coodinate:[Double]) {
         
         guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
-        print("타입체크 \(name),\(age),\(gender),\(profileImage),\(location),\(generateUUID()),\(address),\(userId)")
+        print("타입체크 \(name),\(age),\(gender),\(profileImage),\(coodinate),\(generateUUID()),\(address),\(userId)")
+        
         
         do {
             let jsonData = [
@@ -263,8 +265,7 @@ class AddCatViewModel: ObservableObject {
                 "memo":"되라고",
                 "cat_photo":profileImage,
                 "discover_address":address,
-                "latitude":"latitude",
-                "longitude":"longitude",
+                "coordinates":coodinate,
                 "uuid": generateUUID(),
                 "insert_user":userId,
                 "state":0
@@ -355,6 +356,16 @@ class AddCatViewModel: ObservableObject {
         //     }
         // }.resume()
         
+    }
+    
+    //최종
+    func adminDeleteAllCat() {
+        AF.request(DELETE_ALL_CAT, method: .post).response { response in
+            if let error = response.error{
+                print("Error: \(error)")
+            }else {
+                print("All deleted successfully")
+            }}
     }
     
     func fetchCats() {

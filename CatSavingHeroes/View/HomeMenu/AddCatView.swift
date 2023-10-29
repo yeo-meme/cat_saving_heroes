@@ -25,7 +25,7 @@ struct AddCatView: View {
     @State private var catGender = ""
     @State private var catMemo = ""
     @State private var catAddress = ""
-    @State private var catLocation = ""
+    @State private var catLocation:[Double]=[0.0,0.0]
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
     
@@ -39,7 +39,6 @@ struct AddCatView: View {
     @EnvironmentObject var viewModel : AuthViewModel
     @ObservedObject var catViewModel: AddCatViewModel
     
-   
     var body: some View {
         NavigationView {
             ScrollView{
@@ -122,6 +121,13 @@ struct AddCatView: View {
                     }//:VStack
                 }//: ScrollView
                 
+                Button {
+                    catViewModel.adminDeleteAllCat()
+                } label: {
+                    Text("캣 전체삭제")
+                }
+
+                
                 Text("* 이름과 사진을 필수로 등록이 필요해요").padding(0)
                 CapsuleButton(text: "완료", disabled: catImage == nil || catName == "", isAnimating: isIndicatorAnimating,
                               action: {
@@ -131,7 +137,15 @@ struct AddCatView: View {
                     // 위도와 경도를 문자열로 변환
                     let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
                     let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
-                    catLocation = "\(latitudeString),\(longitudeString)"
+                    
+                    //경도 위도 순
+                    if let lon = longitudeString , let lat = latitudeString {
+                        catLocation.append(lon)
+                        catLocation.append(lat)
+                    }
+            
+                    
+                    
                     
                     catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
                         if success {
@@ -139,7 +153,7 @@ struct AddCatView: View {
                            
                             print("ageeeee : \(catAge)")
                             if let profileImage = imageUrl {
-                                catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,location:catLocation)
+                                catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,coodinate:catLocation)
                                 isIndicatorAnimating = false
                                 mode.wrappedValue.dismiss()
                                 

@@ -21,10 +21,11 @@ struct WatchCatView: View {
             ScrollView{
                 VStack(spacing: 1) {
                     if !catModel.filteredCats.isEmpty {
-                        
                         ForEach(catModel.filteredCats) { userCat in //데이터 파생
                             WatchCatCell(viewModel: WatchItemCellModel(userCat))
                         }
+                    } else {
+                        Text("검색된 고양이가 없어요")
                     }
                 }
             }

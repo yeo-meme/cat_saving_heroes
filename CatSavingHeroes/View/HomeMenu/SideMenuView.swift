@@ -80,6 +80,8 @@ struct SideMenuView: View {
                                     NavigationLink(destination: HeroTrackView()) {
                                                 Label("새로운 화면", systemImage: "plus")
                                             }
+                                } else if selectedSideMenuTab == 3 {
+                                    AuthViewModel.shared.signOut()
                                 }
                              
                               

@@ -318,13 +318,16 @@ struct SearchBar: View {
     
     func catsFilterSearch(){
         print("고양이 검색어 : \(text)")
-            for catsData in self.catSearchListData {
+        if self.catSearchListData.isEmpty {
+            
+        }
+        for catsData in self.catSearchListData {
                 if catsData.name == text {
                     self.catSearchListData.append(catsData)
                     print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
                 }
             }
-            isSearchEnd = true
+        isSearchEnd = true
     }
     
  
