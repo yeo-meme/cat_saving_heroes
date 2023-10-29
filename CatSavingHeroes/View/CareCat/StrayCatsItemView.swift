@@ -17,24 +17,24 @@ struct StrayCatsItemView: View {
                 if viewModel.strayArrCats != nil {
                     NavigationLink(destination: CatDetailView()) {
                         // PHOTO
-                        ZStack {
-                            KFImage(URL(string: viewModel.strayArrCats.cat_photo))
-                                .resizable()
-                                .scaledToFit()
-                                .cornerRadius(12)
-                                .padding(10)
-                            
-                        }.cornerRadius(12)
-                        
-                        
-                        
-                        Text(viewModel.strayArrCats.name)
-                            .font(.title3)
-                            .fontWeight(.black)
-                        
-                        Text(viewModel.strayArrCats.gender)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.gray)
+                        // ZStack {
+                        //     KFImage(URL(string: viewModel.strayArrCats.cat_photo))
+                        //         .resizable()
+                        //         .scaledToFit()
+                        //         .cornerRadius(12)
+                        //         .padding(10)
+                        //     
+                        // }.cornerRadius(12)
+                        // 
+                        // 
+                        // 
+                        // Text(viewModel.strayArrCats.name)
+                        //     .font(.title3)
+                        //     .fontWeight(.black)
+                        // 
+                        // Text(viewModel.strayArrCats.gender)
+                        //     .fontWeight(.semibold)
+                        //     .foregroundColor(.gray)
                     } //: VSTACK
                 }
             }

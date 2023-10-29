@@ -18,7 +18,7 @@ enum SideMenuRowType: Int, CaseIterable{
     var title: String{
         switch self {
         case .home:
-            return ""
+            return "홈으로"
         case .favorite:
             return "내 저장"
         case .chat:
@@ -113,29 +113,29 @@ struct SideMenuView: View {
                         Text("2")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.blue.opacity(0.3))
-                        Text("나의 돌봄")
+                        Text("마이캣")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.black.opacity(0.5))
                         
                     }
-                    VStack{
-                        Text("6")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.blue.opacity(0.3))
-                        Text("저장")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.black.opacity(0.5))
-                        
-                    }
-                    VStack{
-                        Text("8")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.blue.opacity(0.3))
-                        Text("댓글")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.black.opacity(0.5))
-                        
-                    }
+                    // VStack{
+                    //     Text("6")
+                    //         .font(.system(size: 14, weight: .semibold))
+                    //         .foregroundColor(.blue.opacity(0.3))
+                    //     Text("저장")
+                    //         .font(.system(size: 14, weight: .semibold))
+                    //         .foregroundColor(.black.opacity(0.5))
+                    //     
+                    // }
+                    // VStack{
+                    //     Text("8")
+                    //         .font(.system(size: 14, weight: .semibold))
+                    //         .foregroundColor(.blue.opacity(0.3))
+                    //     Text("댓글")
+                    //         .font(.system(size: 14, weight: .semibold))
+                    //         .foregroundColor(.black.opacity(0.5))
+                    //     
+                    // }
                 }
                
             }

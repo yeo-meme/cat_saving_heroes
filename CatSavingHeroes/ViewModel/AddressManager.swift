@@ -249,8 +249,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         print("[SUCCESS] Did Update Locations")
         self.currentGeoLocation = locations.first
         
-        
-        
     }
     
     // MARK: - 사용자의 현재 위치를 가져오는 것을 실패했을 때 호출되는 메서드

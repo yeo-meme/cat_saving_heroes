@@ -10,6 +10,7 @@ import MapKit
 import RealmSwift
 
 struct CareCatView: View {
+    @EnvironmentObject var model:AddressManager
     @State private var selectedNumber = 1
     private let numbers = [1,2,3,4,5]
     
@@ -29,10 +30,10 @@ struct CareCatView: View {
     @State private var isShowingModal = false
     
     @EnvironmentObject var locationManager: AddressManager
-    @EnvironmentObject var model: Model
+    @EnvironmentObject var trackModel: Model //트래킹 모델
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
-    @ObservedObject var strayModel = StrayCatsALLViewModel()
+    @ObservedObject var strayModel=StrayCatsALLViewModel()
     
     //데이터 추가 로드시 8개씩
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
@@ -52,7 +53,7 @@ struct CareCatView: View {
                     // Spacer()
                     // CategoryItemView(isShowingModal: $isShowingModal)
                     VStack(alignment: .leading, spacing: 6){
-                        if let strayCatList = strayModel.arrAllCatsList {
+                        if let strayCatList = strayModel.arrGeoCatsList {
                             ScrollView(.vertical, showsIndicators: false) {
                                 HStack{
                                     ForEach(strayCatList) { strayCat in
@@ -110,6 +111,14 @@ struct CareCatView: View {
                 //
                 // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
             }
+        }
+        .onAppear{
+            var coordi:Array=[0.0,0.0]
+            coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+            coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+            print("현재위치. : \(coordi)")
+            
+            strayModel.loadStrayAllCats(coordinates: coordi, meter: 500)
         }
     }
 }
