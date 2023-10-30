@@ -37,7 +37,7 @@ class TrackingViewController: UIViewController {
     }()
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.startUpdatingLocation()
         manager.delegate = self
         return manager

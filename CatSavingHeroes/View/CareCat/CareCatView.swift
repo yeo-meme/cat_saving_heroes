@@ -73,15 +73,7 @@ struct CareCatView: View {
                                                     VStack{
                                                         HStack {
                                                         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                                            // .background(Color.yellow)
                                                         }.frame(width: .infinity)
-                                                    //     ConversationCell(viewModel: ConversationCellViewModel(message))
-                                                    // VStack{
-                                                    //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                                    //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                                    //     }
-                                                    //     )}
-                                                    
                                                 }
                                             }
                                         // })

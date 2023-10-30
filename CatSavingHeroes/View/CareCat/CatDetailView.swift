@@ -8,31 +8,25 @@
 import SwiftUI
 
 struct CatDetailView: View {
-    // @State var arrCat:[Cats]
     
+    @ObservedObject var viewModel:StrayCatsItemViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
-            // NAVBAR
-            NavigationBarDetailView()
-                .padding(.horizontal)
-                .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-            
-            // HEADER
-            // HeaderDetailView()
-            //   .padding(.horizontal)
-            
+          
             // DETAIL TOP PART
-            TopPartDetailView()
+            TopPartDetailView(viewModel: StrayCatsItemViewModel(viewModel.strayArrCats))
                 .padding(.horizontal)
+                .offset(y:-30)
                 .zIndex(1)
             FavouriteDetailView()
                 .padding(.horizontal)
+                .offset(y:-30)
             
             ZStack {
                 Rectangle()
                     .fill(Color.black) // 검은색 배경
-                    .frame(width: .infinity, height: 250) // 원하는 크기로 설정
+                    .frame(width: .infinity, height: 320) // 원하는 크기로 설정
                     .cornerRadius(10) // 원하는 모서리 반경 설정
                     .shadow(color: .gray, radius: 3, x: 0, y: 0) // 그림자 효과
                     .padding(.trailing)
@@ -99,7 +93,7 @@ struct CatDetailView: View {
                 // .offset(y: 40)
                 
             }
-            
+            .offset(y:-30)
             // .padding(.vertical, 5)
             
             // DETAIL BOTTOM PART
@@ -130,7 +124,7 @@ struct CatDetailView: View {
         
     }
 }
-
-#Preview {
-    CatDetailView()
-}
+// 
+// #Preview {
+//     CatDetailView(viewModel: StrayCatsItemViewModel($viewModel.strayArrCats))
+// }

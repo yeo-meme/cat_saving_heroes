@@ -14,7 +14,7 @@ struct StrayCatsItemView: View {
     
     var body: some View {
             VStack(alignment: .leading, spacing: 6){
-                    NavigationLink(destination: CatDetailView()) {
+                NavigationLink(destination: CatDetailView(viewModel: StrayCatsItemViewModel(viewModel.strayArrCats))) {
                         // PHOTO
                         ZStack() {
                             KFImage(URL(string: viewModel.strayArrCats.cat_photo))

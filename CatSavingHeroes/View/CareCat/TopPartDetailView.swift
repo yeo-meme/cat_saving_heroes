@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct TopPartDetailView: View {
+    @ObservedObject var viewModel:StrayCatsItemViewModel
     // MARK: - PROPERTY
     
     // @EnvironmentObject var shop: Shop
@@ -23,14 +24,14 @@ struct TopPartDetailView: View {
                 Text("고양이 이름은")
                     .fontWeight(.semibold)
                 
-                Text("냥냥이")
+                Text(viewModel.strayArrCats.name)
                     .font(.largeTitle)
                     .fontWeight(.black)
                     .scaleEffect(1.35, anchor: .leading)
                 // DESCRIPTION
                 
                 
-                Text("왕십리")
+                Text(viewModel.strayArrCats.discover_address)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
@@ -41,12 +42,16 @@ struct TopPartDetailView: View {
             
             // Spacer()
             
-            
-            // PHOTO
-            Image("OIGG")
+            KFImage(URL(string: viewModel.strayArrCats.cat_photo))
                 .resizable()
                 .scaledToFit()
+                .frame(width: 250,height: 250)
+                .background(Color.white) // 하얀 배경
+                .clipShape(Capsule())
+                .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                 .offset(y: isAnimating ? 0 : -35)
+         
+               
             
         }) //: HSTACK
         .onAppear(perform: {
@@ -57,6 +62,6 @@ struct TopPartDetailView: View {
     }
 }
 
-#Preview {
-    TopPartDetailView()
-}
+// #Preview {
+//     TopPartDetailView(viewModel: StrayCatsItemViewModel())
+// }

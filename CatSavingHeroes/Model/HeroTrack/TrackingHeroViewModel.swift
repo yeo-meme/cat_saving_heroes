@@ -78,7 +78,7 @@ class Model: NSObject, CLLocationManagerDelegate, ObservableObject, MKMapViewDel
         
         mgr = CLLocationManager()
         mgr.requestWhenInUseAuthorization()
-        mgr.desiredAccuracy = kCLLocationAccuracyBest
+        mgr.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         mgr.allowsBackgroundLocationUpdates = true
         super.init()
         mgr.delegate = self
