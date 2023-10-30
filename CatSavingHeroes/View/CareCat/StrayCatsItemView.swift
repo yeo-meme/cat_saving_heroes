@@ -14,16 +14,15 @@ struct StrayCatsItemView: View {
     
     var body: some View {
             VStack(alignment: .leading, spacing: 6){
-                if viewModel.strayArrCats != nil {
                     NavigationLink(destination: CatDetailView()) {
                         // PHOTO
-                        ZStack {
+                        ZStack() {
                             KFImage(URL(string: viewModel.strayArrCats.cat_photo))
                                 .resizable()
-                                .scaledToFit()
+                                // .scaledToFit()
+                                .frame(width: 150, height: 150) // 원하는 크기로 설정
                                 .cornerRadius(12)
                                 .padding(10)
-                            
                         }.cornerRadius(12)
                         
                         
@@ -36,7 +35,6 @@ struct StrayCatsItemView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(.gray)
                     } //: VSTACK
-                }
             }
     }
 }

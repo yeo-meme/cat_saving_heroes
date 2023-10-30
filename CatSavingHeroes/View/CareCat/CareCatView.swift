@@ -45,6 +45,8 @@ struct CareCatView: View {
     // @Binding var presentSideMenu: Bool
     @State private var geoCatuuId:[String]=[]
     
+    @State private var selectedSegment = 0
+       let segments = ["100m", "200m", "300m","400m","500m"]
     
     // Model 클래스의 인스턴스를 생성
     var body: some View {
@@ -52,6 +54,13 @@ struct CareCatView: View {
                 ZStack(alignment: .bottomTrailing){
                     if strayModel.isDataLoaded {
                         VStack{
+                            Picker("", selection: $selectedSegment) {
+                                           ForEach(0..<segments.count, id: \.self) { index in
+                                               Text(segments[index]).tag(index)
+                                           }
+                                       }
+                                       .pickerStyle(SegmentedPickerStyle())
+                            
                             MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                                 .frame(height: 300)
                             // Spacer()
@@ -59,22 +68,23 @@ struct CareCatView: View {
                             VStack(alignment: .leading, spacing: 6){
                                 if let strayCatList = strayModel.filterGeoCatsList {
                                     ScrollView(.vertical, showsIndicators: false) {
-                                        HStack{
-                                            ForEach(strayCatList) { strayCat in
-                                                VStack{
-                                                    StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                                        .frame(width: 150)
-                                                        .background(Color.yellow)
+                                        // LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                        ForEach(strayCatList.prefix(8)) { strayCat in
+                                                    VStack{
+                                                        HStack {
+                                                        StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                                            // .background(Color.yellow)
+                                                        }.frame(width: .infinity)
+                                                    //     ConversationCell(viewModel: ConversationCellViewModel(message))
+                                                    // VStack{
+                                                    //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                                    //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                                    //     }
+                                                    //     )}
+                                                    
                                                 }
-                                                //     ConversationCell(viewModel: ConversationCellViewModel(message))
-                                                // VStack{
-                                                //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                                //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                                //     }
-                                                //     )}
-                                                
                                             }
-                                        }
+                                        // })
                                         
                                         // if visibleCount < strayCatList.count {
                                         //     Button("더 보기") {
@@ -95,6 +105,19 @@ struct CareCatView: View {
                                 AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                             }
                             
+                        }
+                        .onChange(of: selectedSegment) { value in
+                            var coordi:Array=[0.0,0.0]
+                            coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+                            coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+                            print("현재위치. : \(coordi)")
+                            
+                            let segmentsData = segments[value]
+                            let meter = Int(segmentsData.replacingOccurrences(of: "m", with: ""))
+                            if let meter = meter {
+                                print("선택한 거리 : \(meter)")
+                                strayModel.loadStrayAllCats(coordinates: coordi, meter: meter)
+                            }
                         }
                         VStack{
                             Button(action:
