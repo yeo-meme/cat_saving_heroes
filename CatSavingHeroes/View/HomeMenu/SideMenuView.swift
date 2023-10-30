@@ -18,7 +18,7 @@ enum SideMenuRowType: Int, CaseIterable{
     var title: String{
         switch self {
         case .home:
-            return "홈으로"
+            return "홈으로ㅈ"
         case .favorite:
             return "내 저장"
         case .chat:

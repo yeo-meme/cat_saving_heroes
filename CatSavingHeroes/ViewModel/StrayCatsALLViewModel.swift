@@ -12,13 +12,18 @@ import Alamofire
 class StrayCatsALLViewModel: ObservableObject {
     @Published var arrGeoCatsList:[EventCat]?
     @Published var filterGeoCatsList:[Cats]?
-    @Published var geoCatsId:[String]=[]
+    @Published var arrGeoCatsId:[String]=[]
     @Published var coordinates:[Double]?
     @Published var meter:Int?
+    @Published var isDataLoaded:Bool = false
     
     init() {
-      
-        // loadStrayAllCats()
+        // var coordi:Array=[0.0,0.0]
+        // coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+        // coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+        // print("현재위치. : \(coordi)")
+        // 
+        // self.loadStrayAllCats(coordinates: coordi, meter: 500)
     }
     
     func loadStrayAllCats(coordinates:[Double],meter:Int) {
@@ -43,17 +48,30 @@ class StrayCatsALLViewModel: ObservableObject {
     
     
     func matchingCatCall() {
+        arrGeoCatsId.removeAll()
+        if let arrGeoCatsList = self.arrGeoCatsList {
+            for geoCat in arrGeoCatsList {
+                arrGeoCatsId.append(geoCat.cat_uuid ?? "")
+                print("arrGeoCatsId : \(arrGeoCatsId)")
+            }
+        }
         
+        let parameters: Parameters = [
+            "_id": arrGeoCatsId,
+            // "_id": arrGeoCatsId[1],
+         ]
         
-        AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+        print("params : \(parameters)")
+        AF.request(GEO_CAT_API_URL, method: .post,parameters: parameters).responseDecodable(of: [Cats].self) { response in
             switch response.result {
             case .success(let value):
-                print("성공 디코딩 StrayCatsItemViewModel: \(value)")
+                print("나왔니 다람쥐: \(value)")
                 self.filterGeoCatsList = value
-                print("성공 디코딩 StrayCatsItemViewModel arrCats: \(self.filterGeoCatsList)")
-                self.filterCat()
+                print("나왔니 다람쥐 : \(self.filterGeoCatsList)")
+                self.isDataLoaded = true
+                // self.filterCat()
             case .failure(let error):
-                print("실패 디코딩 StrayCatsItemViewModel : \(error.localizedDescription)")
+                print("실패 나왔니 : \(error.localizedDescription)")
             }
         }
     }

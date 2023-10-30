@@ -63,6 +63,7 @@ let CARE_CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/ca
 let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete"
 //geo
 let GEO_CARE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/search/geo2"
+let GEO_CAT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"
 
 //mongo관리자 전체 삭제 -> 포스트맨으로하삼
 let DELETE_ALL_CAT = "https://cat-saving-heros.azurewebsites.net/api/cat/delete/all/yeomeme1030@!"

@@ -21,4 +21,19 @@ class EventCat : Identifiable, Codable {
     var coordinates:[Double]
     // var location:String //한글 주소
     var status:Int
+    
+    
+    enum CodingKeys: String, CodingKey {
+          case id = "_id"
+          case visible
+          case event
+          case user_uuid
+          case cat_uuid
+          case view_count
+          case save_count
+          case care_count
+          case address
+          case coordinates
+          case status
+      }
 }

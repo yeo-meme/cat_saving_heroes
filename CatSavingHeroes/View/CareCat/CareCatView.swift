@@ -12,6 +12,7 @@ import RealmSwift
 struct CareCatView: View {
     @EnvironmentObject var model:AddressManager
     @State private var selectedNumber = 1
+    @State private var isDataLoaded = false
     private let numbers = [1,2,3,4,5]
     
     var gridLayout: [GridItem] {
@@ -33,7 +34,10 @@ struct CareCatView: View {
     @EnvironmentObject var trackModel: Model //트래킹 모델
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
-    @ObservedObject var strayModel=StrayCatsALLViewModel()
+    
+    @StateObject var strayModel = StrayCatsALLViewModel()
+
+    // @ObservedObject var strayModel=StrayCatsALLViewModel()
     
     //데이터 추가 로드시 8개씩
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열
@@ -45,76 +49,76 @@ struct CareCatView: View {
     // Model 클래스의 인스턴스를 생성
     var body: some View {
         NavigationView{
-            ZStack(alignment: .bottomTrailing){
-                VStack{
-                    MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                        .frame(height: 300)
-                    
-                    // Spacer()
-                    // CategoryItemView(isShowingModal: $isShowingModal)
-                    VStack(alignment: .leading, spacing: 6){
-                        if let strayCatList = strayModel.arrGeoCatsList {
-                        
-                            
-                          
-                            ScrollView(.vertical, showsIndicators: false) {
-                                HStack{
-                                    ForEach(strayCatList) { strayCat in
-                                        VStack{
-                                            StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                                .frame(width: 150)
+                ZStack(alignment: .bottomTrailing){
+                    if strayModel.isDataLoaded {
+                        VStack{
+                            MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                                .frame(height: 300)
+                            // Spacer()
+                            // CategoryItemView(isShowingModal: $isShowingModal)
+                            VStack(alignment: .leading, spacing: 6){
+                                if let strayCatList = strayModel.filterGeoCatsList {
+                                    ScrollView(.vertical, showsIndicators: false) {
+                                        HStack{
+                                            ForEach(strayCatList) { strayCat in
+                                                VStack{
+                                                    StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                                        .frame(width: 150)
+                                                        .background(Color.yellow)
+                                                }
+                                                //     ConversationCell(viewModel: ConversationCellViewModel(message))
+                                                // VStack{
+                                                //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
+                                                //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
+                                                //     }
+                                                //     )}
+                                                
+                                            }
                                         }
-                                        //     ConversationCell(viewModel: ConversationCellViewModel(message))
-                                        // VStack{
-                                        //     LazyVGrid(columns: gridLayout, spacing: 15, content: {
-                                        //         StrayCatsItemView(viewModel: StrayCatsItemViewModel(strayCat))
-                                        //     }
-                                        //     )}
                                         
+                                        // if visibleCount < strayCatList.count {
+                                        //     Button("더 보기") {
+                                        //         visibleCount += 8 // 다음 8개 아이템을 표시
+                                        //         if visibleCount > strayCatList.count {
+                                        //             visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
+                                        //         }
+                                        //     }
+                                        // }
                                     }
+                                } else {
+                                    Text("이벤트등록된 고양이가 없네요")
+                                    Spacer()
                                 }
-                                
-                                // if visibleCount < strayCatList.count {
-                                //     Button("더 보기") {
-                                //         visibleCount += 8 // 다음 8개 아이템을 표시
-                                //         if visibleCount > strayCatList.count {
-                                //             visibleCount = strayCatList.count // 끝까지 도달하면 모든 아이템을 표시
-                                //         }
-                                //     }
-                                // }
+                            } //List
+                            .sheet(isPresented: $isShowingModal) {
+                                // 모달이 표시되면 addEvent 뷰가 열립니다.
+                                AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
                             }
-                        } else {
-                            Text("이벤트등록된 고양이가 없네요")
-                            Spacer()
+                            
                         }
-                    } //List
-                    .sheet(isPresented: $isShowingModal) {
-                        // 모달이 표시되면 addEvent 뷰가 열립니다.
-                        AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
-                    }
-                    
-                }
-                VStack{
-                    Button(action:
-                            {
-                        isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                    }
-                           , label: {
-                        Image(systemName: "plus")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 60)
-                            .background(Color.primaryColor)
-                            .clipShape(Capsule())
+                        VStack{
+                            Button(action:
+                                    {
+                                isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                            }
+                                   , label: {
+                                Image(systemName: "plus")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(width: 60, height: 60)
+                                    .background(Color.primaryColor)
+                                    .clipShape(Capsule())
+                                    .padding()
+                            })
                             .padding()
-                    })
-                    .padding()
-                    .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
+                            .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
+                        }
+                    }
+                
+                    //
+                    // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
                 }
-                //
-                // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
             }
-        }
         .onAppear{
             var coordi:Array=[0.0,0.0]
             coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
