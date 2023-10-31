@@ -71,3 +71,6 @@ let DELETE_ALL_CARE = "https://cat-saving-heros.azurewebsites.net/api/carecat/de
 
 //네비게이션바 높이
 let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height
+
+
+let feedback = UIImpactFeedbackGenerator(style: .medium)

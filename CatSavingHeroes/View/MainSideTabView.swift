@@ -46,17 +46,18 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(0)
                 
+        
+                
+                
                 NavigationView{
                     CareCatView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
+                        // .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
                 }
                         .tabItem {
                             Image(systemName: "heart.fill")
                             Text("주변돌봄")
                         }
                         .tag(0)
-                
-                
                 
                 // AddCatView(presentSideMenu: $isShowingSideMenu)
                 //     .tabItem {
@@ -68,7 +69,7 @@ struct MainSideTabView: View {
                 NavigationView{
                     VStack{
                         if showTopCustomView {
-                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            TopCustomView()
                         }
                         StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
                     }
@@ -80,15 +81,13 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     LocationFollowView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
+                        .overlay(TopCustomView(), alignment: .top)
                 }
                     .tabItem {
                         Image(systemName: "person.fill")
                         Text("영웅업무")
                     }
                     .tag(1)
-                
-                
             }
             SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
         }
@@ -96,9 +95,9 @@ struct MainSideTabView: View {
 }
 
 struct TopCustomView: View {
-    @Binding var presentNavigationBar :Bool
+    // @Binding var presentNavigationBar :Bool
     var body: some View {
-        NavigationBarView(presentNavigationBar: $presentNavigationBar)
+        NavigationBarView()
             .padding(.horizontal, 15)
             .padding(.bottom)
         // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)

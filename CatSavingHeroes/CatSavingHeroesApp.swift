@@ -23,7 +23,6 @@ import FirebaseFirestore
     init() {
         FirebaseApp.configure()
         let db = Firestore.firestore()
-      
     }
    
     var body: some Scene {

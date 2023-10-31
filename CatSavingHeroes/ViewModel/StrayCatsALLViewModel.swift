@@ -33,7 +33,7 @@ class StrayCatsALLViewModel: ObservableObject {
            }
        }
     
-    func loadStrayAllCats(coordinates:[Double],meter:Int) {
+    func loadStrayAllCats(coordinates:[Double],meter:Int) -> [EventCat]? {
            print("coordinates: \(coordinates)")
         let parameters: Parameters = [
             "coordinates": coordinates,
@@ -51,6 +51,7 @@ class StrayCatsALLViewModel: ObservableObject {
                     print("실패 디코딩 StrayCatsItemViewModel : \(error.localizedDescription)")
                 }
             }
+        return self.arrGeoCatsList
     }
     
     

@@ -15,6 +15,7 @@ import Alamofire
 
 class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
     
+    @Published var geoCatEventList:[EventCat]=[]
     @Published private var region: MKCoordinateRegion = {
         var mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
         var mapZoomLevel = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)

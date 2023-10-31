@@ -8,20 +8,18 @@
 import SwiftUI
 
 struct CatDetailView: View {
-    
-    @ObservedObject var viewModel:StrayCatsItemViewModel
+    @EnvironmentObject var shop: Shop    // @ObservedObject var viewModel:StrayCatsItemViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
           
             // DETAIL TOP PART
-            TopPartDetailView(viewModel: StrayCatsItemViewModel(viewModel.strayArrCats))
+            // TopPartDetailView(viewModel: StrayCatsItemViewModel(viewModel.strayArrCats))
+            TopPartDetailView()
                 .padding(.horizontal)
-                .offset(y:-30)
                 .zIndex(1)
             FavouriteDetailView()
                 .padding(.horizontal)
-                .offset(y:-30)
             
             ZStack {
                 Rectangle()
@@ -93,7 +91,6 @@ struct CatDetailView: View {
                 // .offset(y: 40)
                 
             }
-            .offset(y:-30)
             // .padding(.vertical, 5)
             
             // DETAIL BOTTOM PART
