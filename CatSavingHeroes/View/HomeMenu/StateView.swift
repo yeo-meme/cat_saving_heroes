@@ -94,8 +94,19 @@ struct StateView: View {
                                                         .bold()
                                                         .foregroundColor(.black)
                                                 }
-                                                Text("나는 사용자의 설명입니다 ")
-                                                    .foregroundColor(Color(.systemGray))
+                                                
+                                                if let userState = viewModel.currentUser?.status {
+                                                    if let status = Status(rawValue: userState.rawValue) {
+                                                        Text(status.title)
+                                                            .foregroundColor(Color(.systemGray))
+                                                    }
+                                    
+                                                } else {
+                                                    Text("사용자의 상태입니다")
+                                                        .bold()
+                                                        .foregroundColor(.black)
+                                                }
+                                                
                                             }
                                             Spacer()
                                         }

@@ -27,14 +27,17 @@ struct EditProfileCell: View {
                             .scaledToFill()
                             .frame(width: 200, height: 200)
                             .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit) 
                     } else {
                         KFImage(URL(string: viewModel.user.profileImageUrl))
                             .resizable()
                             .scaledToFill()
                             .frame(width: 200, height: 200)
                             .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit) // Add this line
                     }
-                }.sheet(isPresented: $showImagePicker, onDismiss: loadImage) { ImagePicker(image: $selectedImage) }
+                }
+                .sheet(isPresented: $showImagePicker, onDismiss: loadImage) { ImagePicker(image: $selectedImage) }
             }.padding(32)
         }
     }

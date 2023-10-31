@@ -22,7 +22,7 @@ struct EditProfileView: View {
     }
     
     var body: some View {
-        ZStack {
+        ZStack(alignment:.bottomTrailing) {
             Color(.systemGroupedBackground).ignoresSafeArea()
             
             VStack(spacing: 1) {

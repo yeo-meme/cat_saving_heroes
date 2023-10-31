@@ -19,6 +19,7 @@ struct SettingsView: View {
     }
     
     var body: some View {
+        
         ZStack{
             Color(.systemBackground)
                 .ignoresSafeArea()
