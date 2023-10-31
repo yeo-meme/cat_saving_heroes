@@ -37,26 +37,59 @@ struct CatDetailView: View {
             
             // DETAIL BOTTOM PART
             VStack(alignment: .center, spacing: 0, content: {
-              // RATINGS + SIZES
+                VStack(alignment: .leading, content: {
+                    FavouriteDetailView()
+                        .padding(.horizontal)// RATINGS + SIZES
+                        .padding(.top, -20)
+                        .padding(.bottom, 10)
+                })
+                
               // RatingsSizesDetailView()
               //   .padding(.top, -20)
               //   .padding(.bottom, 10)
               
               // DESCRIPTION
-              ScrollView(.vertical, showsIndicators: false, content: {
-                Text(shop.selectedProduct?.description ?? "sampleProduct.description")
-                  .font(.system(.body, design: .rounded))
-                  .foregroundColor(.gray)
-                  .multilineTextAlignment(.leading)
-              }) //: SCROLL
+              // ScrollView(.vertical, showsIndicators: false, content: {
+              //   Text(shop.selectedProduct?.description ?? "sampleProduct.description")
+              //     .font(.system(.body, design: .rounded))
+              //     .foregroundColor(.gray)
+              //     .multilineTextAlignment(.leading)
+              // }) //: SCROLL
+                
+                //고양이 카드
+                ZStack {
+                    Rectangle()
+                        .fill(Color.black) // 검은색 배경
+                        .frame(width: .infinity, height: 320) // 원하는 크기로 설정
+                        .cornerRadius(10) // 원하는 모서리 반경 설정
+                        .shadow(color: .gray, radius: 3, x: 0, y: 0) // 그림자 효과
+                        .padding(.trailing)
+                        .padding(.leading)
+                    
+                    
+                    
+                    //고양이 카드
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing:1){
+                            let aaa = ["1","2","3","4","5"]
+                            ForEach(aaa, id: \.self) { message in
+                                CareDetailListItemCell()
+                            }
+                        }
+                    }.frame(height: 160)
+                        .padding(.trailing)
+                        .padding(.leading)
+                    
+                    
+                }//: 고양이 카드
               
               // QUANTITY + FAVOURITE
               // QuantityFavouriteDetailView()
-                .padding(.vertical, 10)
+                // .padding(.vertical, 10)
               
               // ADD TO CART
               // AddToCartDetailView()
-                .padding(.bottom, 20)
+                // .padding(.bottom, 20)
             }) //: VSTACK
             .padding(.horizontal)
             .background(
@@ -66,36 +99,10 @@ struct CatDetailView: View {
             )
             
             
-            FavouriteDetailView()
-                .padding(.horizontal)
+     
             
             
-            //고양이 카드
-            // ZStack {
-            //     Rectangle()
-            //         .fill(Color.black) // 검은색 배경
-            //         .frame(width: .infinity, height: 320) // 원하는 크기로 설정
-            //         .cornerRadius(10) // 원하는 모서리 반경 설정
-            //         .shadow(color: .gray, radius: 3, x: 0, y: 0) // 그림자 효과
-            //         .padding(.trailing)
-            //         .padding(.leading)
-            //     
-            //     
-            //     
-            //     //고양이 카드
-            //     ScrollView(.vertical, showsIndicators: false) {
-            //         VStack(spacing:1){
-            //             let aaa = ["1","2","3","4","5"]
-            //             ForEach(aaa, id: \.self) { message in
-            //                 CareDetailListItemCell()
-            //             }
-            //         }
-            //     }.frame(height: 160)
-            //         .padding(.trailing)
-            //         .padding(.leading)
-            //     
-            //     
-            // }:// 고양이 카드
+           
         }) //: VSTACK
         .zIndex(0)
         .ignoresSafeArea(.all, edges: .all)
@@ -112,7 +119,6 @@ struct CatDetailView: View {
         .onDisappear{
             self.showTopCustomView.toggle()
         }
-        
     }
 }
 // 

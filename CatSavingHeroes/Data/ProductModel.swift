@@ -11,7 +11,7 @@ struct Product: Codable, Identifiable {
   let id: Int
   let name: String
   let image: String
-  let price: Int
+  let address: String
   let description: String
   let color: [Double]
   
@@ -19,5 +19,5 @@ struct Product: Codable, Identifiable {
   var green: Double { return color[1] }
   var blue: Double { return color[2] }
   
-  var formattedPrice: String { return "$\(price)" }
+  // var formattedPrice: String { return "$\(price)" }
 }

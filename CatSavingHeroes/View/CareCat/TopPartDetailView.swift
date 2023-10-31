@@ -20,10 +20,11 @@ struct TopPartDetailView: View {
     HStack(alignment: .center, spacing: 6, content: {
       // PRICE
       VStack(alignment: .leading, spacing: 6, content: {
-        Text("Price")
-          .fontWeight(.semibold)
+          
+          Text(shop.selectedProduct?.address ?? "")
+                  .fontWeight(.semibold)
         
-          Text(shop.selectedProduct?.formattedPrice ?? "")
+          Text(shop.selectedProduct?.name ?? "")
           .font(.largeTitle)
           .fontWeight(.black)
           .scaleEffect(1.35, anchor: .leading)
@@ -36,6 +37,8 @@ struct TopPartDetailView: View {
         Image(shop.selectedProduct?.image ?? "")
         .resizable()
         .scaledToFit()
+        .clipShape(Capsule())
+        .frame(width: 200, height: 200)
         .offset(y: isAnimating ? 0 : -35)
     }) //: HSTACK
     .onAppear(perform: {

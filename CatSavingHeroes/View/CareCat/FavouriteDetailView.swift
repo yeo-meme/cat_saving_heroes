@@ -16,7 +16,6 @@ struct FavouriteDetailView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 6, content: {
       
-            Spacer()
             VStack{
                 Button(action: {
                     // feedback.impactOccurred()
@@ -60,7 +59,7 @@ struct FavouriteDetailView: View {
                     .font(.headline)
                     .foregroundColor(Color.gray)
             }.padding(10)
-            
+            Spacer()
         }) //: HSTACK
         .font(.system(.title, design: .rounded))
         .foregroundColor(.black)

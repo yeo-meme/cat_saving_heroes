@@ -77,12 +77,14 @@ struct AddEventView: View {
                 //                }
                 
                 ScrollView{
-                   SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd)
+                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
                         }
-                        .padding()
+                        .padding(.trailing, 32)
+                        .padding(.leading, 32)
+                        .padding(.top , 32)
                     VStack{
                         if isEditing {
                             // if isSearchEnd {
@@ -92,12 +94,12 @@ struct AddEventView: View {
                             // }
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
                         } else {
-                            ZStack {
-                                Image("play_cat_background")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .edgesIgnoringSafeArea(.all)
-                                    .padding(8)
+                            ZStack(alignment:.bottomTrailing) {
+                                // Image("play_cat_background")
+                                //     .resizable()
+                                //     .scaledToFill()
+                                //     .edgesIgnoringSafeArea(.all)
+                                //     .padding(8)
                                 
                                 
                                 VStack(spacing: 0) {
@@ -110,118 +112,48 @@ struct AddEventView: View {
                                                 .font(.headline)
                                         )
                                     // Other content specific to this VStack
-                                }//:Date
-                                .padding(.top, 10)
-                                .offset(y: -200)
-                                
-                                VStack {
-                                    HStack(spacing: 10) {
-                                        
-                                        Image("meal")
-                                            .resizable()
-                                            .frame(width: 50,height: 50 )
-                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                            careStateIndex=0
-                                        })
-                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                            careStateIndex=1
-                                        })
-                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                            careStateIndex=2
-                                        })
-                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                            careStateIndex=3
-                                        })
-                                        EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
-                                            careStateIndex=4
-                                        })
-                                        // Button(action: {
-                                        //     print("button 1: \($isButtonClicked1.wrappedValue)")
-                                        //     isButtonClicked1.toggle()
-                                        //
-                                        //     // buttonStates[0].toggle() //false
-                                        //     print("button 이벤트 후 토글 : \(buttonStates[0])")
-                                        //     toggleState(index: 0)
-                                        //     // 버튼 클릭 시 수행할 작업
-                                        // }) {
-                                        //     EventAddButton(buttonStates: $buttonStates, text: "찾음", action: {})
-                                        //
-                                        //
-                                        // }
-                                        //
-                                        // Button(action: {
-                                        //     isButtonClicked2.toggle()
-                                        //     toggleState(index: 1)
-                                        //     print("button 2: \($isButtonClicked2)")
-                                        // }) {
-                                        //     EventAddButton(buttonStates: $buttonStates, text: "인사", action: {})
-                                        // }
-                                        //
-                                        // Button(action: {
-                                        //     isButtonClicked3.toggle()
-                                        //     toggleState(index: 2)
-                                        //     print("button 3: \($isButtonClicked3)")
-                                        // }) {
-                                        //
-                                        //     EventAddButton(buttonStates: $buttonStates, text: "놀이", action: {})
-                                        // }
-                                        //
-                                        // Button(action: {
-                                        //     // 버튼 클릭 시 수행할 작업
-                                        //     isButtonClicked4.toggle()
-                                        //     toggleState(index: 3)
-                                        //     print("button 4: \($isButtonClicked4)")
-                                        // }) {
-                                        //     EventAddButton(buttonStates: $buttonStates, text: "밥줌", action: {})
-                                        // }
-                                        // Button(action: {
-                                        //     isButtonClicked5.toggle()
-                                        //     toggleState(index: 4)
-                                        //     print("button 5: \($isButtonClicked5)")
-                                        // }) {
-                                        //     EventAddButton(buttonStates: $buttonStates, text: "아픔", action: {})
-                                        // }
-                                        
-                                    }
-                                }
-                                .frame(height: 50)
-                                .offset(y: -130)
-                                
-                                
-                                VStack(spacing: 0) {
-                                    if let cat = choiceCat {
-                                        Capsule()
-                                            .frame(width: 100, height: 50)
-                                            .foregroundColor(Color.primaryColor)
-                                            .overlay(
-                                                Text(cat.name)
-                                                    .foregroundColor(.white)
-                                                    .font(.headline)
-                                            )
-                                    }
                                     
-                                    // Capsule()
-                                    //     .frame(width: 100, height: 50)
-                                    //     .foregroundColor(Color.primaryColor)
-                                    //     .overlay(
-                                    //         Text(selectedCat?.name ?? "")
-                                    //             .foregroundColor(.white)
-                                    //             .font(.headline)
-                                    //     )
-                                    // Other content specific to this VStack
-                                }//:Date
-                                .padding(.top, 10)
-                                .offset(y: 100)
-                            }
-                         
-                            
-                            
-                            VStack{
-                                VStack{
+                                    BrandItemView()
+                                    
+                                    //선택된 고양이
+                                    VStack(spacing: 0) {
+                                        if let cat = choiceCat {
+                                            Capsule()
+                                                .frame(width: 100, height: 50)
+                                                .foregroundColor(Color.primaryColor)
+                                                .overlay(
+                                                    Text(cat.name)
+                                                        .foregroundColor(.white)
+                                                        .font(.headline)
+                                                )
+                                        } else {
+                                            Text("검색을 통해 고양이를 검색해주세요")
+                                                .font(.system(size: 18, weight: .semibold))
+                                                .frame(width: 200, height: 80)
+                                                // .clipShape(Circle())
+                                                .overlay(RoundedRectangle(cornerRadius: 20) .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])))
+                                        }
+                                        
+                                        // Capsule()
+                                        //     .frame(width: 100, height: 50)
+                                        //     .foregroundColor(Color.primaryColor)
+                                        //     .overlay(
+                                        //         Text(selectedCat?.name ?? "")
+                                        //             .foregroundColor(.white)
+                                        //             .font(.headline)
+                                        //     )
+                                        // Other content specific to this VStack
+                                    }//:Date
+                                    
+                                 
+                                    
                                     CustomTextField(imageName: "OIGG",
                                                     placeholder: "나만의 메모를 남겨보세요",
                                                     isSecureField: false,
                                                     text: $memo)
+                                    .padding(.trailing, 32)
+                                    .padding(.leading, 32)
+                                    .padding(.top, 30)
                                     // TextField("나만의 메모", text: $memo)
                                     //     .textFieldStyle(RoundedBorderTextFieldStyle()) // 선택적으로 스타일 지정
                                     //     .padding()
@@ -244,10 +176,10 @@ struct AddEventView: View {
                                             locationRecord.longitude = addressManager.lastLocation.longitude
                                             let coordinates = [locationRecord.longitude,locationRecord.latitude]
                                             
-                                         
+                                            
                                             model.isRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinates: coordinates, address: address,completeAction: completeAction)
                                             print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
-                                             
+                                            
                                         } else {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
@@ -258,105 +190,106 @@ struct AddEventView: View {
                                             print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
                                         }
                                         
-                                            mode.wrappedValue.dismiss()
-                                            print("모달 닫기 ")
-                                    }//:VSTACK
+                                        mode.wrappedValue.dismiss()
+                                        print("모달 닫기 ")
+                                    }//: 캡슐버튼
                                 }//:VSTACK
-                            }//:VSTACK 메모, 저장하기
+                                .padding(.top, 60)
+                            }
+                        }//:else 서치 페이지
+                            }//:ZSTACK
+                            }//:SCROLLVIEW
+                        }//: VSTACK
+                    }//: NAVIGATIONVIEW
+                }
+                
+            }
+            
+            
+            struct SearchBar: View {
+                @Binding var text: String
+                @Binding var isEditing: Bool
+                @Binding var isShowingSearchModal:Bool
+                // @Binding var catRealmArr:[CatRealmModel] //String
+                // @Binding var selectedCat : CatRealmModel?
+                @Binding var catSearchListData:[Cats] //String
+                @Binding var choiceCat : Cats?
+                @State var isCatArrfinish:Bool = false
+                @Binding var isSearchEnd:Bool
+                
+                // @Binding var catSearchListData : [Cats]?
+                // @Binding var catSearchData : Cats?
+                
+                
+                var body: some View {
+                    HStack {
+                        TextField("Search...", text: $text)
+                            .padding(8)
+                            .padding(.horizontal, 32)
+                            .background(Color(.systemGroupedBackground))
+                            .cornerRadius(8)
+                            .overlay(
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundColor(Color(.systemGray2))
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .padding(.leading, 10)
+                            )
+                            .onSubmit {
+                                catsSearch()
+                                // realmCall()
+                            }
+                        if isEditing {
+                            Button(action: {
+                                isEditing = false
+                                text = ""
+                                // selectedCat = ""
+                                UIApplication.shared.endEditing()
+                            }, label: {
+                                Text("Cancel")
+                                    .foregroundColor(.black)
+                            })
+                            .padding(.trailing, 8)
                         }
                     }
-                }//:SCROLLVIEW
-            }//: VSTACK
-        }//: NAVIGATIONVIEW
-    }
-    
-}
-
-
-struct SearchBar: View {
-    @Binding var text: String
-    @Binding var isEditing: Bool
-    @Binding var isShowingSearchModal:Bool
-    // @Binding var catRealmArr:[CatRealmModel] //String
-    // @Binding var selectedCat : CatRealmModel?    
-    @Binding var catSearchListData:[Cats] //String
-    @Binding var choiceCat : Cats?
-    @State var isCatArrfinish:Bool = false
-    @Binding var isSearchEnd:Bool
-    
-    // @Binding var catSearchListData : [Cats]?
-    // @Binding var catSearchData : Cats?
-    
-    
-    var body: some View {
-        HStack {
-            TextField("Search...", text: $text)
-                .padding(8)
-                .padding(.horizontal, 32)
-                .background(Color(.systemGroupedBackground))
-                .cornerRadius(8)
-                .overlay(
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(Color(.systemGray2))
-                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, 10)
-                )
-                .onSubmit {
-                    catsSearch()
-                    // realmCall()
+                    
                 }
-            if isEditing {
-                Button(action: {
-                    isEditing = false
-                    text = ""
-                    // selectedCat = ""
-                    UIApplication.shared.endEditing()
-                }, label: {
-                    Text("Cancel")
-                        .foregroundColor(.black)
-                })
-                .padding(.trailing, 8)
+                // func realmCall() {
+                //     let cats = RealmHelper.shared.readCats(withName: text)
+                //     catRealmArr = cats
+                //     isSearchEnd = true
+                // }
+                
+                func catsFilterSearch(){
+                    print("고양이 검색어 : \(text)")
+                    if self.catSearchListData.isEmpty {
+                        
+                    }
+                    for catsData in self.catSearchListData {
+                        if catsData.name == text {
+                            self.catSearchListData.removeAll()
+                            self.catSearchListData.append(catsData)
+                            print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
+                        }
+                    }
+                    isSearchEnd = true
+                }
+                
+                
+                func catsSearch() {
+                    AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+                        switch response.result {
+                        case .success(let value):
+                            print("성공 디코딩 : \(value)")
+                            self.catSearchListData = value
+                            catsFilterSearch()
+                        case .failure(let error):
+                            print("실패 디코딩 : \(error.localizedDescription)")
+                        }
+                    }
+                }
             }
-        }
-        
-    }
-    // func realmCall() {
-    //     let cats = RealmHelper.shared.readCats(withName: text)
-    //     catRealmArr = cats
-    //     isSearchEnd = true
-    // }
-    
-    func catsFilterSearch(){
-        print("고양이 검색어 : \(text)")
-        if self.catSearchListData.isEmpty {
             
-        }
-        for catsData in self.catSearchListData {
-                if catsData.name == text {
-                    self.catSearchListData.removeAll()
-                    self.catSearchListData.append(catsData)
-                    print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
-                }
-            }
-        isSearchEnd = true
-    }
-    
- 
-    func catsSearch() {
-        AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
-            switch response.result {
-            case .success(let value):
-                print("성공 디코딩 : \(value)")
-                self.catSearchListData = value
-                catsFilterSearch()
-            case .failure(let error):
-                print("실패 디코딩 : \(error.localizedDescription)")
-            }
-        }
-    }
-}
-
-
-// #Preview {
-//     AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catSearchListData: [], catListData: []
-//     )}
+            
+            #Preview {
+                AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catListData: [], catSearchListData: []
+                )}
