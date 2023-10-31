@@ -16,8 +16,6 @@ struct StateView: View {
     // @ObservedObject var viewModel: EditProfileViewModel
     @State private var showSheet = false
     
- 
-    
     
     @Environment(\.presentationMode) var mode
     @Binding var showTopCustomView: Bool

@@ -88,12 +88,9 @@ struct AddEventView: View {
                         .padding(.top , 32)
                     VStack{
                         if isEditing {
-                            // if isSearchEnd {
-                            //     SearchCatView(showConversationView: .constant(false),  isEditing: $isEditing, selectedCatArr: $catModelData, selectedCat: $selectedCat )
-                            // } else {
-                            //     SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,  selectedCatArr: $catModelData, selectedCat: $selectedCat)
-                            // }
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
+                            
+                          
                         } else {
                             ZStack(alignment:.bottomTrailing) {
                                 
@@ -219,7 +216,7 @@ struct AddEventView: View {
                 
                 var body: some View {
                     HStack {
-                        TextField("Search...", text: $text)
+                        TextField("고양이의 이름을 입력하세요", text: $text)
                             .padding(8)
                             .padding(.horizontal, 32)
                             .background(Color(.systemGroupedBackground))
@@ -234,6 +231,7 @@ struct AddEventView: View {
                                 catsSearch()
                                 // realmCall()
                             }
+                      
                         if isEditing {
                             Button(action: {
                                 isEditing = false
@@ -272,7 +270,7 @@ struct AddEventView: View {
                 
                 
                 func catsSearch() {
-                    AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+                    AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
                         switch response.result {
                         case .success(let value):
                             print("성공 디코딩 : \(value)")

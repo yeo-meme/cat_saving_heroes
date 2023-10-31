@@ -88,6 +88,10 @@ struct SideMenuView: View {
                             }
                         }
                         Spacer()
+                    
+                    
+                       //날씨 api
+                    
                 }.padding(.top, 100)
                     .frame(width: 270)
                     .background(

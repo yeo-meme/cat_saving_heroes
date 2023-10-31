@@ -46,8 +46,6 @@ struct MainSideTabView: View {
                 //     }
                 //     .tag(0)
                 
-        
-                
                 
                 NavigationView{
                     VStack{
