@@ -16,6 +16,7 @@ class StrayCatsALLViewModel: ObservableObject {
     @Published var coordinates:[Double]?
     @Published var meter:Int?
     @Published var isDataLoaded:Bool = false
+    // @EnvironmentObject var model:AddressManager
     
     init() {
         // var coordi:Array=[0.0,0.0]
@@ -23,7 +24,7 @@ class StrayCatsALLViewModel: ObservableObject {
         // coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
         // print("현재위치. : \(coordi)")
         // 
-        // self.loadStrayAllCats(coordinates: coordi, meter: 500)
+        // strayModel.loadStrayAllCatsIfNotLoaded(coordinates: coordi, meter: 500)
     }
     
     func loadStrayAllCatsIfNotLoaded(coordinates: [Double], meter: Int) {

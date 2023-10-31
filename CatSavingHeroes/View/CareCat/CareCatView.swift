@@ -11,6 +11,11 @@ import RealmSwift
 import Kingfisher
 
 struct CareCatView: View {
+    
+    @EnvironmentObject var shop: Shop
+    @EnvironmentObject var strayModel: StrayCatsALLViewModel
+    
+    
     @EnvironmentObject var model:AddressManager
     @State private var selectedNumber = 1
     @State private var isDataLoaded = false
@@ -49,7 +54,7 @@ struct CareCatView: View {
     @State private var selectedColor = 0 // 초기 선택 색상 인덱스
     @EnvironmentObject var eventAddViewModel: EventAddViewModel
     
-    @StateObject var strayModel = StrayCatsALLViewModel()
+    // @StateObject var strayModel = StrayCatsALLViewModel()
     @State private var filterGeoCats: [Cats]? // @State로 선언
 
     // @ObservedObject var strayModel=StrayCatsALLViewModel()
@@ -67,7 +72,7 @@ struct CareCatView: View {
     var body: some View {
         NavigationView{
                 ZStack(alignment: .bottomTrailing){
-                    if strayModel.isDataLoaded {
+                    // if strayModel.isDataLoaded {
                         VStack{
                             MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                                 .frame(height: 300)
@@ -84,38 +89,20 @@ struct CareCatView: View {
                             
                                 
                                 VStack(alignment: .leading, spacing: 6){
-                                        if let strayCatList = strayModel.filterGeoCatsList {
+                                        // if let strayCatList = strayModel.filterGeoCatsList {
                                             ScrollView {
                                                 LazyVGrid(columns: gridItems, spacing: 16) {
-                                                    ForEach(strayCatList) { item in
-                                                        
-                                                        // PHOTO
-                                                        ZStack() {
-                                                            KFImage(URL(string: item.cat_photo))
-                                                                .resizable()
-                                                            // .scaledToFit()
-                                                                .frame(width: 150, height: 150) // 원하는 크기로 설정
-                                                                .cornerRadius(12)
-                                                                .padding(10)
-                                                        }.cornerRadius(12)
-                                                        
-                                                        
-                                                        // Text(testData)
-                                                        //     .font(.title3)
-                                                        //     .fontWeight(.black)
-                                                        
-                                                        // Text(viewModel.strayArrCats.gender)
-                                                        //     .fontWeight(.semibold)
-                                                        //     .foregroundColor(.gray)
-                                                        // Text(item.name)
-                                                        //     .font(.title)
-                                                        //     .foregroundColor(.white)
-                                                        //     .frame(maxWidth: .infinity)
-                                                        //     .frame(height: 100)
-                                                        //     .background(Color.blue)
-                                                        //     .cornerRadius(10)
-                                                    }
-                                                    // })
+                                                    ForEach(products) { product in
+                                                      StrayCatsItemView(product: product)
+                                                        // .onTapGesture {
+                                                        //   feedback.impactOccurred()
+                                                        //   
+                                                        //   withAnimation(.easeOut) {
+                                                        //     shop.selectedProduct = product
+                                                        //     shop.showingProduct = true
+                                                        //   }
+                                                        // }
+                                                    } //: LOOP
                                                     
                                                     // if visibleCount < strayCatList.count {
                                                     //     Button("더 보기") {
@@ -128,7 +115,7 @@ struct CareCatView: View {
                                                 }
                                                 .padding()
                                             }
-                                    }
+                                    // }
                                     // } else {
                                     //     Text("이벤트등록된 고양이가 없네요")
                                     //     Spacer()
@@ -173,7 +160,7 @@ struct CareCatView: View {
                             .padding()
                             .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                         }
-                    }
+                    // }
                 
                     //
                     // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
@@ -182,12 +169,12 @@ struct CareCatView: View {
                 // .background(Color.red)
             }
         .onAppear{
-            var coordi:Array=[0.0,0.0]
-            coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
-            coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
-            print("현재위치. : \(coordi)")
-            
-            strayModel.loadStrayAllCatsIfNotLoaded(coordinates: coordi, meter: 500)
+            // var coordi:Array=[0.0,0.0]
+            // coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+            // coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+            // print("현재위치. : \(coordi)")
+            // 
+            // strayModel.loadStrayAllCatsIfNotLoaded(coordinates: coordi, meter: 500)
         }
     }
 }
