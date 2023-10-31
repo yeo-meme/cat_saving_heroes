@@ -20,7 +20,7 @@ class WatchCellViewModel: ObservableObject {
     }
     
     func fetchMatchCat() {
-        AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+        AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
              switch response.result {
              case .success(let value):
               print("성공 디코딩 fetchMatchCat : \(value)")
