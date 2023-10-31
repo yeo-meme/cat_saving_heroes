@@ -93,7 +93,7 @@ struct MainSideTabView: View {
                     }
                     .tag(1)
             }
-            SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
+            SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu,weatherManager: WeatherManager())))
         }
     }
 }

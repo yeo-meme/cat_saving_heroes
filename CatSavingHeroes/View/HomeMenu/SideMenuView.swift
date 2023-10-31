@@ -47,7 +47,7 @@ struct SideMenuView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @Binding var selectedSideMenuTab: Int
     @Binding var presentSideMenu: Bool
-    
+    @ObservedObject var weatherManager:WeatherManager
     
     // @State private var isPresentingSecondView = false
     
@@ -83,14 +83,36 @@ struct SideMenuView: View {
                                 } else if selectedSideMenuTab == 3 {
                                     AuthViewModel.shared.signOut()
                                 }
-                             
-                              
                             }
                         }
-                        Spacer()
                     
+                    //화씨 영국
+                    // if let fahrenheit = weatherManager.arrWetherData?.temp {
+                    //     var celsius = (fahrenheit - 32) * 5/9
+                    //     Text("\(celsius)℃")
+                    // }
                     
-                       //날씨 api
+                    VStack(alignment: .leading) {
+                        if let wheather = weatherManager.wetherData?.description {
+                            let wheatherImg = weatherManager.matchWeather(des:wheather)
+                            Image(wheatherImg)
+                                .resizable()
+                                .frame(width:130, height:130)
+                            
+                            let weatherMent = weatherManager.wheatherMent(des: wheather)
+                            
+                            Text(weatherMent)
+                                .font(.subheadline)
+                                .bold()
+                                .foregroundColor(Color.primaryColor)
+                            
+                        }
+                    }.padding(.leading, 20)
+                        .padding(.trailing, 20)
+                    //날씨 api
+                    Spacer()
+                   
+                     
                     
                 }.padding(.top, 100)
                     .frame(width: 270)

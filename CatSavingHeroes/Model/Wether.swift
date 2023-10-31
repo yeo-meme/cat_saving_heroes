@@ -24,13 +24,18 @@ struct Wind:Decodable {
 struct Clouds:Decodable {
     let all: Int
 }
-
+// 
+// struct Temp:Decodable {
+//     let day: Double
+//   
+// }
 
 struct WeatherData:Decodable {
     let name: String
     let weather: [Weather]
     let clouds: Clouds
     let wind:Wind
+    // let temp:[Temp]
 }
 
 

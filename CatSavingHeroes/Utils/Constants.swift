@@ -78,3 +78,15 @@ let feedback = UIImpactFeedbackGenerator(style: .medium)
 
 //이벤트버튼
 let eventBtn = ["feeding","found","greeting","pain","play","play2"]
+
+
+//날씨
+let CLEAR_SKY = "clear sky"
+let FEW_CLOUDS = "few clouds"
+let BROKEN_CLOUDS = "broken clouds"
+let SCATTERED_CLOUDS = "scattered clouds"
+let SHOWER_RAIN = "shower rain"
+let RAIN = "rain"
+let THUNDERSTORM = "thunderstorm"
+let SNOW = "snow"
+let MIST = "mist"

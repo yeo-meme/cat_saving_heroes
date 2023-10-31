@@ -59,7 +59,7 @@ class WeatherManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     private var manager: CLLocationManager = .init()
     @Published var mapView: MKMapView = .init()
     @Published var wetherData:Weather?
-    @Published var arrWetherData:[WeatherData]?
+    @Published var arrWetherData:WeatherData?
     let city = "seoul"
     var hasLoadedWeatherData = false
     
@@ -117,6 +117,54 @@ class WeatherManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         }
     }
     
+    func matchWeather(des:String) -> String {
+        switch des {
+        case CLEAR_SKY:
+        return "sunny"
+        case FEW_CLOUDS:
+        return "sunny_cloudlittle2"
+        case BROKEN_CLOUDS:
+        return "sunny_cloudmany"
+        case SCATTERED_CLOUDS:
+        return "sunny_cloudmany"
+        case SHOWER_RAIN:
+        return "rain_many"
+        case RAIN:
+        return "rain_many"
+        case THUNDERSTORM:
+        return "thunder"
+        case SNOW:
+        return "snow"
+            //주는 데이터 중 안개없음
+        default:
+            return "sunny"
+        }
+        
+    }
+    
+    func wheatherMent(des:String) -> String {
+        switch des {
+        case CLEAR_SKY:
+        return "고양이들은 햇빛 좋은 날을 좋아해요"
+        case FEW_CLOUDS:
+        return "하늘에 구름이 약간 있어요.\n고양이들이 햇빛을 즐길 수 있어요"
+        case BROKEN_CLOUDS:
+        return "하늘에 구름이 많아졌어요.\n고양이가 햇빛을 보기 어려워요"
+        case SCATTERED_CLOUDS:
+        return "하늘에 구름이 흩어져 있어요."
+        case SHOWER_RAIN:
+        return "비가 오고 있어요.\n고양이들은 지금은 실내에 머물러야 해요."
+        case RAIN:
+        return "비가 오고 있어요.\n고양이들은 지금은 실내에 머물러야 해요."
+        case THUNDERSTORM:
+        return "천둥 번개가 치고 있어요.\n고양이들을 안전한 장소로 옮겨주세요"
+        case SNOW:
+        return "눈이 내리고 있어요.\n고양이들이 눈에 놀랄 거예요!"
+            //주는 데이터 중 안개없음
+        default:
+            return "고양이들은 햇빛 좋은 날을 좋아해요"
+        }
+    }
     
     // MARK: - MapView에서 화면 이동이 종료되면 호출되는 메서드
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated: Bool) {
