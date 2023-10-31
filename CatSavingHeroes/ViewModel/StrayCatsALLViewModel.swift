@@ -11,7 +11,7 @@ import Alamofire
 
 class StrayCatsALLViewModel: ObservableObject {
     @Published var arrGeoCatsList:[EventCat]?
-    @Published var filterGeoCatsList:[Cats]?
+    var filterGeoCatsList:[Cats]?
     @Published var arrGeoCatsId:[String]=[]
     @Published var coordinates:[Double]?
     @Published var meter:Int?
@@ -25,6 +25,12 @@ class StrayCatsALLViewModel: ObservableObject {
         // 
         // self.loadStrayAllCats(coordinates: coordi, meter: 500)
     }
+    
+    func loadStrayAllCatsIfNotLoaded(coordinates: [Double], meter: Int) {
+           if !isDataLoaded { // 데이터가 아직 로드되지 않았을 때만 로드
+               loadStrayAllCats(coordinates: coordinates, meter: meter)
+           }
+       }
     
     func loadStrayAllCats(coordinates:[Double],meter:Int) {
            print("coordinates: \(coordinates)")

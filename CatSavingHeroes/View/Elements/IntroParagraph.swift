@@ -22,7 +22,7 @@ struct IntroParagraph: View {
             Text(title2)
                 .font(.largeTitle)
                 .bold()
-                .foregroundColor(.purple)
+                .foregroundColor(Color.primaryColor)
             
         }
         .padding(.horizontal, 32)

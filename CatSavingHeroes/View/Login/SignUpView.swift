@@ -71,7 +71,7 @@ struct SignUpView: View {
                 //             }
                 //         }
                 
-                IntroParagraph(title1: "간편한 핸드폰 인증만 통해", title2: "고양이를 돕는 영웅들이 되어보세요")
+                IntroParagraph(title1: "간편한 회원가입을 통해", title2: "고양이를 돕는 영웅들이 되어보세요")
                     .padding(.horizontal, -10)
                     .padding(.top, 20)
                 

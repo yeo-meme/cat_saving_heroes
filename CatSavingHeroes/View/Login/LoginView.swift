@@ -43,9 +43,9 @@ struct LoginView: View {
                         Spacer()
                     }
             
+                    IntroParagraph(title1: "냐옹.", title2: "Welcome Back")
                     
-                    
-                    IntroParagraph(title1: "냐옹", title2: "고양이의 안전을 위해 당신 누구인지 밝혀라")
+                    // IntroParagraph(title1: "냐옹", title2: "고양이의 안전을 위해 당신 누구인지 밝혀라")
                     
                     
                     TextField("email",text: $email, onEditingChanged: { editing in isEmailEditing = editing }
@@ -64,6 +64,8 @@ struct LoginView: View {
                             .padding(.leading,20)
                     )
                     .cornerRadius(9)
+                    .padding(.trailing, 32)
+                    .padding(.leading, 32)
                     
                     
                     TextField("비밀번호", text: $password, onEditingChanged: {editing in
@@ -81,6 +83,8 @@ struct LoginView: View {
                             .padding(.leading, 20)
                     )
                     .cornerRadius(9)
+                    .padding(.trailing, 32)
+                    .padding(.leading, 32)
                     
                     
                     VStack(spacing: 20){
@@ -121,7 +125,6 @@ struct LoginView: View {
                     Spacer()
                     
                 }//:VSTACK
-                .padding(.horizontal)
                 .padding(.top, -120)
                 
                 Spacer()

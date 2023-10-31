@@ -116,6 +116,10 @@ struct AddEventView: View {
                                 
                                 VStack {
                                     HStack(spacing: 10) {
+                                        
+                                        Image("meal")
+                                            .resizable()
+                                            .frame(width: 50,height: 50 )
                                         EventAddButton(buttonStates: $buttonStates, careStateIndex: $careStateIndex, text: "찾음", action: {
                                             careStateIndex=0
                                         })

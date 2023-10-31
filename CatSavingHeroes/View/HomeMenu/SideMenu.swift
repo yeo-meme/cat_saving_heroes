@@ -10,7 +10,7 @@ import SwiftUI
 struct SideMenu: View {
     @Binding var isShowing: Bool
     var content: AnyView
-    var edgeTransition: AnyTransition = .move(edge: .trailing)
+    var edgeTransition: AnyTransition = .move(edge: .leading)
     
     var body: some View {
         // GeometryReader { geometry in // 오른쪽 옵션

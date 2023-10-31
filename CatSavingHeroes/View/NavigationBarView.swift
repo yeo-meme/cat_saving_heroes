@@ -20,7 +20,10 @@ struct NavigationBarView: View {
             self.presentNavigationBar.toggle()
         }, label: {
           ZStack {
-            Image(systemName: "line.horizontal.3")
+            // Image(systemName: "line.horizontal.3")
+            Image("menu")
+               .resizable()
+               .frame(width: 32, height: 32)
               .font(.title)
               .foregroundColor(.black)
             
