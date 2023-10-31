@@ -95,12 +95,6 @@ struct AddEventView: View {
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
                         } else {
                             ZStack(alignment:.bottomTrailing) {
-                                // Image("play_cat_background")
-                                //     .resizable()
-                                //     .scaledToFill()
-                                //     .edgesIgnoringSafeArea(.all)
-                                //     .padding(8)
-                                
                                 
                                 VStack(spacing: 0) {
                                     Capsule()
@@ -145,7 +139,6 @@ struct AddEventView: View {
                                         // Other content specific to this VStack
                                     }//:Date
                                     
-                                 
                                     
                                     CustomTextField(imageName: "OIGG",
                                                     placeholder: "나만의 메모를 남겨보세요",
@@ -154,9 +147,6 @@ struct AddEventView: View {
                                     .padding(.trailing, 32)
                                     .padding(.leading, 32)
                                     .padding(.top, 30)
-                                    // TextField("나만의 메모", text: $memo)
-                                    //     .textFieldStyle(RoundedBorderTextFieldStyle()) // 선택적으로 스타일 지정
-                                    //     .padding()
                                     
                                     //false가 저장하기 텍스트 true가 인디케팅되는 상태
                                     CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {

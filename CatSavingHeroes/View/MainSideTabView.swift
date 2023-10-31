@@ -52,7 +52,7 @@ struct MainSideTabView: View {
                 NavigationView{
                     VStack{
                         if showTopCustomView {
-                            TopCustomView(presentNavigationBar: $presentNavigationBar)
+                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
                         CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                         // .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)

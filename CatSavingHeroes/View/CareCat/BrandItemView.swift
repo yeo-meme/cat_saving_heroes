@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BrandItemView: View {
     // MARK: - PROPERTY
-    
+    @State private var selectedEvent: String? // 선택된 이벤트 식별자를 저장하는 상태 변수
     let eventBtn = ["feeding","found","greeting","pain","play","play2"]
     
     // MARK: - BODY
@@ -28,8 +28,11 @@ struct BrandItemView: View {
                 .padding(3)
                 .background(Color.white.cornerRadius(12))
                 .background(
-                  RoundedRectangle(cornerRadius: 12).stroke(Color.gray, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 12).stroke(selectedEvent == event ? Color.primaryColor : Color.gray, lineWidth: selectedEvent == event ? 14 : 2) // 선택된 이벤트일 때 테두리 색상을 변경
                 )
+                .onTapGesture {
+                                     selectedEvent = event // 이미지를 탭했을 때 선택된 이벤트를 업데이트
+                                 }
           }
         }) //: GRID
         .frame(height: 200)
