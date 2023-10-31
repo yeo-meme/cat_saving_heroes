@@ -18,7 +18,7 @@ struct AddEventView: View {
     @State var isSearchEnd = false
     //Alamofire 컴플리트 핸들러
     @State var completeAction = false
-    
+    @State private var selectedEvent: String="" //선택된이벤트 저장
     //이벤트
     @State private var isButtonClicked1 = false
     @State private var isButtonClicked2 = false
@@ -49,7 +49,8 @@ struct AddEventView: View {
     @State var catSearchListData : [Cats]
     @State var choiceCat : Cats?
     
-    
+    //이벤트 버튼 초이스 인덱스
+    var selectedIndex: Int=10
     @State var isLinkActive = false
     var body: some View {
         NavigationView{
@@ -107,7 +108,9 @@ struct AddEventView: View {
                                         )
                                     // Other content specific to this VStack
                                     
-                                    BrandItemView()
+                                    BrandItemView(selectedEvent: $selectedEvent)
+                                 
+                                    
                                     
                                     //선택된 고양이
                                     VStack(spacing: 0) {
@@ -159,6 +162,9 @@ struct AddEventView: View {
                                         //     deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
                                         // )
                                         // Realm.Configuration.defaultConfiguration = config
+                                       
+                                     
+                                        
                                         
                                         if addressManager.isLocationTrackingEnabled {
                                             let locationRecord = LocationRecord()

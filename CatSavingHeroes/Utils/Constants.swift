@@ -74,3 +74,6 @@ let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height
 
 
 let feedback = UIImpactFeedbackGenerator(style: .medium)
+
+//이벤트버튼
+let eventBtn = ["feeding","found","greeting","pain","play","play2"]

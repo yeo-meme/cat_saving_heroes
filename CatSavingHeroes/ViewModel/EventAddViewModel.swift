@@ -17,6 +17,7 @@ class EventAddViewModel: ObservableObject {
     @Published var annotations: [MKPointAnnotation] = []
     @Published var typeChangeLocation: CLLocation?
     
+    var selectedIndex:Int?
     init(model: Model) {  // 생성자에서 Model 인스턴스 주입
         self.model = model
         isLocationTrackingEnabled = model.isLocationTrackingEnabled
@@ -36,6 +37,10 @@ class EventAddViewModel: ObservableObject {
     
     func notRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, address: String, date: Date,coordinates:[Double]) {
         
+        let event = UserDefaults.standard.string(forKey: "selectedEvent") ?? ""
+        let selectedEventNum = tranferEventIndex(event: event)
+        print("이벤트 선택: \(String(describing: selectedEventNum))")
+        
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
         let idFromSavedData = catId
@@ -46,7 +51,7 @@ class EventAddViewModel: ObservableObject {
             let jsonData = [
                 // "_id": generateUUID(),
                 "visible": 0,
-                "event": 3,
+                "event": selectedEventNum,
                 "user_uuid":userId,
                 "cat_uuid":idFromSavedData,
                 "view_count":0,
@@ -69,7 +74,34 @@ class EventAddViewModel: ObservableObject {
         }
     }
     
+    
+    func tranferEventIndex(event: String) -> Int? {
+        var selectedIndex: Int?
+        switch event {
+        case "feeding" :
+            selectedIndex = 0
+        case "found":
+            selectedIndex = 1
+        case "greeting":
+            selectedIndex = 2
+        case "pain":
+            selectedIndex = 3
+        case "play":
+            selectedIndex = 4
+        case "play2":
+            selectedIndex = 5
+       
+        default:
+            selectedIndex = nil
+        }
+        return selectedIndex
+    }
+    
     func isRuningCatWalkEventAdd(state: String, user_id: String, cat_id: String, memo: String, coordinates: [Double], address: String,completeAction:Bool) {
+        
+        let event = UserDefaults.standard.string(forKey: "selectedEvent") ?? ""
+        let selectedEventNum = tranferEventIndex(event: event)
+        
         
         let catId = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("선택 냥이 가제 : \(catId)")
@@ -83,7 +115,7 @@ class EventAddViewModel: ObservableObject {
             let jsonData = [
                 // "_id": generateUUID(),
                 "visible": 0,
-                "event": 3,
+                "event": selectedEventNum,
                 "user_uuid":userId,
                 "cat_uuid":idFromSavedData,
                 "view_count":0,
@@ -108,6 +140,7 @@ class EventAddViewModel: ObservableObject {
     
     //트랙킹 하고 있는 동안 이벤트 남기기
     func isRunningCatWalk(latitude: Double, logtitude: Double, state: String, user_id: String, cat_id: String, memo: String, coordinate: String, address: String, date: Date){
+        
         
         print("++> isRunningCatWalk 이벤트 에서 트랙킹에 넣을 값 확인 : \(latitude)")
         updateTrackingObject(latitude: latitude, logtitude: logtitude)
