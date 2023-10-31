@@ -29,8 +29,6 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             VStack{
-                
-               
                 VStack(alignment: .leading, spacing: 30){
                     Spacer()
                     
@@ -88,17 +86,26 @@ struct LoginView: View {
                     
                     
                     VStack(spacing: 20){
-                        HStack(){
-                            Button(action: {
-                                viewModel.login(withEmail: email, password: password)
-                                UserDefaults.standard.set(password, forKey: "password")
-                                UserDefaults.standard.set(email, forKey: "email")
-                            })
-                            {
-                                Text("로그인")
-                            }
-                            .frame(width: 100, height: 70)
+                            // Button(action: {
+                            //     viewModel.login(withEmail: email, password: password)
+                            //     UserDefaults.standard.set(password, forKey: "password")
+                            //     UserDefaults.standard.set(email, forKey: "email")
+                            // })
+                            // {
+                            //     Text("로그인")
+                            // }
+                            // .frame(width: 100, height: 70)
                          
+                            
+                            CapsuleButton(text: "Sign In",
+                                          disabled: email.count < 5 || password.count < 5,
+                                          isAnimating: isIndicatorAnimating && viewModel.errorMessage == "",
+                                          action: {
+                                                isIndicatorAnimating = true
+                                                viewModel.login(withEmail: email, password: password)
+                                          })
+                            
+                            
                             // CapsuleButton(text: "log In",
                             //               disabled: email.count < 5 || password.count < 6,
                             //               isAnimating: isIndicatorAnimating && viewModel.errorMessage == "",
@@ -108,30 +115,40 @@ struct LoginView: View {
                             //               })
                             
                             
-                            Button(action: {
-                                // userData.isLoggedIn = false
-                                self.showingSignUpView.toggle()
-                                
-                            }) {
-                                Text("회원가입")
-                            }
-                            .frame(width: 100, height: 70)
+                            // Button(action: {
+                            //     // userData.isLoggedIn = false
+                            //     self.showingSignUpView.toggle()
+                            //     
+                            // }) {
+                            //     Text("회원가입")
+                            // }
+                            // .frame(width: 100, height: 70)
                             
-                        }//:HSTACK
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.black)
+                        // 
+                        // .frame(maxWidth: .infinity)
+                        // .foregroundColor(.black)
                     }
-                    .cornerRadius(9)
                     Spacer()
                     
                 }//:VSTACK
                 .padding(.top, -120)
                 
                 Spacer()
+                
+                NavigationLink(
+                    destination: SignUpView()
+                        .navigationBarBackButtonHidden(true),
+                    label: {
+                        HStack {
+                            Text("Don't have an account?").font(.system(size: 14))
+                            Text("Sign Up").font(.system(size: 14, weight: .semibold))
+                        }
+                    }).padding(.bottom, 32)
+                
             }//: VStack
-            .sheet(isPresented: $showingSignUpView) {
-                SignUpView(isViewPresented: $isViewPresented).environment(\.managedObjectContext, self.managedObjectContext)
-            }
+            // .sheet(isPresented: $showingSignUpView) {
+            //     SignUpView(isViewPresented: $isViewPresented).environment(\.managedObjectContext, self.managedObjectContext)
+            // }
             .onAppear{
                 if let savedUserID = UserDefaults.standard.string(forKey: "email") {
                     email = savedUserID

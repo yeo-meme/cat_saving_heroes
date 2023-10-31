@@ -14,8 +14,8 @@ struct UserInfo: Identifiable, Decodable {
     var name: String
     var password: String
     var uid: String
-    var profileImageUrl: String
-    //    var status: Status
+    var profileImageUrl:String
+    var status: Status
 }
 
 let MOCK_USER = UserInfo(id: "default:000000",
@@ -23,5 +23,7 @@ let MOCK_USER = UserInfo(id: "default:000000",
                          name: "default:Username",
                          password: "default:000000",
                          uid: "default:111111111",
-                         profileImageUrl: "default:Profile Url")
+                         profileImageUrl: "default:Profile Url",
+                         status: Status.available
+)
 

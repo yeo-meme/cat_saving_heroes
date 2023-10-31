@@ -43,7 +43,6 @@ struct SearchCatView: View {
                             })
                         }
                     }
-                  
                 }
             }
         }

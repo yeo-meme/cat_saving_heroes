@@ -16,15 +16,11 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if(viewModel.didAuthenticateUser) {
-                // NavigationLink(destination: MainTabView(presentSideMenu: $presentSideMenu)) {
-                //                   Text("Log in successful!")
-                //               }
+            if viewModel.didLoginState {
                 MainSideTabView()
             } else {
                 LoginView()
             }
-            
             // LoginView()
         }
     }

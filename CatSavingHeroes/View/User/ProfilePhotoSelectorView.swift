@@ -46,15 +46,13 @@ struct ProfilePhotoSelectorView: View {
                 ImagePicker(image: $selectedImage)
             })
             
-            CapsuleButton(text: "다음", disabled: profileImage == nil, isAnimating: isIndicatorAnimating,
+            CapsuleButton(text: "다음",
+                          disabled: profileImage == nil,
+                          isAnimating: isIndicatorAnimating,
                           action: {
-                isIndicatorAnimating = true
-                viewModel.uploadProfileImage(selectedImage!) { success in
-                    if success {
-                    } else {
-                    }
-                }
-            }
+                            isIndicatorAnimating = true
+                            viewModel.uploadProfileImage(selectedImage!)
+                          }
             )
             Spacer()
         }

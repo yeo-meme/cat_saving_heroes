@@ -29,6 +29,7 @@ class AuthViewModel: NSObject, ObservableObject {
     var tempCurrentUsername = ""
     static let shared = AuthViewModel()
     @Published var didAuthenticateUser = false
+    @Published var didLoginState = false //메인변경ㅂㅍ
     
     override init() {
         super.init()
@@ -36,9 +37,9 @@ class AuthViewModel: NSObject, ObservableObject {
         sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         print("session Id : \(sessionId)")
         
-        if let user = Auth.auth().currentUser {
-                  self.didAuthenticateUser = true
-              }
+        // if let user = Auth.auth().currentUser {
+        //           self.didAuthenticateUser = true
+        //       }
         
         //리얼엠 마이그레이션
         let config = Realm.Configuration(
@@ -72,6 +73,12 @@ class AuthViewModel: NSObject, ObservableObject {
             guard let user = try? snapshot?.data(as: UserInfo.self) else { return }
             self.currentUser = user
             self.didAuthenticateUser = true
+            self.didLoginState = true
+            
+            //로그인창 기록
+            UserDefaults.standard.set(user.email,forKey: "email") 
+            UserDefaults.standard.set(user.password,forKey: "password")
+           
             print("AuthViewModel:LOGIN 패치 성공 여부 : \(self.currentUser)")
         }
     }
@@ -82,6 +89,7 @@ class AuthViewModel: NSObject, ObservableObject {
         //auth 사용자 맞는지 확인
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let (errorMessage) = error?.localizedDescription {
+                print("로그인 오류 : \(error?.localizedDescription)")
                 self.showErrorAlert = true
                 self.errorMessage = errorMessage
                 return
@@ -101,7 +109,8 @@ class AuthViewModel: NSObject, ObservableObject {
         
     }
     
-    func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {
+    // func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {
+        func uploadProfileImage(_ image: UIImage) {
         guard let uid = tempCurrentUser?.uid else {return}
         
         ImageUploader.uploadImage(image: image, folderName: FOLDER_PROFILE_IMAGES, uid: uid) { imageUrl in
@@ -113,7 +122,7 @@ class AuthViewModel: NSObject, ObservableObject {
                     self.showErrorAlert = true
                     self.errorMessage = errorMessage
                     print("errror \(errorMessage)")
-                    completion(false)
+                    // completion(false)
                     return
                 }
             }
@@ -179,6 +188,8 @@ class AuthViewModel: NSObject, ObservableObject {
                 }
             }
             
+        
+            
             self.currentUser?.profileImageUrl = imageUrl
             self.userSession = Auth.auth().currentUser
             self.fetchUser()
@@ -193,6 +204,7 @@ class AuthViewModel: NSObject, ObservableObject {
         self.currentUser = nil
         self.userSession = nil
         self.tempCurrentUser = nil
+        self.didLoginState = false
         UserDefaults.standard.removeObject(forKey: "User")
         self.sessionId = ""
         try? Auth.auth().signOut()
@@ -208,18 +220,21 @@ class AuthViewModel: NSObject, ObservableObject {
             if let (errorMessage) = error?.localizedDescription {
                 self.showErrorAlert = true
                 self.errorMessage = errorMessage
+                print("오류냐내용 : \(error?.localizedDescription)")
                 return
             }
             
             guard let user = result?.user else { return }
             self.tempCurrentUser = user
             self.tempCurrentUsername = name
-            createUid = String(user.uid)
+        
+            // createUid = String(user.uid)
             
             let data: [String: Any] = [KEY_EMAIL: email,
                                     KEY_USERNAME: name,
                                     KEY_PASSWORD: password,
-                                         KEY_UID: createUid
+                                         KEY_UID: createUid,
+                                      KEY_STATUS: Status.available.rawValue
             ]
             
             COLLECTION_USERS.document(user.uid).setData(data) { error in
@@ -229,6 +244,7 @@ class AuthViewModel: NSObject, ObservableObject {
                     return
                 }
                 self.didAuthenticateUser = true
+             
             }
         }
     }
