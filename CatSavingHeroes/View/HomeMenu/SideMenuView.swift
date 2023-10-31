@@ -72,7 +72,7 @@ struct SideMenuView: View {
                                 
                                 if selectedSideMenuTab == 0 {
                                     print("row index 0  : \(row.rawValue)")
-                                    NavigationLink(destination: CareCatView( presentSideMenu: $presentSideMenu)) {
+                                    NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
                                                 Label("새로운 화면", systemImage: "plus")
                                             }
                                 } else if selectedSideMenuTab == 1 {

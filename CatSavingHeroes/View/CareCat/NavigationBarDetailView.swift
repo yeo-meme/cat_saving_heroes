@@ -10,7 +10,7 @@ import SwiftUI
 struct NavigationBarDetailView: View {
   // MARK: - PROPERTY
   
-  // @EnvironmentObject var shop: Shop
+  @EnvironmentObject var shop: Shop
     
   // MARK: - BODY
   
@@ -18,9 +18,9 @@ struct NavigationBarDetailView: View {
     HStack {
       Button(action: {
         withAnimation(.easeIn) {
-          // feedback.impactOccurred()
-          // shop.selectedProduct = nil
-          // shop.showingProduct = false
+          feedback.impactOccurred()
+          shop.selectedProduct = nil
+          shop.showingProduct = false
         }
       }, label: {
         Image(systemName: "chevron.left")
@@ -30,11 +30,11 @@ struct NavigationBarDetailView: View {
       
       Spacer()
       
-      Button(action: {}, label: {
-        Image(systemName: "cart")
-          .font(.title)
-          .foregroundColor(.white)
-      })
+      // Button(action: {}, label: {
+      //   Image(systemName: "cart")
+      //     .font(.title)
+      //     .foregroundColor(.white)
+      // })
     } //: HSTACK
   }
 }

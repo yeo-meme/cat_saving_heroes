@@ -50,8 +50,14 @@ struct MainSideTabView: View {
                 
                 
                 NavigationView{
-                    CareCatView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
+                    VStack{
+                        if showTopCustomView {
+                            TopCustomView(presentNavigationBar: $presentNavigationBar)
+                        }
+                        CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
+                        // .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
+                        
+                    }
                 }
                         .tabItem {
                             Image(systemName: "heart.fill")

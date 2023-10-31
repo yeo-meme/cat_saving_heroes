@@ -33,6 +33,28 @@ class StrayCatsALLViewModel: ObservableObject {
            }
        }
     
+    func loadDetail() {
+        
+        
+        let parameters: Parameters = [
+            "_id": arrGeoCatsId,
+            // "_id": arrGeoCatsId[1],
+         ]
+        
+        AF.request(GEO_CAT_API_URL, method: .post,parameters: parameters).responseDecodable(of: [Cats].self) { response in
+            switch response.result {
+            case .success(let value):
+                print("나왔니 다람쥐: \(value)")
+                self.filterGeoCatsList = value
+                print("나왔니 다람쥐 : \(self.filterGeoCatsList)")
+                self.isDataLoaded = true
+                // self.filterCat()
+            case .failure(let error):
+                print("실패 나왔니 : \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func loadStrayAllCats(coordinates:[Double],meter:Int) -> [EventCat]? {
            print("coordinates: \(coordinates)")
         let parameters: Parameters = [
