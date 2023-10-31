@@ -11,7 +11,7 @@ import RealmSwift
 struct MainSideTabView: View {
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
-    // @State var presentNavigationBar = false
+    @State var presentNavigationBar = false
     @State var selectedSideMenuTab = 0
     @EnvironmentObject var model : AuthViewModel
     @EnvironmentObject var locationManager: AddressManager
@@ -51,7 +51,7 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     CareCatView(presentSideMenu: $isShowingSideMenu)
-                        // .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
+                        .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
                 }
                         .tabItem {
                             Image(systemName: "heart.fill")
@@ -69,7 +69,7 @@ struct MainSideTabView: View {
                 NavigationView{
                     VStack{
                         if showTopCustomView {
-                            TopCustomView()
+                            TopCustomView(presentNavigationBar: $presentNavigationBar)
                         }
                         StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
                     }
@@ -81,7 +81,7 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     LocationFollowView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(), alignment: .top)
+                        .overlay(TopCustomView(presentNavigationBar: $presentNavigationBar), alignment: .top)
                 }
                     .tabItem {
                         Image(systemName: "person.fill")
@@ -95,14 +95,18 @@ struct MainSideTabView: View {
 }
 
 struct TopCustomView: View {
-    // @Binding var presentNavigationBar :Bool
+    @Binding var presentNavigationBar :Bool
     var body: some View {
-        NavigationBarView()
-            .padding(.horizontal, 15)
-            .padding(.bottom)
+        NavigationBarView(presentNavigationBar: $presentNavigationBar)
+                  .padding(.horizontal, 15)
+                  .padding(.bottom, 5)
+                  .background(Color.white)
+        // NavigationBarView(presentNavigationBar: $presentNavigationBar)
+        //     .padding(.horizontal, 15)
+        //     .padding(.bottom)
         // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-            .background(Color.white)
-            .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
+        //     .background(Color.white)
+        //     .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 5)
     }
 }
 

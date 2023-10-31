@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavigationBarView: View {
   // MARK: - PROPERTY
-    // @Binding var presentNavigationBar:Bool
+    @Binding var presentNavigationBar:Bool
   @State private var isAnimated: Bool = false
   
   // MARK: - BODY
@@ -17,7 +17,7 @@ struct NavigationBarView: View {
   var body: some View {
     HStack {
         Button(action: {
-            // self.presentNavigationBar.toggle()
+            self.presentNavigationBar.toggle()
         }, label: {
           ZStack {
             // Image(systemName: "line.horizontal.3")
