@@ -12,7 +12,7 @@ import Kingfisher
 enum SideMenuRowType: Int, CaseIterable{
     case home = 0
     case mypage
-    // case logout
+    case logout
     
     var title: String{
         switch self {
@@ -20,8 +20,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "홈으로"
         case .mypage:
             return "마이페이지"
-        // case .logout:
-        //     return "로그아웃"
+        case .logout:
+            return "로그아웃"
         }
     }
     
@@ -31,8 +31,8 @@ enum SideMenuRowType: Int, CaseIterable{
             return "home"
         case .mypage:
             return "mypage"
-        // case .logout:
-        //     return "rectangle.portrait.and.arrow.right"
+        case .logout:
+            return "rectangle.portrait.and.arrow.right"
         }
     }
 }
@@ -67,23 +67,29 @@ struct SideMenuView: View {
                         //사이드 바
                         ForEach(SideMenuRowType.allCases, id: \.self){ row in
                             RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
-                                selectedSideMenuTab = row.rawValue
+                                // selectedSideMenuTab = row.rawValue // 메인탭 자동 전환
                                 presentSideMenu.toggle()
                             
-                                // if selectedSideMenuTab == 0 {
-                                //     print("row index 0  : \(row.rawValue)")
-                                //     NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
-                                //                 Label("새로운 화면", systemImage: "plus")
-                                //             }
-                                // } else if selectedSideMenuTab == 1 {
-                                //     print("row index 1 : \(row.rawValue)")
-                                //     NavigationLink("", destination: destinationView(for: row))
-                                //     // NavigationLink(destination: SettingsView(viewModel.currentUser ?? MOCK_USER)) {
-                                //     //             Label("새로운 화면", systemImage: "plus")
-                                //     //         }
-                                // } else if selectedSideMenuTab == 3 {
-                                //     AuthViewModel.shared.signOut()
-                                // }
+                                if row.rawValue == 0 {
+                                    print("SideMenuRowType row index 0  : \(row.rawValue)")
+                                    // NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
+                                    //             Label("새로운 화면", systemImage: "plus")
+                                    //         }
+                                    
+                                    NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
+                                                            Label(row.title, systemImage: "plus")
+                                                        }
+                                } else if row.rawValue == 1 {
+                                    print("SideMenuRowType row index 1 : \(row.rawValue)")
+                                    
+                                    NavigationLink(destination: SettingsView(viewModel.currentUser ?? MOCK_USER)) {
+                                                            Label(row.title, systemImage: "plus")
+                                                        }
+                                    
+                                  
+                                } else if row.rawValue == 2 {
+                                    AuthViewModel.shared.signOut()
+                                }
                             }
                         }
                     
@@ -92,7 +98,7 @@ struct SideMenuView: View {
                     //     var celsius = (fahrenheit - 32) * 5/9
                     //     Text("\(celsius)℃")
                     // }
-                    
+                    Spacer()
                     VStack(alignment: .leading) {
                         if let wheather = weatherManager.wetherData?.description {
                             let wheatherImg = weatherManager.matchWeather(des:wheather)

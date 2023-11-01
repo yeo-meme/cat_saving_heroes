@@ -72,8 +72,9 @@ let DELETE_ALL_CARE = "https://cat-saving-heros.azurewebsites.net/api/carecat/de
 
 
 //userInfo
-let USER_INFO_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add"
-let USER_INFO_SEE_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add/see"
+let USER_INFO_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add" //회원가입시 업데이트
+let USER_INFO_ALL_ROAD = "https://cat-saving-heros.azurewebsites.net/api/userinfo" //회원가입시 업데이트
+let USER_INFO_SEE_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add/see" //토글 좋아요
 
 
 //네비게이션바 높이

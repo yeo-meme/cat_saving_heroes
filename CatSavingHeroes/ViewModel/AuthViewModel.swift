@@ -33,17 +33,13 @@ class AuthViewModel: NSObject, ObservableObject {
     @Published var didLoginState = false //메인변경ㅂㅍ
     
     
-    private var userName = ""
-    private var userEmail = ""
-    private var userId = ""
-    
-    
     override init() {
         super.init()
         userSession = Auth.auth().currentUser
         sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         print("session Id : \(sessionId)")
         
+        self.allRoadUserInfoAPI()
         // if let user = Auth.auth().currentUser {
         //           self.didAuthenticateUser = true
         //       }
@@ -112,8 +108,18 @@ class AuthViewModel: NSObject, ObservableObject {
         }
     }
     
-    func profileImageget() {
-        
+    func allRoadUserInfoAPI() {
+        AF.request(USER_INFO_ALL_ROAD, method: .post,  encoding: JSONEncoding.default)
+            .responseDecodable(of: UserInfo.self) { response in
+                switch response.result {
+                case .success(let userInfo):
+                    // 성공적으로 데이터를 받았을 때
+                    print("allRoadUserInfoAPI POST DEBUG : \(userInfo)")
+                case .failure(let error):
+                    // 요청 또는 응답이 실패했을 때
+                    print("allRoadUserInfoAPI failed with error: \(error)")
+                }
+            }
     }
     
     // func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {

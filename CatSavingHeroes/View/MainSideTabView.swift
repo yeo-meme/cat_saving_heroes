@@ -15,6 +15,7 @@ struct MainSideTabView: View {
     @EnvironmentObject var model : AuthViewModel
     @EnvironmentObject var locationManager: AddressManager
     @State private var showTopCustomView = true
+    @State private var settingViewShowUP = false
     
     var goToAddViewButton: some View {
         HStack {
@@ -38,7 +39,9 @@ struct MainSideTabView: View {
             TabView(selection: $selectedSideMenuTab) {
                 NavigationView{
                     VStack {
+                        if showTopCustomView {
                         TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                        }
                         CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                     }
                 }
@@ -47,6 +50,15 @@ struct MainSideTabView: View {
                     Text("주변돌봄")
                 }
                 .tag(0)
+           
+                // if selectedSideMenuTab == 1 {
+                //     NavigationView{
+                //         VStack {
+                //             SettingsView(model.currentUser ?? MOCK_USER)
+                //         }
+                //     } .tag(1)
+                // }
+            
                 
                 NavigationView{
                     VStack{
@@ -60,8 +72,8 @@ struct MainSideTabView: View {
                     Image(systemName: "message.fill")
                     Text("냥이들")
                 }
-                .tag(1)
-                
+                .tag(2)
+                //showTopCustomView
                 NavigationView{
                     VStack {
                         TopCustomView(presentNavigationBar: $isShowingSideMenu)
@@ -72,7 +84,7 @@ struct MainSideTabView: View {
                     Image(systemName: "location.fill")
                     Text("영웅기록")
                 }
-                .tag(2)
+                .tag(3)
                 
                 NavigationView{
                     VStack {
@@ -84,11 +96,16 @@ struct MainSideTabView: View {
                     Image(systemName: "calendar")
                     Text("영웅일지")
                 }
-                .tag(3)
+                .tag(4)
+                
+             
+                
             }
             SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu, weatherManager: WeatherManager())))
                 
+            
         }
+        
         
         
         
@@ -97,12 +114,15 @@ struct MainSideTabView: View {
     func mainView(for selectedTab: SideMenuRowType) -> some View {
               switch selectedTab {
               case .home:
+                  
                   return AnyView(CareCatView(showTopCustomView: .constant(false), presentSideMenu: .constant(true)))
               case .mypage:
                   return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
               // case .logout:
                   // 로그아웃 로직
                   // return AuthViewModel.shared.signOut()
+              case .logout:
+                  return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
               }
 }
     
