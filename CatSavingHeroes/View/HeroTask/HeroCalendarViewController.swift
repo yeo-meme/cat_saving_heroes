@@ -52,12 +52,29 @@ class HeroCalendarViewController: UIViewController {
     }
 }
 
-extension HeroCalendarViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
-    
-    
-    func calendarView(_ calendarView: UICalendarView, didChangeVisibleDateComponentsFrom previousDateComponents: DateComponents) {
-        
+func createImageViews(systemNames: [String], tintColors: [UIColor]) -> [UIImageView] {
+    var imageViews = [UIImageView]()
+
+    for (index, systemName) in systemNames.enumerated() {
+        let imageView = UIImageView(image: UIImage(systemName: systemName))
+        imageView.tintColor = tintColors[index]
+        imageView.frame = CGRect(
+            x: CGFloat(index) * (7 + 2),
+            y: 0,
+            width: 7,
+            height: 7
+        )
+        imageViews.append(imageView)
     }
+
+    return imageViews
+}
+
+extension HeroCalendarViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
+
+    func calendarView(_ calendarView: UICalendarView, didChangeVisibleDateComponentsFrom previousDateComponents: DateComponents) {
+    }
+
     // UICalendarView
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         if let selectedDate = selectedDate, selectedDate == dateComponents {
@@ -68,26 +85,52 @@ extension HeroCalendarViewController: UICalendarViewDelegate, UICalendarSelectio
                 return label
             }
         } else if dateComponents.day == 6 && dateComponents.month == 10 {
-            // 2월 14일인 경우 "사랑" 텍스트 표시
             return .customView {
-                let label = UILabel()
-                label.text = "아이스크림"
-                let label1 = UILabel()
-                label1.text = "먹으면추워"
-
-                // UILabel의 폰트 및 크기 설정
-                let fontSize: CGFloat = 8.0
-                let font = UIFont.systemFont(ofSize: fontSize)
-                let attributes = [NSAttributedString.Key.font: font]
-
-                let attributedText = NSAttributedString(string: label.text ?? "", attributes: attributes)
-                label.attributedText = attributedText
-
-                // UILabel의 크기 설정
-                let labelSize = attributedText.size()
-                label.frame = CGRect(x: 20, y: 20, width: labelSize.width, height: labelSize.height)
-                label.textAlignment = .center
-                return label
+                let systemNames = ["star.fill", "triangle.fill", "square.fill", "circle.fill", "heart.fill"]
+                let tintColors: [UIColor] = [.purple, .green, .blue, .brown, .red]
+                let imageViews = createImageViews(systemNames: systemNames, tintColors: tintColors)
+                let containerView = UIView()
+                containerView.frame = CGRect(x: -10, y: 10, width: CGFloat(systemNames.count) * (7 + 2), height: 7)
+                for imageView in imageViews {
+                    containerView.addSubview(imageView)
+                }
+                return containerView
+            }
+        } else if dateComponents.day == 10 && dateComponents.month == 10 {
+            return .customView {
+                let systemNames = ["triangle.fill", "square.fill", "heart.fill"]
+                let tintColors: [UIColor] = [.green, .blue, .red]
+                let imageViews = createImageViews(systemNames: systemNames, tintColors: tintColors)
+                let containerView = UIView()
+                containerView.frame = CGRect(x: -10, y: 10, width: CGFloat(systemNames.count) * (7 + 2), height: 7)
+                for imageView in imageViews {
+                    containerView.addSubview(imageView)
+                }
+                return containerView
+            }
+        } else if dateComponents.day == 15 && dateComponents.month == 10 {
+            return .customView {
+                let systemNames = ["star.fill", "triangle.fill", "heart.fill"]
+                let tintColors: [UIColor] = [.purple, .green, .red]
+                let imageViews = createImageViews(systemNames: systemNames, tintColors: tintColors)
+                let containerView = UIView()
+                containerView.frame = CGRect(x: -10, y: 10, width: CGFloat(systemNames.count) * (7 + 2), height: 7)
+                for imageView in imageViews {
+                    containerView.addSubview(imageView)
+                }
+                return containerView
+            }
+        } else if dateComponents.day == 19 && dateComponents.month == 10 {
+            return .customView {
+                let systemNames = ["circle.fill", "heart.fill"]
+                let tintColors: [UIColor] = [.brown, .red]
+                let imageViews = createImageViews(systemNames: systemNames, tintColors: tintColors)
+                let containerView = UIView()
+                containerView.frame = CGRect(x: -10, y: 10, width: CGFloat(systemNames.count) * (7 + 2), height: 7)
+                for imageView in imageViews {
+                    containerView.addSubview(imageView)
+                }
+                return containerView
             }
         }
         return nil

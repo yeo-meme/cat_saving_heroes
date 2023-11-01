@@ -23,7 +23,7 @@ struct StatusSelectorView: View {
             ScrollView {
                 VStack(spacing: 32){
                     VStack(alignment: .leading) {
-                        Text("CURRENTLY SET TO")
+                        Text("최근 상태")
                             .font(.system(size: 14))
                             .padding(.leading)
                             .foregroundColor(Color(.systemGray2))
@@ -34,7 +34,7 @@ struct StatusSelectorView: View {
 
                     
                     VStack(alignment: .leading) {
-                        Text("SELECT YOUR STATUS")
+                        Text("상태를 선택하세요")
                             .font(.system(size: 14))
                             .padding(.leading)
                             .foregroundColor(Color(.systemGray2))
@@ -60,7 +60,7 @@ struct StatusSelectorView: View {
         }
         .showErrorMessage(showAlert: $viewModel.showErrorAlert, message: viewModel.errorMessage)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Select Status")
+        .navigationTitle("상태 변경")
     }
 }
 

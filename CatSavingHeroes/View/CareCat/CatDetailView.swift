@@ -12,6 +12,9 @@ struct CatDetailView: View {
     @Binding var showTopCustomView : Bool
     var body: some View {
       VStack(alignment: .leading, spacing: 5, content: {
+          
+       
+          
         // NAVBAR
         NavigationBarDetailView()
           .padding(.horizontal)
@@ -20,18 +23,18 @@ struct CatDetailView: View {
           .offset(y:-40)
 
         // HEADER
-        HeaderDetailView()
+        HeaderDateView()
           .padding(.horizontal)
           .offset(y:-30)
         
         // DETAIL TOP PART
-        TopPartDetailView()
+        DetailCatProfileView()
           .padding(.horizontal)
           .zIndex(1)
         
           // DETAIL BOTTOM PART
                      VStack(alignment: .center, spacing: 0, content: {
-                             FavouriteDetailView()
+                         FavouriteDetailView(viewModel: FavouriteDetailViewModel())
                                  .padding(.horizontal)// RATINGS + SIZES
                              // .offset(x:-20, y:-30)
                              //고양이 카드
@@ -85,6 +88,10 @@ struct CatDetailView: View {
       )
       .onAppear{
                self.showTopCustomView.toggle()
+          if let choiceCat = shop.selectedProduct?.catid {
+              print("더미 제이슨 choiceCat: \(choiceCat)")
+              UserDefaults.standard.set(choiceCat, forKey: "CatId")
+          }
            }
            .onDisappear{
                self.showTopCustomView.toggle()

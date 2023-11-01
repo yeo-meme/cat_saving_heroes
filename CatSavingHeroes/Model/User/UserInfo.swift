@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct UserInfo: Identifiable, Decodable {
+struct UserInfo: Identifiable,Codable {
    
     var id: String {
         return NSUUID().uuidString
@@ -16,10 +16,10 @@ struct UserInfo: Identifiable, Decodable {
     let user_uuid: String
     var user_email: String
     var user_name: String
-    var track_uuids: Array<String>
-    var see_cat_ids:Array<String>
-    var interest_cat_ids: Array<String>
-    var care_cat_ids: Array<String>
+    var track_uuids: [String]
+    var see_cat_ids:[String]
+    var interest_cat_ids: [String]
+    var care_cat_ids: [String]
     var status: Int
 
     

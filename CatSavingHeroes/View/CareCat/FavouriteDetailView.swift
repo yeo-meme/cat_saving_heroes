@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct FavouriteDetailView: View {
-    // MARK: - PROPERTY
+  
+    @ObservedObject var viewModel:FavouriteDetailViewModel
     
     @State private var counter: Int = 0
+    @State private var isSeeCatBtn = false
+    @State private var isInterestCatBtn = false
+    @State private var isCareCatBtn = false
+ 
     
     // MARK: - BODY
     var body: some View {
@@ -40,46 +45,50 @@ struct FavouriteDetailView: View {
             Spacer()
             VStack{
                 Button(action: {
-                    // feedback.impactOccurred()
+                    isSeeCatBtn.toggle()
+                    viewModel.seeAdd()
                 }, label: {
                     Image(systemName: "lasso.and.sparkles")
                         .resizable()
-                        .foregroundColor(.gray)
+                        .foregroundColor(isSeeCatBtn ?
+                            .pink : .gray)
                         .frame(width: 40, height: 40)
                 })
                 Text("보는냥")
                     .font(.headline)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color.black)
                 
             }.padding(10)
             
             VStack{
                 Button(action: {
+                    isInterestCatBtn.toggle()
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "heart.circle")
                         .resizable()
-                        .foregroundColor(.gray)
+                        .foregroundColor(isInterestCatBtn ? .pink:.gray)
                         .frame(width: 40, height: 40)
                 })
                 Text("관심냥")
                     .font(.headline)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color.black)
             }.padding(10)
             
             VStack{
                 //bolt.heart
                 Button(action: {
+                    isCareCatBtn.toggle()
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "bolt.heart.fill")
                         .resizable()
-                        .foregroundColor(.gray)
+                        .foregroundColor(isCareCatBtn ? .pink : .gray)
                         .frame(width: 40, height: 40)
                 })
                 Text("돌봄냥")
                     .font(.headline)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(Color.black)
             }.padding(10)
          
         }) //: HSTACK
@@ -90,6 +99,4 @@ struct FavouriteDetailView: View {
     }
 }
 
-#Preview {
-    FavouriteDetailView()
-}
+

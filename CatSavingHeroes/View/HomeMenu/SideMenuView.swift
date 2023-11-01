@@ -11,20 +11,17 @@ import Kingfisher
 //사이드바 메뉴
 enum SideMenuRowType: Int, CaseIterable{
     case home = 0
-    case favorite
-    case chat
-    case logout
+    case mypage
+    // case logout
     
     var title: String{
         switch self {
         case .home:
             return "홈으로"
-        case .favorite:
-            return "내 저장"
-        case .chat:
-            return "Chat"
-        case .logout:
-            return "로그아웃"
+        case .mypage:
+            return "마이페이지"
+        // case .logout:
+        //     return "로그아웃"
         }
     }
     
@@ -32,12 +29,10 @@ enum SideMenuRowType: Int, CaseIterable{
         switch self {
         case .home:
             return "home"
-        case .favorite:
-            return "favorite"
-        case .chat:
-            return "chat"
-        case .logout:
-            return "rectangle.portrait.and.arrow.right"
+        case .mypage:
+            return "mypage"
+        // case .logout:
+        //     return "rectangle.portrait.and.arrow.right"
         }
     }
 }
@@ -64,25 +59,31 @@ struct SideMenuView: View {
                         .frame(height: 140)
                         .padding(.bottom, 30)
                     
+                    
+                    // NavigationLink(
+                    //     destination: SettingsView(viewModel.currentUser ?? MOCK_USER),
+                    //     label: {
+                    
                         //사이드 바
                         ForEach(SideMenuRowType.allCases, id: \.self){ row in
                             RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
                                 selectedSideMenuTab = row.rawValue
                                 presentSideMenu.toggle()
-                                
-                                if selectedSideMenuTab == 0 {
-                                    print("row index 0  : \(row.rawValue)")
-                                    NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
-                                                Label("새로운 화면", systemImage: "plus")
-                                            }
-                                } else if selectedSideMenuTab == 1 {
-                                    print("row index 1 : \(row.rawValue)")
-                                    NavigationLink(destination: HeroTrackView()) {
-                                                Label("새로운 화면", systemImage: "plus")
-                                            }
-                                } else if selectedSideMenuTab == 3 {
-                                    AuthViewModel.shared.signOut()
-                                }
+                            
+                                // if selectedSideMenuTab == 0 {
+                                //     print("row index 0  : \(row.rawValue)")
+                                //     NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
+                                //                 Label("새로운 화면", systemImage: "plus")
+                                //             }
+                                // } else if selectedSideMenuTab == 1 {
+                                //     print("row index 1 : \(row.rawValue)")
+                                //     NavigationLink("", destination: destinationView(for: row))
+                                //     // NavigationLink(destination: SettingsView(viewModel.currentUser ?? MOCK_USER)) {
+                                //     //             Label("새로운 화면", systemImage: "plus")
+                                //     //         }
+                                // } else if selectedSideMenuTab == 3 {
+                                //     AuthViewModel.shared.signOut()
+                                // }
                             }
                         }
                     
@@ -125,6 +126,9 @@ struct SideMenuView: View {
         }
         .background(.clear)
     }
+    
+    
+ 
     
     //여메메 이미지 뷰
     func ProfileImageView() -> some View{

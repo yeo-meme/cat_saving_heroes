@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HeaderDetailView: View {
+struct HeaderDateView: View {
   // MARK: - PROPERTY
   
   @EnvironmentObject var shop: Shop
@@ -26,5 +26,5 @@ struct HeaderDetailView: View {
 }
 
 #Preview {
-    HeaderDetailView()
+    HeaderDateView()
 }

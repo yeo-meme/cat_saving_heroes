@@ -61,9 +61,9 @@ struct StateView: View {
                         // ProgressView()
                     // }else {
                         VStack{
-                            NavigationLink(
-                                destination: SettingsView(viewModel.currentUser ?? MOCK_USER),
-                                label: {
+                            // NavigationLink(
+                            //     destination: SettingsView(viewModel.currentUser ?? MOCK_USER),
+                            //     label: {
                                     VStack(spacing: 1) {
                                         HStack(spacing: 12) {
                                             if let imageUrl = viewModel.currentUser?.profileImageUrl {
@@ -112,7 +112,7 @@ struct StateView: View {
                                         .background(Color.white)
                                         CustomDivider(leadingSpace: 76)
                                     }//:User Profile
-                                })
+                                // })
                             
                             
                       

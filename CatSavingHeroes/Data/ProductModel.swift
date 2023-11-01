@@ -12,7 +12,7 @@ struct Product: Codable, Identifiable {
   let name: String
   let image: String
   let address: String
-  let description: String
+  let catid: String
   let color: [Double]
   
   var red: Double { return color[0] }

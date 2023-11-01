@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct TopPartDetailView: View {
+struct DetailCatProfileView: View {
   // MARK: - PROPERTY
   
   @EnvironmentObject var shop: Shop
