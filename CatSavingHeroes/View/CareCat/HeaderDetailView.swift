@@ -16,10 +16,9 @@ struct HeaderDetailView: View {
   
   var body: some View {
     VStack(alignment: .leading, spacing: 6, content: {
-      Text("고양이의 이름은")
-      
-        Text(shop.selectedProduct?.name ?? "")
-        .font(.largeTitle)
+      Text("최근 보살핌")
+        Text("2023.11.03")
+            .font(.subheadline)
         .fontWeight(.black)
     }) //: VSTACK
     .foregroundColor(.white)

@@ -12,12 +12,10 @@ struct CatDetailView: View {
     @Binding var showTopCustomView : Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
-          
             
             NavigationBarDetailView()
               .padding(.horizontal)
               .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-            
             
             // HEADER
             HeaderDetailView()
@@ -38,71 +36,52 @@ struct CatDetailView: View {
             // DETAIL BOTTOM PART
             VStack(alignment: .center, spacing: 0, content: {
                 VStack(alignment: .leading, content: {
+                    
                     FavouriteDetailView()
                         .padding(.horizontal)// RATINGS + SIZES
-                        .padding(.top, -20)
-                        .padding(.bottom, 10)
+                    // .offset(x:-20, y:-30)
                 })
-                
-              // RatingsSizesDetailView()
-              //   .padding(.top, -20)
-              //   .padding(.bottom, 10)
-              
-              // DESCRIPTION
-              // ScrollView(.vertical, showsIndicators: false, content: {
-              //   Text(shop.selectedProduct?.description ?? "sampleProduct.description")
-              //     .font(.system(.body, design: .rounded))
-              //     .foregroundColor(.gray)
-              //     .multilineTextAlignment(.leading)
-              // }) //: SCROLL
-                
-                //고양이 카드
-                ZStack {
-                    Rectangle()
-                        .fill(Color.black) // 검은색 배경
-                        .frame(width: .infinity, height: 320) // 원하는 크기로 설정
-                        .cornerRadius(10) // 원하는 모서리 반경 설정
-                        .shadow(color: .gray, radius: 3, x: 0, y: 0) // 그림자 효과
-                        .padding(.trailing)
-                        .padding(.leading)
-                    
-                    
-                    
                     //고양이 카드
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing:1){
-                            let aaa = ["1","2","3","4","5"]
-                            ForEach(aaa, id: \.self) { message in
-                                CareDetailListItemCell()
+                    ZStack {
+                        Image("Folder")
+                            .resizable()
+                            .frame(width: .infinity, height: 270) // 원하는 크기로 설정
+                               .cornerRadius(10) // 원하는 모서리 반경 설정
+                               .shadow(color: Color(.systemGray4), radius: 3, x: 3, y: 3)
+                               .padding(.trailing)
+                               .padding(.leading)
+                        
+                            Text("History")
+                                .foregroundColor(.white) // 텍스트 색상 설정
+                                .font(Font.system(size: 17).bold()) // 폰트 크기 및
+                                .cornerRadius(10) // 모서리 반경 설정
+                                .fontWeight(.bold) // 텍스트에 볼드 스타일 추가
+                                .offset(x:-105, y:-115)
+                        
+                        //고양이 카드
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack(spacing:1){
+                                let aaa = ["1","2","3","4","5"]
+                                ForEach(aaa, id: \.self) { message in
+                                    CareDetailListItemCell()
+                                        .padding(.top,10)
+                                        .padding(.bottom,10)
+                                }
                             }
-                        }
-                    }.frame(height: 160)
-                        .padding(.trailing)
-                        .padding(.leading)
-                    
-                    
-                }//: 고양이 카드
-              
-              // QUANTITY + FAVOURITE
-              // QuantityFavouriteDetailView()
-                // .padding(.vertical, 10)
-              
-              // ADD TO CART
-              // AddToCartDetailView()
-                // .padding(.bottom, 20)
-            }) //: VSTACK
+                        }.frame(height: 170)
+                            .padding(.trailing)
+                            .padding(.leading)
+                    }//: 고양이 카드
+                    .offset(y:-30)
+                }
+            
+            ) //: VSTACK
             .padding(.horizontal)
             .background(
               Color.white
                 .clipShape(CustomShape())
                 .padding(.top, -105)
             )
-            
-            
-     
-            
-            
-           
         }) //: VSTACK
         .zIndex(0)
         .ignoresSafeArea(.all, edges: .all)
@@ -125,3 +104,25 @@ struct CatDetailView: View {
 // #Preview {
 //     CatDetailView(viewModel: StrayCatsItemViewModel($viewModel.strayArrCats))
 // }
+
+// RatingsSizesDetailView()
+//   .padding(.top, -20)
+//   .padding(.bottom, 10)
+
+// DESCRIPTION
+// ScrollView(.vertical, showsIndicators: false, content: {
+//   Text(shop.selectedProduct?.description ?? "sampleProduct.description")
+//     .font(.system(.body, design: .rounded))
+//     .foregroundColor(.gray)
+//     .multilineTextAlignment(.leading)
+// }) //: SCROLL
+
+
+
+// QUANTITY + FAVOURITE
+// QuantityFavouriteDetailView()
+// .padding(.vertical, 10)
+
+// ADD TO CART
+// AddToCartDetailView()
+// .padding(.bottom, 20)

@@ -18,12 +18,9 @@ struct TopPartDetailView: View {
   
   var body: some View {
     HStack(alignment: .center, spacing: 6, content: {
-      // PRICE
       VStack(alignment: .leading, spacing: 6, content: {
-          
           Text(shop.selectedProduct?.address ?? "")
                   .fontWeight(.semibold)
-        
           Text(shop.selectedProduct?.name ?? "")
           .font(.largeTitle)
           .fontWeight(.black)
