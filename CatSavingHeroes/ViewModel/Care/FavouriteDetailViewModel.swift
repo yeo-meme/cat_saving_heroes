@@ -61,7 +61,7 @@ class FavouriteDetailViewModel:ObservableObject {
         ] as [String : Any] // 데이터를 JSON 형식으로 준비
         
         do {
-            AF.request(USER_INFO_SEE_CAT_ID_ADD, method: .post,parameters: jsonData,  encoding: JSONEncoding.default)
+            AF.request(USER_INFO_CARE_CAT_ID_ADD, method: .post,parameters: jsonData,  encoding: JSONEncoding.default)
                 .responseDecodable(of: UserInfo.self) { response in
                     switch response.result {
                     case .success(let userInfo):
@@ -76,7 +76,6 @@ class FavouriteDetailViewModel:ObservableObject {
             print("디코딩 에러: \(error)")
         }
     }
-    
     
     func interestAdd() {
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
@@ -109,4 +108,6 @@ class FavouriteDetailViewModel:ObservableObject {
         }
         
     }
+    
+    
 }

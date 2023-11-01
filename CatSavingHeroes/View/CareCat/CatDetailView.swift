@@ -10,7 +10,9 @@ import SwiftUI
 struct CatDetailView: View {
     @EnvironmentObject var shop: Shop    
     // @ObservedObject var viewModel:StrayCatsItemViewModel
-    // @EnvironmentObject var strayModel: StrayCatsALLViewModel
+    @EnvironmentObject var strayModel: StrayCatsALLViewModel
+    @State var flagInterestCat = false
+    @State var flagCareCat = false
     
     var cats :Cats
     @Binding var showTopCustomView : Bool
@@ -27,6 +29,7 @@ struct CatDetailView: View {
             // HEADER
             HeaderDateView()
                 .padding(.horizontal)
+                .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
                 // .offset(y:-30)
             
             // DETAIL TOP PART
@@ -36,7 +39,7 @@ struct CatDetailView: View {
             
             // DETAIL BOTTOM PART
             VStack(alignment: .center, spacing: 0, content: {
-                FavouriteDetailView(viewModel: FavouriteDetailViewModel())
+                FavouriteDetailView(viewModel: FavouriteDetailViewModel(),isInterestCatBtn: $flagInterestCat, isCareCatBtn: $flagCareCat )
                     .padding(.horizontal)// RATINGS + SIZES
                 // .offset(x:-20, y:-30)
                 //고양이 카드
@@ -70,7 +73,7 @@ struct CatDetailView: View {
                         .padding(.trailing)
                         .padding(.leading)
                 }//: 고양이 카드
-                .offset(y:-30)
+                // .offset(y:-30)
             }) //: VSTACK
             .padding(.horizontal)
             .background(
@@ -91,10 +94,27 @@ struct CatDetailView: View {
         .onAppear{
             self.showTopCustomView.toggle()
             //토글버튼에 들어갈 캣 아이디 업데이트
-            if let choiceCat = shop.selectedProduct?.catid {
+            // if let choiceCat = shop.selectedProduct?.catid {
+            
+                let choiceCat = cats._id
                 print("더미 제이슨 choiceCat: \(choiceCat)")
                 UserDefaults.standard.set(choiceCat, forKey: "CatId")
+                
+                strayModel.loadUserInfoLikeButton()
+            
+                if strayModel.isDataLoaded {
+                    let arr = strayModel.userInfoArr
+                    if arr.count > 0 {
+                    var tem = strayModel.matchFinding(cats: cats,userInfo:arr[0] )
+                    flagInterestCat = tem[0] == 1
+                    flagCareCat = tem[1] == 1
+                        print("cacaca33 flagInterestCat : \(flagInterestCat)")
+                        print("cacaca33 flagCareCat : \(flagCareCat)")
+                }
+                
             }
+                
+            // }
             
             
             

@@ -12,10 +12,14 @@ struct FavouriteDetailView: View {
     @ObservedObject var viewModel:FavouriteDetailViewModel
     
     @State private var counter: Int = 0
-    @State private var isSeeCatBtn = false
-    @State private var isInterestCatBtn = false
-    @State private var isCareCatBtn = false
+    // @State private var isSeeCatBtn = false
+    @Binding var isInterestCatBtn :Bool
+    @Binding var isCareCatBtn:Bool
  
+    // var userInfo:[UserInfo]
+    // var cats:Cats
+    // @Binding var flagInterestCat:Bool
+    // @Binding var flagCareCat = false
     
     // MARK: - BODY
     var body: some View {
@@ -64,6 +68,8 @@ struct FavouriteDetailView: View {
                 Button(action: {
                     isInterestCatBtn.toggle()
                     viewModel.interestAdd()
+                    print("inter : \(isInterestCatBtn)")
+                    print("care : \(isCareCatBtn)")
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "heart.circle")
@@ -97,8 +103,9 @@ struct FavouriteDetailView: View {
         .font(.system(.title, design: .rounded))
         .foregroundColor(.black)
         .imageScale(.large)
-        // .background(Color.black)
     }
+        
+    
 }
 
 
