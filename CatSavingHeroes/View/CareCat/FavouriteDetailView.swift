@@ -63,6 +63,7 @@ struct FavouriteDetailView: View {
             VStack{
                 Button(action: {
                     isInterestCatBtn.toggle()
+                    viewModel.interestAdd()
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "heart.circle")
@@ -79,6 +80,7 @@ struct FavouriteDetailView: View {
                 //bolt.heart
                 Button(action: {
                     isCareCatBtn.toggle()
+                    viewModel.careAdd()
                     // feedback.impactOccurred()
                 }, label: {
                     Image(systemName: "bolt.heart.fill")
