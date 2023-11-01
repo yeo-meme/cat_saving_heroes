@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct UserInfo: Identifiable, Decodable {
+struct FireStoreUser: Identifiable, Decodable {
     @DocumentID var id: String?
     let email: String
     var name: String
@@ -18,7 +18,7 @@ struct UserInfo: Identifiable, Decodable {
     var status: Status
 }
 
-let MOCK_USER = UserInfo(id: "default:000000",
+let MOCK_USER = FireStoreUser(id: "default:000000",
                          email: "default:test@gmail.com",
                          name: "default:Username",
                          password: "default:000000",

@@ -8,7 +8,7 @@
 import Foundation
 
 struct SelectableUser: Identifiable {
-    let user: UserInfo
+    let user: FireStoreUser
     var isSelected: Bool = false
     
     var id: String {

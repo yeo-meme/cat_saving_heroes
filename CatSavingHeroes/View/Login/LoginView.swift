@@ -66,7 +66,7 @@ struct LoginView: View {
                     .padding(.leading, 32)
                     
                     
-                    TextField("비밀번호", text: $password, onEditingChanged: {editing in
+                    TextField("6자리 이상 비밀번호", text: $password, onEditingChanged: {editing in
                         isPwEditing = editing})
                     .padding()
                     .autocapitalization(.none)

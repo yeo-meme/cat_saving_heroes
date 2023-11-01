@@ -10,11 +10,11 @@ import Firebase
 import FirebaseStorage
 
 class UserViewModel: ObservableObject {
-    @Published var user: UserInfo
+    @Published var user: FireStoreUser
     @Published var showErrorAlert = false
     @Published var erroMessage = ""
     
-    init(_ user: UserInfo) {
+    init(_ user: FireStoreUser) {
         self.user = user
     }
 }

@@ -15,7 +15,7 @@ struct LogoView: View {
         .fontWeight(.black)
         .foregroundColor(.black)
       
-      Image("OIGG")
+      Image("OIGG1")
         .resizable()
         .scaledToFit()
         .frame(width: 30, height: 30, alignment: .center)

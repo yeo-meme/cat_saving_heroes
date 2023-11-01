@@ -70,6 +70,12 @@ let GEO_CAT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"
 let DELETE_ALL_CAT = "https://cat-saving-heros.azurewebsites.net/api/cat/delete/all/yeomeme1030@!"
 let DELETE_ALL_CARE = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete/all/yeomeme1030@!"
 
+
+//userInfo
+let USER_INFO_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add"
+let USER_INFO_SEE_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add/see"
+
+
 //네비게이션바 높이
 let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height
 

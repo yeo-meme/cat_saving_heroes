@@ -20,6 +20,7 @@ struct ContentView: View {
                 MainSideTabView()
             } else {
                 LoginView()
+                    .padding(.top, 30)
             }
             // LoginView()
         }

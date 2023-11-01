@@ -272,7 +272,7 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
     
     
     func locdCatEventFromCareCatAPI() {
-        AF.request(CARE_CAT_SELECT_API_URL, method: .get).responseDecodable(of: [EventCat].self) { response in
+        AF.request(CARE_CAT_SELECT_API_URL, method: .post).responseDecodable(of: [EventCat].self) { response in
             switch response.result {
             case .success(let value):
                 print("성공 디코딩 EventItemViewModel: \(value)")

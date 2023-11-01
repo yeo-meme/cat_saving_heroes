@@ -13,12 +13,13 @@ import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestoreSwift
 import RealmSwift
+import Alamofire
 
 class AuthViewModel: NSObject, ObservableObject {
     
     @Published var presentNavigationBar = false //네비게이션바
     @Published var userSession:FirebaseAuth.User?
-    @Published var currentUser: UserInfo?
+    @Published var currentUser: FireStoreUser?
     
     @Published var errorMessage = ""
     @Published var showErrorAlert = false
@@ -30,6 +31,12 @@ class AuthViewModel: NSObject, ObservableObject {
     static let shared = AuthViewModel()
     @Published var didAuthenticateUser = false
     @Published var didLoginState = false //메인변경ㅂㅍ
+    
+    
+    private var userName = ""
+    private var userEmail = ""
+    private var userId = ""
+    
     
     override init() {
         super.init()
@@ -70,15 +77,15 @@ class AuthViewModel: NSObject, ObservableObject {
                 return
             }
             
-            guard let user = try? snapshot?.data(as: UserInfo.self) else { return }
+            guard let user = try? snapshot?.data(as: FireStoreUser.self) else { return }
             self.currentUser = user
             self.didAuthenticateUser = true
             self.didLoginState = true
             
             //로그인창 기록
-            UserDefaults.standard.set(user.email,forKey: "email") 
+            UserDefaults.standard.set(user.email,forKey: "email")
             UserDefaults.standard.set(user.password,forKey: "password")
-           
+            
             print("AuthViewModel:LOGIN 패치 성공 여부 : \(self.currentUser)")
         }
     }
@@ -110,7 +117,7 @@ class AuthViewModel: NSObject, ObservableObject {
     }
     
     // func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {
-        func uploadProfileImage(_ image: UIImage) {
+    func uploadProfileImage(_ image: UIImage) {
         guard let uid = tempCurrentUser?.uid else {return}
         
         ImageUploader.uploadImage(image: image, folderName: FOLDER_PROFILE_IMAGES, uid: uid) { imageUrl in
@@ -130,9 +137,68 @@ class AuthViewModel: NSObject, ObservableObject {
             self.currentUser?.profileImageUrl = imageUrl
             self.userSession = Auth.auth().currentUser
             self.fetchUser()
+            self.addUserInfoCallData()
         }
     }
     
+    
+    func addUserInfoCallData(){
+        guard let uid = tempCurrentUser?.uid else {return}
+        print("AuthViewModel: addUserInfoAPI LOGIN 성공시 petch User: \(uid)")
+        COLLECTION_USERS.document(uid).getDocument { snapshot, error in
+            if let (errorMessage) = error?.localizedDescription {
+                self.showErrorAlert = true
+                self.errorMessage = errorMessage
+                return
+            }
+            
+            guard let user = try? snapshot?.data(as: FireStoreUser.self) else { return }
+            self.currentUser = user
+            // self.didAuthenticateUser = true
+            // self.didLoginState = true
+            
+            // print("AuthViewModel:LOGIN 패치 성공 여부 : \(self.currentUser)")
+            // Firebase에서 사용자 정보를 가져온 후에 아래 코드를 실행
+              if let userName = self.currentUser?.name, let userEmail = self.currentUser?.email, let userId = self.currentUser?.id {
+                  print("API에 넣을 데이터: 이름: \(userName), 이메일: \(userEmail), ID: \(userId)")
+                  
+       
+                  // 이곳에서 API 호출 또는 다른 작업을 수행
+                  
+                  let jsonData = [
+                      "user_uuid": userId,
+                      "user_email": userEmail,
+                      "user_name": userName,
+                      "track_uuids":[],
+                      "see_cat_ids":[],
+                      "interest_cat_ids":[],
+                      "care_cat_ids":[],
+                  ] as [String : Any] // 데이터를 JSON 형식으로 준비
+                  self.uploadingUserInfo(jsonData: jsonData)
+              }
+        }
+        
+        
+        
+    }
+    
+    func uploadingUserInfo(jsonData:[String:Any]){
+        do {
+            AF.request(USER_INFO_ADD, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
+                .responseDecodable(of: UserInfo.self) { response in
+                    switch response.result {
+                    case .success(let userInfo):
+                        // 성공적으로 데이터를 받았을 때
+                        print("UserInfo POST DEBUG : \(userInfo)")
+                    case .failure(let error):
+                        // 요청 또는 응답이 실패했을 때
+                        print("Request failed with error: \(error)")
+                    }
+                }
+        } catch {
+            print("디코딩 에러: \(error)")
+        }
+    }
     
     func dateFormatter() -> String {
         let currentTime = Date()
@@ -188,7 +254,7 @@ class AuthViewModel: NSObject, ObservableObject {
                 }
             }
             
-        
+            
             
             self.currentUser?.profileImageUrl = imageUrl
             self.userSession = Auth.auth().currentUser
@@ -227,7 +293,7 @@ class AuthViewModel: NSObject, ObservableObject {
             guard let user = result?.user else { return }
             self.tempCurrentUser = user
             self.tempCurrentUsername = name
-        
+            
             // createUid = String(user.uid)
             
             let data: [String: Any] = [KEY_EMAIL: email,
@@ -244,7 +310,7 @@ class AuthViewModel: NSObject, ObservableObject {
                     return
                 }
                 self.didAuthenticateUser = true
-             
+                
             }
         }
     }

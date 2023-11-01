@@ -11,7 +11,7 @@ import FirebaseStorage
 
 class EditProfileViewModel: ObservableObject {
    
-    @Published var user: UserInfo
+    @Published var user: FireStoreUser
     @Published var showErrorAlert = false
     @Published var errorMessage = ""
     @Published var selectedStatus: Status?
@@ -20,7 +20,7 @@ class EditProfileViewModel: ObservableObject {
         return AuthViewModel.shared.currentUser?.uid ?? ""
     }
     
-    init(_ user: UserInfo) {
+    init(_ user: FireStoreUser) {
         self.user = user
     }
     

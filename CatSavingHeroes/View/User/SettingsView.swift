@@ -13,7 +13,7 @@ struct SettingsView: View {
     @ObservedObject var viewModel: EditProfileViewModel
     @State private var showSheet = false
     
-    init(_ user: UserInfo) {
+    init(_ user: FireStoreUser) {
         self.viewModel = EditProfileViewModel(user)
         // self.userViewModel = UserViewModel(user)
     }

@@ -36,7 +36,7 @@ struct SignUpView: View {
     @State private var phoneNumber = ""
     @State private var verificationCode = ""
     @State private var isCodeSent = false
-    @State private var user: User?
+    @State private var user: FireStoreUser?
     @State private var error: Error?
     
     var body: some View {
@@ -104,8 +104,8 @@ struct SignUpView: View {
                 
                 
             }//: 회원가입 완료버튼 BUTTON
-            // .padding(.horizontal)
-            // .padding(.vertical, 30)
+            .padding(.horizontal)
+            .padding(.vertical, 30)
             // .navigationBarTitle("회원가입", displayMode: .inline)
             // .navigationBarItems(trailing:
             //                         Button(action: {
@@ -119,49 +119,49 @@ struct SignUpView: View {
             
     }
     
-    private func sendVerificationCode() {
-        PhoneAuthProvider.provider().verifyPhoneNumber(
-            phoneNumber,
-            uiDelegate: nil
-        ) { verificationID, error in
-            if let error = error {
-                self.error = error
-                return
-            }
-            UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
-            self.isCodeSent = true
-        }
-    }
+    // private func sendVerificationCode() {
+    //     PhoneAuthProvider.provider().verifyPhoneNumber(
+    //         phoneNumber,
+    //         uiDelegate: nil
+    //     ) { verificationID, error in
+    //         if let error = error {
+    //             self.error = error
+    //             return
+    //         }
+    //         UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
+    //         self.isCodeSent = true
+    //     }
+    // }
     
-    private func verifyPhoneNumber() {
-        let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID ?? "", verificationCode: verificationCode)
-        
-        Auth.auth().signIn(with: credential) { result, error in
-            if let error = error {
-                self.error = error
-                return
-            }
-            
-            if let user = result?.user {
-                self.user = user
-                saveUserDataToFirestore(user)
-            }
-        }
-    }
-    
-    private func saveUserDataToFirestore(_ user: User) {
-        let db = Firestore.firestore()
-        let userRef = db.collection("users").document(user.uid)
-        let userData = ["phone_number": user.phoneNumber ?? ""]
-        
-        userRef.setData(userData) { error in
-            if let error = error {
-                self.error = error
-            }
-        }
-    }
-    
+    // private func verifyPhoneNumber() {
+    //     let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
+    //     let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID ?? "", verificationCode: verificationCode)
+    //     
+    //     Auth.auth().signIn(with: credential) { result, error in
+    //         if let error = error {
+    //             self.error = error
+    //             return
+    //         }
+    //         
+    //         if let user = result?.user {
+    //             self.user = user
+    //             saveUserDataToFirestore(user)
+    //         }
+    //     }
+    // }
+    // 
+    // private func saveUserDataToFirestore(_ user: User) {
+    //     let db = Firestore.firestore()
+    //     let userRef = db.collection("users").document(user.uid)
+    //     let userData = ["phone_number": user.phoneNumber ?? ""]
+    //     
+    //     userRef.setData(userData) { error in
+    //         if let error = error {
+    //             self.error = error
+    //         }
+    //     }
+    // }
+    // 
     private func checkSignUpCondition () -> Bool {
         if name.isEmpty ||  email.isEmpty || password.isEmpty {
             return false
