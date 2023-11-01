@@ -16,5 +16,4 @@ class StrayCatsItemViewModel: ObservableObject {
         print("item cell strayArrCats : \(self.strayArrCats)")
     }
     
-    
 }

@@ -128,8 +128,7 @@ struct StateView: View {
                 }
                 .onAppear {
                     // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-                    // catModel.fetchMatchCat()
-                    // print("임마 : \(catModel.arrUsercats)")
+                  
                     viewModel.fetchUser()
                 }
                 
@@ -149,17 +148,17 @@ func deleteAllMongo() {
         }}
 }
 
-func fetchCatsCommon() {
-    
-    AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
-        switch response.result {
-        case .success(let value):
-            print("성공 디코딩 : \(value)")
-        case .failure(let error):
-            print("실패 디코딩 : \(error.localizedDescription)")
-        }
-    }
-}
+// func fetchCatsCommon() {
+//     
+//     AF.request(CAT_SELECT_API_URL, method: .get).responseDecodable(of: [Cats].self) { response in
+//         switch response.result {
+//         case .success(let value):
+//             print("성공 디코딩 : \(value)")
+//         case .failure(let error):
+//             print("실패 디코딩 : \(error.localizedDescription)")
+//         }
+//     }
+// }
 
 
 

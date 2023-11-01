@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CatDetailView: View {
-    @EnvironmentObject var shop: Shop    // @ObservedObject var viewModel:StrayCatsItemViewModel
+    @EnvironmentObject var shop: Shop    
+    // @ObservedObject var viewModel:StrayCatsItemViewModel
+    // @EnvironmentObject var strayModel: StrayCatsALLViewModel
+    
+    var cats :Cats
     @Binding var showTopCustomView : Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
@@ -26,7 +30,7 @@ struct CatDetailView: View {
                 .offset(y:-30)
             
             // DETAIL TOP PART
-            DetailCatProfileView()
+            DetailCatProfileView(cat:cats)
                 .padding(.horizontal)
                 .zIndex(1)
             
@@ -79,9 +83,9 @@ struct CatDetailView: View {
         .ignoresSafeArea(.all, edges: .all)
         .background(
             Color(
-                red: shop.selectedProduct?.red ?? 0.0,
-                green: shop.selectedProduct?.green ?? 0.0,
-                blue: shop.selectedProduct?.blue ?? 0.0
+                red: cats.color[0] ?? 0.0,
+                green: cats.color[1] ?? 0.0,
+                blue: cats.color[2] ?? 0.0
             ).ignoresSafeArea(.all, edges: .all)
         )
         .onAppear{
@@ -91,6 +95,8 @@ struct CatDetailView: View {
                 print("더미 제이슨 choiceCat: \(choiceCat)")
                 UserDefaults.standard.set(choiceCat, forKey: "CatId")
             }
+            
+            
             
             // viewModel.
         }

@@ -7,21 +7,22 @@
 
 import Foundation
 import SwiftUI
-
+import Kingfisher
 struct DetailCatProfileView: View {
   // MARK: - PROPERTY
   
   @EnvironmentObject var shop: Shop
   @State private var isAnimating: Bool = false
   
+    var cat: Cats
   // MARK: - BODY
   
   var body: some View {
     HStack(alignment: .center, spacing: 6, content: {
       VStack(alignment: .leading, spacing: 6, content: {
-          Text(shop.selectedProduct?.address ?? "")
+          Text(cat.discover_address)
                   .fontWeight(.semibold)
-          Text(shop.selectedProduct?.name ?? "")
+          Text(cat.name)
           .font(.largeTitle)
           .fontWeight(.black)
           .scaleEffect(1.35, anchor: .leading)
@@ -31,7 +32,8 @@ struct DetailCatProfileView: View {
       Spacer()
       
       // PHOTO
-        Image(shop.selectedProduct?.image ?? "")
+        // Image(shop.selectedProduct?.image ?? "")
+        KFImage(URL(string: cat.cat_photo))
         .resizable()
         .scaledToFit()
         .clipShape(Capsule())

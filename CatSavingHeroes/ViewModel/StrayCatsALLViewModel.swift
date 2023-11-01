@@ -11,7 +11,7 @@ import Alamofire
 
 class StrayCatsALLViewModel: ObservableObject {
     @Published var arrGeoCatsList:[EventCat]?
-    var filterGeoCatsList:[Cats]?
+    @Published var filterGeoCatsList=[Cats]() //최종
     @Published var arrGeoCatsId:[String]=[]
     @Published var coordinates:[Double]?
     @Published var meter:Int?
@@ -88,11 +88,11 @@ class StrayCatsALLViewModel: ObservableObject {
         
         let parameters: Parameters = [
             "_id": arrGeoCatsId,
-            // "_id": arrGeoCatsId[1],
          ]
         
         print("params : \(parameters)")
-        AF.request(GEO_CAT_API_URL, method: .post,parameters: parameters).responseDecodable(of: [Cats].self) { response in
+        AF.request(GEO_CAT_API_URL, method: .post, parameters: parameters)
+            .responseDecodable(of: [Cats].self) { response in
             switch response.result {
             case .success(let value):
                 print("나왔니 다람쥐: \(value)")
@@ -101,7 +101,7 @@ class StrayCatsALLViewModel: ObservableObject {
                 self.isDataLoaded = true
                 // self.filterCat()
             case .failure(let error):
-                print("실패 나왔니 : \(error.localizedDescription)")
+                print("실패 나왔니 : \(error)")
             }
         }
     }

@@ -18,6 +18,7 @@ struct WatchCatView: View {
     @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
     
+    
     var goToAddViewButton: some View {
         NavigationLink(
             destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {

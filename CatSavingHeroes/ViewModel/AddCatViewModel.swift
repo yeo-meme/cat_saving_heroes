@@ -151,76 +151,76 @@ class AddCatViewModel: ObservableObject {
     //     }
     // }
     // 다시 불러오는 함수 Addcat 하고 데이터 확인
-    func loadCats() {
-        do {
-            let realm = RealmHelper.shared.realm
-            cats = realm.objects(CatRealmModel.self)
-            print("Loaded \(cats?.count ?? 0) cats:")
-            
-            cats?.forEach { cat in
-                let id = cat.id.stringValue
-                let name = cat.name
-                let age = cat.age
-                let address = cat.address
-                let gender = cat.gender
-                let memo = cat.memo
-                let profileImage = cat.profileImage
-                let user_id = cat.user_id
-                let location = cat.location
-                let state = cat.state
-                let coordinates = [0.0,0.0]
-                let _id = ""
-                print("Name: \(cat.name)")
-                print("Age: \(cat.age)")
-                print("Address: \(cat.address)")
-                print("Gender: \(cat.gender)")
-                print("Memo: \(cat.memo)")
-                print("Id: \(cat.id)")
-                print("profileImage: \(cat.profileImage)")
-                print("----")
-                // Create an array of Cat objects
-                // Populate the array with Cat objects
-                let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address,  insert_user: user_id, coordinates: coordinates, status: state, _id: _id)
-                
-                
-                //로드할때 UserDefaults에 저장하고
-                do {
-                    // Use JSONEncoder to encode the array of Cat objects to JSON data
-                    let encoder = JSONEncoder()
-                    encoder.outputFormatting = .prettyPrinted // Optional for pretty-printed JSON
-                    let jsonData = try encoder.encode(catString)
-                    
-                    if let jsonString = String(data: jsonData, encoding: .utf8) {
-                        // Print the JSON string
-                        print(jsonString)
-                        
-                        // Save the JSON data to UserDefaults
-                        UserDefaults.standard.set(jsonData, forKey: "catsData")
-                        print("JSON data saved to UserDefaults")
-                    }
-                } catch {
-                    print("Error encoding JSON: \(error)")
-                }
-                
-                
-                // Cat: Identifiable 구조의 인스턴스를 UserDefaults에 저장합니다.
-                // let userDefaults = UserDefaults.standard
-                // let cat = Cat(id: id, name: name, age: age, address: address, gender: gender, memo: memo, profileImage: "")
-                
-                // Cat 구조체를 Property List 객체로 변환합니다.
-                // let catData = try PropertyListEncoder().encode(cat)
-                // Property List 객체를 UserDefaults에 저장합니다.
-                // userDefaults.set(catData, forKey: "Cat")
-                
-                // userDefaults.set(cat, forKey: "Cat")
-                print("cat Id stringValue 어디야: \(id)")
-                UserDefaults.standard.set(id, forKey: "CatId")
-            }
-            // self.cats=catArr
-        } catch {
-            print("Error loading cats: \(error)")
-        }
-    }
+    // func loadCats() {
+    //     do {
+    //         let realm = RealmHelper.shared.realm
+    //         cats = realm.objects(CatRealmModel.self)
+    //         print("Loaded \(cats?.count ?? 0) cats:")
+    //         
+    //         cats?.forEach { cat in
+    //             let id = cat.id.stringValue
+    //             let name = cat.name
+    //             let age = cat.age
+    //             let address = cat.address
+    //             let gender = cat.gender
+    //             let memo = cat.memo
+    //             let profileImage = cat.profileImage
+    //             let user_id = cat.user_id
+    //             let location = cat.location
+    //             let state = cat.state
+    //             let coordinates = [0.0,0.0]
+    //             let _id = ""
+    //             print("Name: \(cat.name)")
+    //             print("Age: \(cat.age)")
+    //             print("Address: \(cat.address)")
+    //             print("Gender: \(cat.gender)")
+    //             print("Memo: \(cat.memo)")
+    //             print("Id: \(cat.id)")
+    //             print("profileImage: \(cat.profileImage)")
+    //             print("----")
+    //             // Create an array of Cat objects
+    //             // Populate the array with Cat objects
+    //             let catString = Cats(name: name, age: age, memo: memo, gender: gender, cat_photo: profileImage, discover_address: address,  insert_user: user_id, coordinates: coordinates, status: state, _id: _id, color: <#[Double]#>)
+    //             
+    //             
+    //             //로드할때 UserDefaults에 저장하고
+    //             do {
+    //                 // Use JSONEncoder to encode the array of Cat objects to JSON data
+    //                 let encoder = JSONEncoder()
+    //                 encoder.outputFormatting = .prettyPrinted // Optional for pretty-printed JSON
+    //                 let jsonData = try encoder.encode(catString)
+    //                 
+    //                 if let jsonString = String(data: jsonData, encoding: .utf8) {
+    //                     // Print the JSON string
+    //                     print(jsonString)
+    //                     
+    //                     // Save the JSON data to UserDefaults
+    //                     UserDefaults.standard.set(jsonData, forKey: "catsData")
+    //                     print("JSON data saved to UserDefaults")
+    //                 }
+    //             } catch {
+    //                 print("Error encoding JSON: \(error)")
+    //             }
+    //             
+    //             
+    //             // Cat: Identifiable 구조의 인스턴스를 UserDefaults에 저장합니다.
+    //             // let userDefaults = UserDefaults.standard
+    //             // let cat = Cat(id: id, name: name, age: age, address: address, gender: gender, memo: memo, profileImage: "")
+    //             
+    //             // Cat 구조체를 Property List 객체로 변환합니다.
+    //             // let catData = try PropertyListEncoder().encode(cat)
+    //             // Property List 객체를 UserDefaults에 저장합니다.
+    //             // userDefaults.set(catData, forKey: "Cat")
+    //             
+    //             // userDefaults.set(cat, forKey: "Cat")
+    //             print("cat Id stringValue 어디야: \(id)")
+    //             UserDefaults.standard.set(id, forKey: "CatId")
+    //         }
+    //         // self.cats=catArr
+    //     } catch {
+    //         print("Error loading cats: \(error)")
+    //     }
+    // }
     
     
     func catImageUpload(_ image: UIImage, completion: @escaping(Bool,String?) -> Void) {

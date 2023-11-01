@@ -138,7 +138,7 @@ struct AddCatView: View {
                                     isIndicatorAnimating = false
                                     mode.wrappedValue.dismiss()
                                     
-                                    catViewModel.loadCats()
+                                    // catViewModel.loadCats()
                                 }
                             } else {
                                 print("고양이 사진 등록 않됐음")

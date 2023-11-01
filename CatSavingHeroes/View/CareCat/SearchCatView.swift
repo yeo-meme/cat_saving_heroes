@@ -36,7 +36,7 @@ struct SearchCatView: View {
                                 isEditing = false
                                 
                                 print("cat Id stringValue: \(choiceCat.id)")
-                                UserDefaults.standard.set(choiceCat._id, forKey: "CatId")
+                                UserDefaults.standard.set(choiceCat.id, forKey: "CatId")
                                 // mode.wrappedValue.dismiss()
                             }, label: {
                                 SearchCatCell(catsSearchedArr: $selectedCatArr)
