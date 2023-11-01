@@ -134,14 +134,14 @@ struct SideMenuView: View {
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(.black)
                 
-                HStack{
-                    VStack{
-                        Text(viewModel.currentUser?.status ?? "")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.blue.opacity(0.3))
-                       
-                        
-                    }
+                // HStack{
+                //     VStack{
+                //         Text(viewModel.statusTitle)
+                //             .font(.system(size: 14, weight: .semibold))
+                //             .foregroundColor(.blue.opacity(0.3))
+                //        
+                //         
+                    // }
                     // VStack{
                     //     Text("6")
                     //         .font(.system(size: 14, weight: .semibold))
@@ -161,8 +161,6 @@ struct SideMenuView: View {
                     //     
                     // }
                 }
-               
-            }
             .padding(.trailing, 100)
             HStack{
                 Spacer()

@@ -9,8 +9,10 @@ import SwiftUI
 
 struct NavigationBarView: View {
   // MARK: - PROPERTY
+
     @Binding var presentNavigationBar:Bool
-  @State private var isAnimated: Bool = false
+  // @State private var isAnimated: Bool = false
+  @State  var isAnimated: Bool = true
   
   // MARK: - BODY
   
@@ -36,14 +38,23 @@ struct NavigationBarView: View {
         
       Spacer()
       
-      LogoView()
-        .opacity(isAnimated ? 1 : 0)
-        .offset(x: 0, y: isAnimated ? 0 : -25)
-        .onAppear(perform: {
-          withAnimation(.easeOut(duration: 0.5)) {
-            isAnimated.toggle()
-          }
-        })
+            LogoView()
+              .opacity(isAnimated ? 1 : 0)
+              .offset(x: 0, y: isAnimated ? 0 : -25)
+              .onAppear(perform: {
+                withAnimation(.easeOut(duration: 0.5)) {
+                  // isAnimated.toggle()
+                    print("isAni : \(isAnimated)")
+                }
+              })
+              // .onDisappear{
+              //     withAnimation(.easeOut(duration: 0.5)) {
+              //       isAnimated = true
+              //         print("isAni : \(isAnimated)")
+              //     }
+              // }
+              // 
+   
       
       Spacer()
       

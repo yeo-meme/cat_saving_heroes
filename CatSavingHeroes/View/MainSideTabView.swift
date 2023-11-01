@@ -16,7 +16,8 @@ struct MainSideTabView: View {
     @EnvironmentObject var model : AuthViewModel
     @EnvironmentObject var locationManager: AddressManager
     @State private var showTopCustomView = true
- 
+    // @State private var isAnimated: Bool = false
+    
     
     var goToAddViewButton: some View {
             HStack {
@@ -51,6 +52,7 @@ struct MainSideTabView: View {
                     VStack{
                         if showTopCustomView {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            
                         }
                         CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                         // .overlay(TopCustomView(presentNavigationBar: $isShowingSideMenu), alignment: .top)
@@ -74,6 +76,7 @@ struct MainSideTabView: View {
                     VStack{
                         if showTopCustomView {
                             TopCustomView(presentNavigationBar: $presentNavigationBar)
+                               
                         }
                         StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
                     }
@@ -85,7 +88,8 @@ struct MainSideTabView: View {
                 
                 NavigationView{
                     LocationFollowView(presentSideMenu: $isShowingSideMenu)
-                        .overlay(TopCustomView(presentNavigationBar: $presentNavigationBar), alignment: .top)
+                        .overlay(TopCustomView(presentNavigationBar: $presentNavigationBar)
+                        , alignment: .top)
                 }
                     .tabItem {
                         Image(systemName: "person.fill")
@@ -100,11 +104,15 @@ struct MainSideTabView: View {
 
 struct TopCustomView: View {
     @Binding var presentNavigationBar :Bool
+    @State private var isNavigationBarAnimated: Bool = false
+    // @State private var isAnimated: Bool = true
+    
     var body: some View {
         NavigationBarView(presentNavigationBar: $presentNavigationBar)
                   .padding(.horizontal, 15)
                   .padding(.bottom, 5)
                   .background(Color.white)
+                
         // NavigationBarView(presentNavigationBar: $presentNavigationBar)
         //     .padding(.horizontal, 15)
         //     .padding(.bottom)

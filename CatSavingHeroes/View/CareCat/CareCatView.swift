@@ -15,6 +15,7 @@ struct CareCatView: View {
     @EnvironmentObject var shop: Shop
     // @EnvironmentObject var strayModel: StrayCatsALLViewModel
     
+    @State private var animatingButton: Bool = false//플로팅 버튼
     @EnvironmentObject var model:AddressManager
     @State private var selectedNumber = 1
     @State private var isDataLoaded = false
@@ -158,21 +159,53 @@ struct CareCatView: View {
                         
                         
                     }
-                    Button(action:
-                            {
-                        isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                    }
-                           , label: {
-                        Image(systemName: "plus")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 60, height: 60)
-                            .background(Color.primaryColor)
-                            .clipShape(Capsule())
-                            .padding()
-                    })
-                    .padding()
-                    .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
+                    ZStack {
+                      Group {
+                        Circle()
+                          .fill(Color.primaryColor)
+                          .opacity(self.animatingButton ? 0.2 : 0)
+                          //.scaleEffect(self.animatingButton ? 1 : 0)
+                          .frame(width: 68, height: 68, alignment: .center)
+                        Circle()
+                          .fill(Color.primaryColor)
+                          .opacity(self.animatingButton ? 0.15 : 0)
+                          //.scaleEffect(self.animatingButton ? 1 : 0)
+                          .frame(width: 88, height: 88, alignment: .center)
+                      }
+                      //.animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true))
+                      
+                      Button(action: {
+                        self.isShowingModal.toggle()
+                      }) {
+                        Image(systemName: "plus.circle.fill")
+                          .resizable()
+                          .scaledToFit()
+                          .background(Circle().fill(Color("ColorBase")))
+                          .frame(width: 48, height: 48, alignment: .center)
+                      } //: BUTTON
+                        .accentColor(Color.primaryColor)
+                        .onAppear(perform: {
+                           self.animatingButton.toggle()
+                        })
+                    } //: ZSTACK
+                      .padding(.bottom, 15)
+                      .padding(.trailing, 15)
+                
+                    // Button(action:
+                    //         {
+                    //     isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
+                    // }
+                    //        , label: {
+                    //     Image(systemName: "plus")
+                    //         .font(.headline)
+                    //         .foregroundColor(.white)
+                    //         .frame(width: 60, height: 60)
+                    //         .background(Color.primaryColor)
+                    //         .clipShape(Capsule())
+                    //         .padding()
+                    // })
+                    // .padding()
+                    // .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
                 } else {
                     CatDetailView(showTopCustomView: $showTopCustomView)
                 }
