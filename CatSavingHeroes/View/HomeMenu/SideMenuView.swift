@@ -130,18 +130,16 @@ struct SideMenuView: View {
     func ProfileImageView() -> some View{
         ZStack {
             VStack(alignment: .leading){
-                Text("여메메")
+                Text(viewModel.currentUser?.name ?? "")
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(.black)
                 
                 HStack{
                     VStack{
-                        Text("2")
+                        Text(viewModel.currentUser?.status ?? "")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.blue.opacity(0.3))
-                        Text("마이캣")
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(.black.opacity(0.5))
+                       
                         
                     }
                     // VStack{
