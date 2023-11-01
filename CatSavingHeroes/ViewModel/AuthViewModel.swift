@@ -110,7 +110,7 @@ class AuthViewModel: NSObject, ObservableObject {
     
     func allRoadUserInfoAPI() {
         AF.request(USER_INFO_ALL_ROAD, method: .post,  encoding: JSONEncoding.default)
-            .responseDecodable(of: UserInfo.self) { response in
+            .responseDecodable(of: [UserInfo].self) { response in
                 switch response.result {
                 case .success(let userInfo):
                     // 성공적으로 데이터를 받았을 때
