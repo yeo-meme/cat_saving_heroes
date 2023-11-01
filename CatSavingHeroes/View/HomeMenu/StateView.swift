@@ -16,42 +16,39 @@ struct StateView: View {
     // @ObservedObject var viewModel: EditProfileViewModel
     @State private var showSheet = false
     
-    
     @Environment(\.presentationMode) var mode
-    @Binding var showTopCustomView: Bool
+    // @Binding var showTopCustomView: Bool
     @Binding var presentSideMenu: Bool
     // @Binding var presentNavigationBar: Bool
     @State private var tabIndex = 0
     @EnvironmentObject var viewModel : AuthViewModel
     @State var tag:Int? = nil
     
-    
+    @State var showTopCustomView: Bool = false
     @State var isDataLoaded = false
     // @ObservedObject var catModel = WatchCellViewModel()
     
-    var goToAddViewButton: some View {
-        
-        NavigationLink(
-            destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
-                HStack {
-                    Image(systemName: "waveform.path.badge.plus")
-                        .foregroundColor(.white)
-                        .padding(.leading,5)
-                    
-                    Text("냥이추가")
-                        .foregroundColor(.white)
-                        .padding(.leading,5)
-                        .frame(width: 70, height: 36)
-                }
-                .background(
-                    Capsule()
-                        .fill(Color.primaryColor)
-                )
-                .padding(.bottom, 10)
-                
-            }}
-
-
+    // var goToAddViewButton: some View {
+    //     
+    //     NavigationLink(
+    //         destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
+    //             HStack {
+    //                 Image(systemName: "waveform.path.badge.plus")
+    //                     .foregroundColor(.white)
+    //                     .padding(.leading,5)
+    //                 
+    //                 Text("냥이추가")
+    //                     .foregroundColor(.white)
+    //                     .padding(.leading,5)
+    //                     .frame(width: 70, height: 36)
+    //             }
+    //             .background(
+    //                 Capsule()
+    //                     .fill(Color.primaryColor)
+    //             )
+    //             .padding(.bottom, 10)
+    //             
+    //         }}
     
     var body: some View {
         NavigationView{
@@ -114,33 +111,19 @@ struct StateView: View {
                                     }//:User Profile
                                 // })
                             
-                            
-                      
-                            
                             SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
-                                WatchCatView()
+                                WatchCatView(showTopCustomView: $showTopCustomView)
                             } else if tabIndex == 1 {
-                                Text("2")
+                                InterestCatView()
                             } else if tabIndex == 2 {
-                                Text("3")
+                               TakeCareOfCatView()
                             }
-                            
-                            
-                            // ScrollView{
-                            //     VStack(spacing: 1) {
-                            //         ForEach(catModel.arrUsercats) { userCat in //데이터 파생
-                            //             WatchCatCell(viewModel: WatchItemCellModel(userCat))
-                            // 
-                            //         }
-                            //     }
-                            // }
                         }
-                        
-                        HStack(alignment: .bottom){
-                            goToAddViewButton
-                        }
-                        .padding(.bottom, 10)
+                        // HStack(alignment: .bottom){
+                        //     goToAddViewButton
+                        // }
+                        // .padding(.bottom, 10)
                     // }
                 }
                 // .onAppear {

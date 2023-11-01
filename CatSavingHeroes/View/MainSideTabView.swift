@@ -16,6 +16,8 @@ struct MainSideTabView: View {
     @EnvironmentObject var locationManager: AddressManager
     @State private var showTopCustomView = true
     @State private var settingViewShowUP = false
+    @State private var shouldShowSettings = false
+    
     
     var goToAddViewButton: some View {
         HStack {
@@ -35,75 +37,94 @@ struct MainSideTabView: View {
     }
     
     var body: some View {
-        ZStack{
-            TabView(selection: $selectedSideMenuTab) {
-                NavigationView{
-                    VStack {
-                        if showTopCustomView {
-                        TopCustomView(presentNavigationBar: $isShowingSideMenu)
+        NavigationView{
+            ZStack{
+                TabView(selection: $selectedSideMenuTab) {
+                    NavigationView{
+                        VStack {
+                            if showTopCustomView {
+                                TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            }
+                            CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                         }
-                        CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                     }
-                }
-                .tabItem {
-                    Image(systemName: "heart.fill")
-                    Text("주변돌봄")
-                }
-                .tag(0)
-           
-                // if selectedSideMenuTab == 1 {
-                //     NavigationView{
-                //         VStack {
-                //             SettingsView(model.currentUser ?? MOCK_USER)
-                //         }
-                //     } .tag(1)
-                // }
-            
-                
-                NavigationView{
-                    VStack{
-                        if showTopCustomView {
+                    .tabItem {
+                        Image(systemName: "heart.fill")
+                        Text("주변돌봄")
+                    }
+                    .tag(0)
+                    
+                    // if selectedSideMenuTab == 1 {
+                    //     NavigationView{
+                    //         VStack {
+                    //             SettingsView(model.currentUser ?? MOCK_USER)
+                    //         }
+                    //     } .tag(1)
+                    // }
+                    
+                    
+                    NavigationView{
+                        VStack{
+                            if showTopCustomView {
+                                TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            }
+                            StateView(presentSideMenu: $isShowingSideMenu, showTopCustomView: showTopCustomView)
+                        }
+                    }
+                    .tabItem {
+                        Image(systemName: "message.fill")
+                        Text("냥이들")
+                    }
+                    .tag(2)
+                    
+                    //showTopCustomView
+                    NavigationView{
+                        VStack {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            TrackingHeroView(weatherModel: WeatherViewModel())
                         }
-                        StateView(showTopCustomView: $showTopCustomView, presentSideMenu: $isShowingSideMenu)
+                    }
+                    .tabItem {
+                        Image(systemName: "location.fill")
+                        Text("영웅기록")
+                    }
+                    .tag(3)
+                    
+                    NavigationView{
+                        VStack {
+                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                            HeroCalendarView()
+                        }
+                    }
+                    .tabItem {
+                        Image(systemName: "calendar")
+                        Text("영웅일지")
+                    }
+                    .tag(4)
+                    
+                    
+                    
+                }.onAppear {
+                    selectedSideMenuTab = 0 // 초기화면을 설정
+                    
+                }
+                .onChange(of: selectedSideMenuTab) { newTabValue in
+                    print("Selected tab is now \(newTabValue)")
+                    if newTabValue == 1 {
+                        shouldShowSettings = true
                     }
                 }
-                .tabItem {
-                    Image(systemName: "message.fill")
-                    Text("냥이들")
-                }
-                .tag(2)
-                //showTopCustomView
-                NavigationView{
-                    VStack {
-                        TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                        TrackingHeroView(weatherModel: WeatherViewModel())
-                    }
-                }
-                .tabItem {
-                    Image(systemName: "location.fill")
-                    Text("영웅기록")
-                }
-                .tag(3)
                 
-                NavigationView{
-                    VStack {
-                        TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                        HeroCalendarView()
+                if shouldShowSettings {
+                    NavigationLink(destination: SettingsView(model.currentUser ?? MOCK_USER), isActive: $shouldShowSettings) {
+                        EmptyView()
                     }
                 }
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("영웅일지")
-                }
-                .tag(4)
                 
-             
+                SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu, weatherManager: WeatherManager())))
+                
                 
             }
-            SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu, weatherManager: WeatherManager())))
-                
-            
         }
         
         

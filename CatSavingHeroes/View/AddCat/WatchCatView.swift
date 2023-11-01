@@ -15,7 +15,30 @@ struct WatchCatView: View {
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
     @ObservedObject var catModel = WatchCellViewModel()
+    @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
+    
+    var goToAddViewButton: some View {
+        NavigationLink(
+            destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
+                HStack {
+                    Image(systemName: "waveform.path.badge.plus")
+                        .foregroundColor(.white)
+                        .padding(.leading,5)
+                    
+                    Text("냥이추가")
+                        .foregroundColor(.white)
+                        .padding(.leading,5)
+                        .frame(width: 70, height: 36)
+                }
+                .background(
+                    Capsule()
+                        .fill(Color.primaryColor)
+                )
+                .padding(.bottom, 10)
+                
+            }}
+    
     var body: some View {
         ZStack{
             ScrollView{
@@ -43,6 +66,10 @@ struct WatchCatView: View {
                         
                     }
                 }
+                HStack(alignment: .bottom){
+                    goToAddViewButton
+                }
+                .padding(.bottom, 10)
             }
         }
         .onAppear {

@@ -67,7 +67,7 @@ struct SideMenuView: View {
                         //사이드 바
                         ForEach(SideMenuRowType.allCases, id: \.self){ row in
                             RowView(isSelected: selectedSideMenuTab == row.rawValue, imageName: row.iconName, title: row.title) {
-                                // selectedSideMenuTab = row.rawValue // 메인탭 자동 전환
+                                selectedSideMenuTab = row.rawValue // 메인탭 자동 전환
                                 presentSideMenu.toggle()
                             
                                 if row.rawValue == 0 {
