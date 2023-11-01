@@ -126,11 +126,12 @@ struct StateView: View {
                         // .padding(.bottom, 10)
                     // }
                 }
-                // .onAppear {
-                //     // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-                //     catModel.fetchMatchCat()
-                //     print("임마 : \(catModel.arrUsercats)")
-                // }
+                .onAppear {
+                    // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
+                    // catModel.fetchMatchCat()
+                    // print("임마 : \(catModel.arrUsercats)")
+                    viewModel.fetchUser()
+                }
                 
              
                 
