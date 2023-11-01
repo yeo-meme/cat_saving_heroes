@@ -18,16 +18,16 @@ struct CatDetailView: View {
         VStack(alignment: .leading, spacing: 5, content: {
             
             // NAVBAR
-            NavigationBarDetailView()
-                .padding(.horizontal)
-                // .ignoresSafeArea(.all)
-            .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                .offset(y:-40)
+            // NavigationBarDetailView()
+            //     .padding(.horizontal)
+            //     // .ignoresSafeArea(.all)
+            // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
+            //     .offset(y:-40)
             
             // HEADER
             HeaderDateView()
                 .padding(.horizontal)
-                .offset(y:-30)
+                // .offset(y:-30)
             
             // DETAIL TOP PART
             DetailCatProfileView(cat:cats)
@@ -76,7 +76,7 @@ struct CatDetailView: View {
             .background(
                 Color.white
                     .clipShape(CustomShape())
-                    .padding(.top, -105)
+                    .padding(.top, -80)
             )
         }) //: VSTACK
         .zIndex(0)

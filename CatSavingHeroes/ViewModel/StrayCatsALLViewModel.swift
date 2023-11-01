@@ -23,8 +23,8 @@ class StrayCatsALLViewModel: ObservableObject {
         // coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
         // coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
         // print("현재위치. : \(coordi)")
-        // 
-        // strayModel.loadStrayAllCatsIfNotLoaded(coordinates: coordi, meter: 500)
+        
+        self.loadStrayAllCatsIfNotLoaded(coordinates: [127.029429,37.554297], meter: 500)
     }
     
     func loadStrayAllCatsIfNotLoaded(coordinates: [Double], meter: Int) {

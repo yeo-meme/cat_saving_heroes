@@ -71,123 +71,111 @@ struct CareCatView: View {
     
     @State var modifiedCatList:[Cats]?
     
+    
     // Model 클래스의 인스턴스를 생성
     var body: some View {
-        VStack {
-            // NavigationBarView(presentNavigationBar: $presentNavigationBar)
-            //           .padding(.horizontal, 15)
-            //           .padding(.bottom, 5)
-            //           .background(Color.white)
             ZStack(alignment: .bottomTrailing){
-                VStack{
-                    // if strayModel.isDataLoaded {
                     VStack{
-                        MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
-                            .frame(height: 300)
-                        // Spacer()
-                        // CategoryItemView(isShowingModal: $isShowingModal)
                         
-                        Picker("", selection: $selectedSegment) {
-                            ForEach(0..<segments.count, id: \.self) { index in
-                                Text(segments[index]).tag(index)
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                        
-                        
-                        VStack(alignment: .leading, spacing: 6){
-                            //stray!!!!
-                            ScrollView {
-                                ForEach(strayModel.filterGeoCatsList) { cat in
-                                    NavigationLink(destination:CatDetailView(cats:cat, showTopCustomView: $showTopCustomView)) {
-                                        StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))
-                                    }
+                        VStack{
+                            MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
+                                .frame(height: 300)
+                            // Spacer()
+                            // CategoryItemView(isShowingModal: $isShowingModal)
+                            
+                            Picker("", selection: $selectedSegment) {
+                                ForEach(0..<segments.count, id: \.self) { index in
+                                    Text(segments[index]).tag(index)
                                 }
-                                .padding()
                             }
-                        } //List
-                        .padding(.bottom, 10)
-                        // .background(Color.red)
-                        .sheet(isPresented: $isShowingModal) {
-                            // 모달이 표시되면 addEvent 뷰가 열립니다.
-                            AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                            .pickerStyle(SegmentedPickerStyle())
+                            
+                            
+                            VStack(alignment: .leading, spacing: 6){
+                                //stray!!!!
+                                ScrollView {
+                                    if !strayModel.filterGeoCatsList.isEmpty{
+                                        ForEach(strayModel.filterGeoCatsList) { cat in
+                                            NavigationLink(destination:CatDetailView(cats:cat, showTopCustomView: $showTopCustomView)) {
+                                                StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))
+                                            }
+                                        }
+                                        .padding()
+                                     
+                                    }
+                                }.onAppear{
+                                    var coordi:Array=[0.0,0.0]
+                                    coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+                                    coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+                                    print("현재위치onAppear : \(coordi)")
+                                    strayModel.loadStrayAllCats(coordinates:
+                                                                    coordi, meter: 100)
+                                }
+                            }
+                            .padding(.bottom, 10)
+                            .sheet(isPresented: $isShowingModal) {
+                                // 모달이 표시되면 addEvent 뷰가 열립니다.
+                                AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [], catSearchListData: [])
+                            }
+                            
+                        }
+                        .onChange(of: selectedSegment) { value in
+                            var coordi:Array=[0.0,0.0]
+                            coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
+                            coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
+                            print("현재위치. : \(coordi)")
+                            
+                            let segmentsData = segments[value]
+                            let meter = Int(segmentsData.replacingOccurrences(of: "m", with: ""))
+                            if let meter = meter {
+                                print("선택한 거리 : \(meter)")
+                                strayModel.loadStrayAllCats(coordinates:
+                                                                coordi, meter: meter)
+                            }
                         }
                         
                     }
-                    .onChange(of: selectedSegment) { value in
-                        var coordi:Array=[0.0,0.0]
-                        coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
-                        coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
-                        print("현재위치. : \(coordi)")
-                        
-                        let segmentsData = segments[value]
-                        let meter = Int(segmentsData.replacingOccurrences(of: "m", with: ""))
-                        if let meter = meter {
-                            print("선택한 거리 : \(meter)")
-                            strayModel.loadStrayAllCats(coordinates:
-                                                            coordi, meter: meter)
+                    ZStack {
+                        Group {
+                            Circle()
+                                .fill(Color.primaryColor)
+                                .opacity(self.animatingButton ? 0.2 : 0)
+                            //.scaleEffect(self.animatingButton ? 1 : 0)
+                                .frame(width: 68, height: 68, alignment: .center)
+                            Circle()
+                                .fill(Color.primaryColor)
+                                .opacity(self.animatingButton ? 0.15 : 0)
+                            //.scaleEffect(self.animatingButton ? 1 : 0)
+                                .frame(width: 88, height: 88, alignment: .center)
                         }
-                    }
-                    
-                    
-                }
-                ZStack {
-                    Group {
-                        Circle()
-                            .fill(Color.primaryColor)
-                            .opacity(self.animatingButton ? 0.2 : 0)
-                        //.scaleEffect(self.animatingButton ? 1 : 0)
-                            .frame(width: 68, height: 68, alignment: .center)
-                        Circle()
-                            .fill(Color.primaryColor)
-                            .opacity(self.animatingButton ? 0.15 : 0)
-                        //.scaleEffect(self.animatingButton ? 1 : 0)
-                            .frame(width: 88, height: 88, alignment: .center)
-                    }
-                    //.animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true))
-                    
-                    Button(action: {
-                        self.isShowingModal.toggle()
-                    }) {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .background(Circle().fill(Color("ColorBase")))
-                            .frame(width: 48, height: 48, alignment: .center)
-                    } //: BUTTON
-                    .accentColor(Color.primaryColor)
-                    .onAppear(perform: {
-                        self.animatingButton.toggle()
-                    })
-                } //: ZSTACK
-                .padding(.bottom, 15)
-                .padding(.trailing, 15)
-                
-                // Button(action:
-                //         {
-                //     isShowingModal.toggle() // 버튼을 탭하면 모달을 열기/닫기
-                // }
-                //        , label: {
-                //     Image(systemName: "plus")
-                //         .font(.headline)
-                //         .foregroundColor(.white)
-                //         .frame(width: 60, height: 60)
-                //         .background(Color.primaryColor)
-                //         .clipShape(Capsule())
-                //         .padding()
-                // })
-                // .padding()
-                // .shadow(color:Color(.systemGray6), radius: 6, x: 0.0, y: 0.0)
-                
+                        //.animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true))
+                        
+                        Button(action: {
+                            self.isShowingModal.toggle()
+                        }) {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .background(Circle().fill(Color("ColorBase")))
+                                .frame(width: 48, height: 48, alignment: .center)
+                        } //: BUTTON
+                        .accentColor(Color.primaryColor)
+                        .onAppear(perform: {
+                            self.animatingButton.toggle()
+                        })
+                    } //: ZSTACK
+                    .padding(.bottom, 15)
+                    .padding(.trailing, 15)
             }
-        }
         
-        // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
     }
-    // .offset(y:-50)
-    // .background(Color.red)
     
+    // SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu)))
 }
+// .offset(y:-50)
+// .background(Color.red)
+
+// }
 
 
 
@@ -214,26 +202,7 @@ struct MapViewCoordinator: UIViewRepresentable {
 // }
 
 
-// .onAppear{
-// var coordi:Array=[0.0,0.0]
-// coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
-// coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
-// print("현재위치onAppear : \(coordi)")
-//
-// let segmentsData = segments[0]
-// let meter = Int(segmentsData.replacingOccurrences(of: "m", with: ""))
-// if let meter = meter {
-//     print("선택한 거리onAppear: \(meter)")
-//     strayModel.loadStrayAllCats(coordinates: coordi, meter: 500)
-//     if let strayCatList = strayModel.filterGeoCatsList {
-//        modifiedCatList = strayCatList
-//         print("modifiedCatList : \(modifiedCatList) ")
-//            // ForEach(strayCatList) { cat in
-//            //     // modifiedCatList.append(cat)
-//            //     // catList = modifiedCatList
-//            // }
-//     }
-// }
+
 //
 
 
