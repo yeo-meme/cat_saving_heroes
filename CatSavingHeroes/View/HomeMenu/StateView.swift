@@ -117,7 +117,7 @@ struct StateView: View {
                             
                       
                             
-                            SlidingTabView(selection: $tabIndex, tabs: ["보는냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
+                            SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
                                 WatchCatView()
                             } else if tabIndex == 1 {

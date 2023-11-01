@@ -25,7 +25,22 @@ struct WatchCatView: View {
                             WatchCatCell(viewModel: WatchItemCellModel(userCat))
                         }
                     } else {
-                        Text("검색된 고양이가 없어요")
+                        
+                        ZStack{
+                            Image("illustration-no1")
+                                   .resizable()
+                                   .frame(width: .infinity , height: 400)
+                            Text("아직 저장된 고양이가 없네요 \n 고양이 추가로 \n 나만의 고양이 보관함을 만들어 보세요")
+                                .font(.footnote)
+                                    .padding(5)
+                                    .background(Color.primaryColor)
+                                    .cornerRadius(12)
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.center)
+                            
+                        }.padding(.top, 20)
+                    
+                        
                     }
                 }
             }

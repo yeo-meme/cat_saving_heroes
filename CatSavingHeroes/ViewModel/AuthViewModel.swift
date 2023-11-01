@@ -260,8 +260,6 @@ class AuthViewModel: NSObject, ObservableObject {
                 }
             }
             
-            
-            
             self.currentUser?.profileImageUrl = imageUrl
             self.userSession = Auth.auth().currentUser
             self.fetchUser()

@@ -19,8 +19,8 @@ struct AddEventView: View {
          return formatter
      }()
     
-    
-    
+ 
+    @State var isShowingAlert = false
     @Environment(\.presentationMode) var mode
     @EnvironmentObject var addressManager : Model
     @Binding var isShowingModal:Bool
@@ -96,6 +96,7 @@ struct AddEventView: View {
                         .padding(.trailing, 32)
                         .padding(.leading, 32)
                         .padding(.top , 32)
+               
                     VStack{
                         if isEditing {
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
@@ -222,7 +223,7 @@ struct AddEventView: View {
                 
                 // @Binding var catSearchListData : [Cats]?
                 // @Binding var catSearchData : Cats?
-                
+                @State private var isShowingAlert = false
                 
                 var body: some View {
                     HStack {
@@ -239,6 +240,7 @@ struct AddEventView: View {
                             )
                             .onSubmit {
                                 catsSearch()
+                                    
                                 // realmCall()
                             }
                       
@@ -255,7 +257,7 @@ struct AddEventView: View {
                             .padding(.trailing, 8)
                         }
                     }
-                    
+                
                 }
                 // func realmCall() {
                 //     let cats = RealmHelper.shared.readCats(withName: text)
@@ -266,7 +268,7 @@ struct AddEventView: View {
                 func catsFilterSearch(){
                     print("고양이 검색어 : \(text)")
                     if self.catSearchListData.isEmpty {
-                        
+                      // isShowingAlert = true
                     }
                     for catsData in self.catSearchListData {
                         if catsData.name == text {

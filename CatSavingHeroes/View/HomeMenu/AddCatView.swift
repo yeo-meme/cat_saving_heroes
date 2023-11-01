@@ -43,7 +43,7 @@ struct AddCatView: View {
         NavigationView {
             ScrollView{
                 VStack{
-                    VStack{
+                    VStack(spacing:15){
                         VStack(alignment: .leading, spacing: 8) {
                             Text("고양이를 등록하면")
                                 .font(.title3)
@@ -68,7 +68,7 @@ struct AddCatView: View {
                                     .frame(width: 150, height: 150)
                                     .clipShape(Circle())
                             } else {
-                                Text("여기를 누르세요!")
+                                Text("고양이 사진을 등록!")
                                     .font(.system(size: 18, weight: .semibold))
                                     .frame(width: 150, height: 150)
                                     .clipShape(Circle())
@@ -107,60 +107,52 @@ struct AddCatView: View {
                                }
                             CustomTextField(imageName: "questionmark.key.filled", placeholder: "필요한 메모", isSecureField: false, text: $catMemo)
                         }.padding(.horizontal, 32)
-                        
-                        //TEST
-                        // Button(action: {
-                        //     catViewModel.loadCats()
-                        // }, label: {
-                        //     VStack{
-                        //         Text("불러오기")
-                        //         }
-                        //     }
-                        // )
+                     
                   
                     }//:VStack
-                }//: ScrollView
+                    
+                    Spacer()
+                    
+                    Text("* 이름과 사진을 필수로 등록이 필요해요").padding(.top, 50)
+                    CapsuleButton(text: "완료", disabled: catImage == nil || catName == "", isAnimating: isIndicatorAnimating,
+                                  action: {
+                        isIndicatorAnimating = true
+                        catAddress = locationManager.currentPlace
+                        catViewModel.fetchCats()
+                        // 위도와 경도를 문자열로 변환
+                        let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
+                        let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
+                        
+                        //경도 위도 순
+                        if let lon = longitudeString , let lat = latitudeString {
+                            catLocation.append(lon)
+                            catLocation.append(lat)
+                        }
+                
+                        
+                        
+                        catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
+                            if success {
+                                print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
+                               
+                                print("ageeeee : \(catAge)")
+                                if let profileImage = imageUrl {
+                                    catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,coodinate:catLocation)
+                                    isIndicatorAnimating = false
+                                    mode.wrappedValue.dismiss()
+                                    
+                                    catViewModel.loadCats()
+                                }
+                            } else {
+                                print("고양이 사진 등록 않됐음")
+                                isIndicatorAnimating = false
+                            }
+                        }
+                    })
+                }
                 
           
-
-                
-                Text("* 이름과 사진을 필수로 등록이 필요해요").padding(0)
-                CapsuleButton(text: "완료", disabled: catImage == nil || catName == "", isAnimating: isIndicatorAnimating,
-                              action: {
-                    isIndicatorAnimating = true
-                    catAddress = locationManager.currentPlace
-                    catViewModel.fetchCats()
-                    // 위도와 경도를 문자열로 변환
-                    let latitudeString = locationManager.currentGeoLocation?.coordinate.latitude
-                    let longitudeString = locationManager.currentGeoLocation?.coordinate.longitude
-                    
-                    //경도 위도 순
-                    if let lon = longitudeString , let lat = latitudeString {
-                        catLocation.append(lon)
-                        catLocation.append(lat)
-                    }
-            
-                    
-                    
-                    
-                    catViewModel.catImageUpload(selectedImage!) { success, imageUrl in
-                        if success {
-                            print("profile 등록완료 ! 반환 : \(String(describing: imageUrl))")
-                           
-                            print("ageeeee : \(catAge)")
-                            if let profileImage = imageUrl {
-                                catViewModel.addCatMongo(name: catName, age: catAge, address: catAddress, gender: catGender, memo: catMemo,profileImage:profileImage,coodinate:catLocation)
-                                isIndicatorAnimating = false
-                                mode.wrappedValue.dismiss()
-                                
-                                catViewModel.loadCats()
-                            }
-                        } else {
-                            print("고양이 사진 등록 않됐음")
-                            isIndicatorAnimating = false
-                        }
-                    }
-                })
+               
             }
         }.onAppear{
             self.showTopCustomView = false

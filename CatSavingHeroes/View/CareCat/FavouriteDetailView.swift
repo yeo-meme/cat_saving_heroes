@@ -43,22 +43,22 @@ struct FavouriteDetailView: View {
     
         HStack(alignment: .center, spacing: 6, content: {
             Spacer()
-            VStack{
-                Button(action: {
-                    isSeeCatBtn.toggle()
-                    viewModel.seeAdd()
-                }, label: {
-                    Image(systemName: "lasso.and.sparkles")
-                        .resizable()
-                        .foregroundColor(isSeeCatBtn ?
-                            .pink : .gray)
-                        .frame(width: 40, height: 40)
-                })
-                Text("보는냥")
-                    .font(.headline)
-                    .foregroundColor(Color.black)
-                
-            }.padding(10)
+            // VStack{
+            //     Button(action: {
+            //         isSeeCatBtn.toggle()
+            //         viewModel.seeAdd()
+            //     }, label: {
+            //         Image(systemName: "lasso.and.sparkles")
+            //             .resizable()
+            //             .foregroundColor(isSeeCatBtn ?
+            //                 .pink : .gray)
+            //             .frame(width: 40, height: 40)
+            //     })
+            //     Text("추가냥")
+            //         .font(.headline)
+            //         .foregroundColor(Color.black)
+            //     
+            // }.padding(10)
             
             VStack{
                 Button(action: {
