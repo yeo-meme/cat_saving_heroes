@@ -11,6 +11,16 @@ import MapKit
 import Alamofire
 
 struct AddEventView: View {
+    
+    let currentDate = Date()
+     let dateFormatter: DateFormatter = {
+         let formatter = DateFormatter()
+         formatter.dateFormat = "MM.dd"
+         return formatter
+     }()
+    
+    
+    
     @Environment(\.presentationMode) var mode
     @EnvironmentObject var addressManager : Model
     @Binding var isShowingModal:Bool
@@ -99,7 +109,7 @@ struct AddEventView: View {
                                         .frame(width: 100, height: 50)
                                         .foregroundColor(Color.primaryColor)
                                         .overlay(
-                                            Text("#12.24")
+                                            Text("# \(dateFormatter.string(from: currentDate))")
                                                 .foregroundColor(.white)
                                                 .font(.headline)
                                         )
