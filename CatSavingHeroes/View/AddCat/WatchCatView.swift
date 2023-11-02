@@ -43,7 +43,7 @@ struct WatchCatView: View {
             }}
     
     var body: some View {
-        ZStack{
+        ZStack(alignment:.bottom){
             ScrollView{
                 if !isLoading {
                     VStack{
@@ -72,10 +72,7 @@ struct WatchCatView: View {
                             }
                         }
                         
-                        HStack(alignment: .bottom){
-                            goToAddViewButton
-                        }
-                        .padding(.bottom, 10)
+                      
                     }
                 }else {
                     ZStack {
@@ -88,6 +85,9 @@ struct WatchCatView: View {
                 }
               
             }
+            
+            goToAddViewButton
+        .padding(.bottom, 20)
         }
         .onAppear {
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
