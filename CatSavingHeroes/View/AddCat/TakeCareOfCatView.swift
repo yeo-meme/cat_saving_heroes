@@ -11,38 +11,43 @@ struct TakeCareOfCatView: View {
     // @State private var isDataLoaded = false
     @ObservedObject var viewModel = TakeCareOfCatViewModel()
     // var watchCatList:[Cats]?
+    @State private var isLoading = true // 딜레이
     var body: some View {
         ZStack{
             ScrollView{
-                VStack(spacing: 1) {
-                    if !viewModel.filterCatsList.isEmpty{
-                        ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
-                            TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat))
+                if !isLoading {
+                    VStack(spacing: 1) {
+                        if !viewModel.filterCatsList.isEmpty{
+                            ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
+                                TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat))
+                            }
+                        } else {
+                            ZStack{
+                                Image("illustration-no3")
+                                    .resizable()
+                                    .frame(width: .infinity , height: 400)
+                                Text("내가 돌보는 냥이를 \n 북마크해서 \n 돌봄에서 볼 수 있어요")
+                                    .font(.footnote)
+                                    .padding(5)
+                                    .background(Color.primaryColor)
+                                    .cornerRadius(12)
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.center)
+                                
+                            }.padding(.top, 20)
                         }
-                    } else {
-                        ZStack{
-                            Image("illustration-no3")
-                                .resizable()
-                                .frame(width: .infinity , height: 400)
-                            Text("내가 돌보는 냥이를 \n 북마크해서 \n 돌봄에서 볼 수 있어요")
-                                .font(.footnote)
-                                .padding(5)
-                                .background(Color.primaryColor)
-                                .cornerRadius(12)
-                                .foregroundColor(.white)
-                                .multilineTextAlignment(.center)
-                            
-                        }.padding(.top, 20)
-                    }
                         
                     }
+                } else {
+                    Text("로딩중")
+                }
                 }
             }
         .onAppear{
             viewModel.matchUserInterestCatLoad()
-            // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-            
-            // print("임마 : \(catModel.filteredCats)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                           isLoading = false // Set isLoading to false when data is loaded
+                       }
         }
         }
       

@@ -17,11 +17,13 @@ struct WatchCatView: View {
     @ObservedObject var catModel = WatchCellViewModel()
     @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
-    
+    @State private var isLoading = true // 딜레이
+
     
     var goToAddViewButton: some View {
         NavigationLink(
             destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
+                
                 HStack {
                     Image(systemName: "waveform.path.badge.plus")
                         .foregroundColor(.white)
@@ -43,41 +45,52 @@ struct WatchCatView: View {
     var body: some View {
         ZStack{
             ScrollView{
-                VStack(spacing: 1) {
-                    if !catModel.filteredCats.isEmpty {
-                        ForEach(catModel.filteredCats) { userCat in //데이터 파생
-                            WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                if !isLoading {
+                    VStack{
+                        VStack(spacing: 1) {
+                            if !catModel.filteredCats.isEmpty {
+                                ForEach(catModel.filteredCats) { userCat in //데이터 파생
+                                    WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                                }
+                            } else {
+                                
+                                ZStack{
+                                    Image("illustration-no1")
+                                        .resizable()
+                                        .frame(width: .infinity , height: 400)
+                                    Text("아직 저장된 고양이가 없네요 \n 고양이 추가로 \n 나만의 고양이 보관함을 만들어 보세요")
+                                        .font(.footnote)
+                                        .padding(5)
+                                        .background(Color.primaryColor)
+                                        .cornerRadius(12)
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.center)
+                                    
+                                }.padding(.top, 20)
+                                
+                                
+                            }
                         }
-                    } else {
                         
-                        ZStack{
-                            Image("illustration-no1")
-                                   .resizable()
-                                   .frame(width: .infinity , height: 400)
-                            Text("아직 저장된 고양이가 없네요 \n 고양이 추가로 \n 나만의 고양이 보관함을 만들어 보세요")
-                                .font(.footnote)
-                                    .padding(5)
-                                    .background(Color.primaryColor)
-                                    .cornerRadius(12)
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
-                            
-                        }.padding(.top, 20)
-                    
-                        
+                        HStack(alignment: .bottom){
+                            goToAddViewButton
+                        }
+                        .padding(.bottom, 10)
                     }
+                }else {
+                    Text("로딩중")
                 }
-                Spacer()
-                HStack(alignment: .bottom){
-                    goToAddViewButton
-                }
-                .padding(.bottom, 10)
+              
             }
         }
         .onAppear {
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
             catModel.fetchMatchCat()
             print("임마 : \(catModel.filteredCats)")
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                           isLoading = false // Set isLoading to false when data is loaded
+                       }
         }
     }
 }

@@ -12,6 +12,7 @@ struct TakeCareOfCatCellView: View {
     
     @ObservedObject var viewModel: TakeCareOfCatCellViewModel
     
+    
     var body: some View {
         VStack(spacing: 1) {
             HStack(spacing: 12) {
