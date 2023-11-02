@@ -21,8 +21,8 @@ class TakeCareOfCatViewModel: ObservableObject {
         
         let user = AuthViewModel.shared.currentUser?.id ?? ""
         let jsonData = [
-                       "user_uuid": user,
-                   ] as [String : Any] // 데이터를 JSON 형식으로 준비
+            "user_uuid": user,
+        ] as [String : Any] // 데이터를 JSON 형식으로 준비
         AF.request(USER_INFO_ALL_ROAD, method: .post, parameters: jsonData ,  encoding: JSONEncoding.default)
             .responseDecodable(of: [UserInfo].self) { response in
                 switch response.result {
@@ -38,7 +38,7 @@ class TakeCareOfCatViewModel: ObservableObject {
             }
     }
     
-
+    
     
     func fileterCat() {
         if let interestCatList = careCatList {
@@ -49,28 +49,27 @@ class TakeCareOfCatViewModel: ObservableObject {
             }
             let validStrings = temCatId.compactMap { $0 }
             print("졸려 스트링에 담아 : \(validStrings)")
-
             
             
             
             let parameters: Parameters = [
-                            "_id": validStrings,
-                         ] as [String : Any]
+                "_id": validStrings,
+            ] as [String : Any]
             print("졸려 params : \(parameters)")
             
             AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
-                       .responseDecodable(of: [Cats].self) { response in
-                       switch response.result {
-                       case .success(let value):
-                           print("졸려 나왔니 다람쥐: \(value)")
-                           self.filterCatsList = value
-                           print("졸려 나왔니 다람쥐 : \(self.filterCatsList)")
-                           // self.isDataLoaded = true
-                           // self.filterCat()
-                       case .failure(let error):
-                           print("졸려 실패 나왔니 : \(error)")
-                       }
-                   }
+                .responseDecodable(of: [Cats].self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        print("졸려 나왔니 다람쥐: \(value)")
+                        self.filterCatsList = value
+                        print("졸려 나왔니 다람쥐 : \(self.filterCatsList)")
+                        // self.isDataLoaded = true
+                        // self.filterCat()
+                    case .failure(let error):
+                        print("졸려 실패 나왔니 : \(error)")
+                    }
+                }
         }
     }
     
