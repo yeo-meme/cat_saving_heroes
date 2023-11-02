@@ -42,7 +42,6 @@ class StrayCatsALLViewModel: ObservableObject {
         let user = AuthViewModel.shared.currentUser?.id ?? ""
         let parameters: Parameters = [
             "user_uuid": user,
-            
          ]
         
         AF.request(USER_INFO_ALL_ROAD, method: .post, parameters: parameters ).responseDecodable(of: [UserInfo].self) { response in

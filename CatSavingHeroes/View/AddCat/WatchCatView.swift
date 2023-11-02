@@ -67,6 +67,7 @@ struct WatchCatView: View {
                         
                     }
                 }
+                Spacer()
                 HStack(alignment: .bottom){
                     goToAddViewButton
                 }
