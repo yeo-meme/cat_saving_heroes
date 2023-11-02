@@ -125,7 +125,7 @@ struct AddEventView: View {
                                         if let cat = choiceCat {
                                             Capsule()
                                                 .frame(width: 100, height: 50)
-                                                .foregroundColor(Color.primaryColor)
+                                                .foregroundColor(Color.complementColor)
                                                 .overlay(
                                                     Text(cat.name)
                                                         .foregroundColor(.white)

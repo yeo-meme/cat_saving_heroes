@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CareDetailListItemCell: View {
     // @EnvironmentObject var model:StrayCatsALLViewModel()
-    
+    @State private var eventText = "Initial Text"
     var cat:EventCat
     var body: some View {
         VStack{
@@ -25,7 +25,8 @@ struct CareDetailListItemCell: View {
                         .foregroundColor(Color.primaryColor)
                     
                  
-                    Text("찾음")
+                   
+                    Text(eventText)
                         .font(.footnote)
                         .foregroundColor(Color(UIColor.systemGray2))
                         .frame(minWidth: 62)
@@ -57,14 +58,19 @@ struct CareDetailListItemCell: View {
         switch number {
         case 1:
             print("hey One")
+            eventText = "찾음"
         case 2:
             print("hey Two")
+            eventText = "밥줌"
         case 3:
             print("hey Three")
+            eventText = "인사"
         case 4:
             print("hey Four")
+            eventText = "놀이"
         case 5:
             print("hey Five")
+            eventText = "아픔"
         default:
             print("hey Number is out of range")
         }

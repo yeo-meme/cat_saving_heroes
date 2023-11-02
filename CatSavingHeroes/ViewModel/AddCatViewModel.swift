@@ -253,9 +253,9 @@ class AddCatViewModel: ObservableObject {
     //고양이 새로 등록
     func addCatMongo(name: String,age: Int,address: String,gender: String,memo: String,profileImage:String,coodinate:[Double]) {
         
-        // guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
+        guard let userId = AuthViewModel.shared.currentUser?.uid else {return}
         
-        let userId = UserDefaults.standard.string(forKey: "User") ?? ""
+        // let userId = UserDefaults.standard.string(forKey: "User") ?? ""Auth 아닌듯
         print("너가 널이라고 ? \(userId)")
         print("타입체크 \(name),\(age),\(gender),\(profileImage),\(coodinate),\(generateUUID()),\(address),\(userId)")
         

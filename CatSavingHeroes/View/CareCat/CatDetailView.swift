@@ -65,7 +65,7 @@ struct CatDetailView: View {
                             
                             let aaa = ["1","2","3","4","5"]
                             ForEach(aaa, id: \.self) { message in
-                                if let eventCat = strayModel.eventMatchCat {
+                                if let eventCat = strayModel.eventMatchCat { //이벤트넘버 넘긱
                                     CareDetailListItemCell(cat: eventCat)
                                         .padding(.top,10)
                                         .padding(.bottom,10)

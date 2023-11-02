@@ -146,6 +146,7 @@ class EventAddViewModel: ObservableObject {
         updateTrackingObject(latitude: latitude, logtitude: logtitude)
         updateLocation(latitude: latitude, longitude: logtitude)
         
+        let user = AuthViewModel.shared.currentUser?.id ?? ""
         let sessionId = UserDefaults.standard.string(forKey: "User") ?? ""
         // guard let currentUserId = AuthViewModel.shared.currentUser?.id else { return }
         print("현재 user: \(sessionId)")
