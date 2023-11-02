@@ -65,9 +65,11 @@ struct CatDetailView: View {
                             
                             let aaa = ["1","2","3","4","5"]
                             ForEach(aaa, id: \.self) { message in
-                                CareDetailListItemCell()
-                                    .padding(.top,10)
-                                    .padding(.bottom,10)
+                                if let eventCat = strayModel.eventMatchCat {
+                                    CareDetailListItemCell(cat: eventCat)
+                                        .padding(.top,10)
+                                        .padding(.bottom,10)
+                                } 
                             }
                         }
                     }.frame(height: 170)

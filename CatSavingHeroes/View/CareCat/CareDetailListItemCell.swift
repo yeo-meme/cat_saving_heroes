@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CareDetailListItemCell: View {
-   
-    // var cat:EventCat
+    // @EnvironmentObject var model:StrayCatsALLViewModel()
+    
+    var cat:EventCat
     var body: some View {
         VStack{
             ZStack {
@@ -46,13 +47,31 @@ struct CareDetailListItemCell: View {
             }
             .padding(.trailing, 32)
             .padding(.leading, 32)
+        }.onAppear{
+            print("hey 들어온값 : \(cat)")
+            switchEvent(number: cat.event)
+        }
+    }
+    
+    func switchEvent(number:Int) {
+        switch number {
+        case 1:
+            print("hey One")
+        case 2:
+            print("hey Two")
+        case 3:
+            print("hey Three")
+        case 4:
+            print("hey Four")
+        case 5:
+            print("hey Five")
+        default:
+            print("hey Number is out of range")
         }
     }
 }
 
-#Preview {
-    CareDetailListItemCell()
-}
+
 // Text("밥줬어")
 //     .font(.system(size: 16, weight: .bold)) // 글자 크기 및 스타일 설정
 //     .fontWeight(.bold) // 글자 두께 설정
