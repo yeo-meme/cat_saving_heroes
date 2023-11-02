@@ -96,6 +96,10 @@ struct CareCatView: View {
                                 //stray!!!!
                                 ScrollView {
                                     if !strayModel.filterGeoCatsList.isEmpty{
+                            
+                                        
+                                        
+                                        //되는 거
                                         ForEach(strayModel.filterGeoCatsList) { cat in
                                             NavigationLink(destination:CatDetailView(cats:cat, showTopCustomView: $showTopCustomView)) {
                                                 StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))

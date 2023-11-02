@@ -60,7 +60,7 @@ struct StrayCatsItemView2: View {
                             // Image(cats.cat_photo)
                             KFImage(URL(string: viewModel.strayArrCats.cat_photo))
                                 .resizable()
-                                .frame(width: 150,height: 150)
+                                .frame(width: 100,height: 100)
                                 .scaledToFit()
                                 .padding(10)
                         } //: ZSTACK
@@ -68,10 +68,12 @@ struct StrayCatsItemView2: View {
                         .cornerRadius(12)
                         
                         
-                        Spacer()
                         // NAME
                         Text(viewModel.strayArrCats.name)
                             .font(.title3)
+                              .fontWeight(.bold) // Adjust font weight
+                              .foregroundColor(Color.complementColor) // Set text color
+                              .padding(10) // Add padding
                     }
                     // PRICE
                     // Text(modifiedCat?.id ?? "")

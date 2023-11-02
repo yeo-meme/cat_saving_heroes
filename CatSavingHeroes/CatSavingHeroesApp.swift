@@ -32,7 +32,7 @@ import FirebaseFirestore
                 .environmentObject(AddressManager.shared) // 환경 객체 공유
                 .environmentObject(addressManager)
                 .environmentObject(eventAddViewModel) // EventAddViewModel 환경 객체 주입
-                .environmentObject(StrayCatsALLViewModel())
+                // .environmentObject(StrayCatsALLViewModel())
                 .environmentObject(Shop())
         }
     }

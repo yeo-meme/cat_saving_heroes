@@ -10,7 +10,7 @@ import SwiftUI
 struct CatDetailView: View {
     @EnvironmentObject var shop: Shop    
     // @ObservedObject var viewModel:StrayCatsItemViewModel
-    @EnvironmentObject var strayModel: StrayCatsALLViewModel
+    @ObservedObject var strayModel = StrayCatsALLViewModel()
     @State var flagInterestCat = false
     @State var flagCareCat = false
     

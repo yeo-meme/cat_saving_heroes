@@ -62,6 +62,8 @@ let CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/del
 let CARE_CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/add"
 let CARE_CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat"
 let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/delete"
+
+let CARE_CAT_HISTORY_EVENT = "http://cat-saving-heros.azurewebsites.net/api/carecat/history"
 //geo
 let GEO_CARE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/search/geo2"
 let GEO_CAT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"

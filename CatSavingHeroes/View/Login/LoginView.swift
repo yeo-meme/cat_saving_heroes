@@ -131,7 +131,7 @@ struct LoginView: View {
                     Spacer()
                     
                 }//:VSTACK
-                .padding(.top, -120)
+                // .padding(.top, -70)
                 
                 Spacer()
                 
