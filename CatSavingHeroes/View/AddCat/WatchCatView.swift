@@ -78,7 +78,13 @@ struct WatchCatView: View {
                         .padding(.bottom, 10)
                     }
                 }else {
-                    Text("로딩중")
+                    ZStack {
+                        Spacer() // Push content to the top
+                        ProgressView("Loading…")
+                            .progressViewStyle(CircularProgressViewStyle())
+                        Spacer() // Push content to the bottom
+                    }
+                    .frame(width: 500, height: 500)
                 }
               
             }
@@ -88,7 +94,7 @@ struct WatchCatView: View {
             catModel.fetchMatchCat()
             print("임마 : \(catModel.filteredCats)")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                            isLoading = false // Set isLoading to false when data is loaded
                        }
         }

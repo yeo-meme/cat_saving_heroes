@@ -16,9 +16,9 @@ struct InterestCatView: View {
     var body: some View {
         ZStack{
             ScrollView{
-                if !isLoading {
-                    VStack(spacing: 1) {
-                        
+                
+                VStack(spacing: 1) {
+                    if !isLoading {
                         if !viewModel.filterCatsList.isEmpty{
                             ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
                                 InterestCellView(viewModel: InterestCatCellViewModel(userCat))
@@ -38,18 +38,26 @@ struct InterestCatView: View {
                                 
                             }.padding(.top, 20)
                         }
+                    }else {
+                        ZStack {
+                            Spacer() // Push content to the top
+                            ProgressView("Loading…")
+                                .progressViewStyle(CircularProgressViewStyle())
+                            Spacer() // Push content to the bottom
+                        }
+                        .frame(width: 500, height: 500)
+                        
                     }
-                }else {
-                        Text("로딩중")
-                    }
+                }
+                
             }
         }
         .onAppear{
             viewModel.matchUserInterestCatLoad()
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                           isLoading = false // Set isLoading to false when data is loaded
-                       }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isLoading = false // Set isLoading to false when data is loaded
+            }
         }
         
     }

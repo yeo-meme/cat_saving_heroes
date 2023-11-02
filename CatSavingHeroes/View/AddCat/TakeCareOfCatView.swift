@@ -39,7 +39,13 @@ struct TakeCareOfCatView: View {
                         
                     }
                 } else {
-                    Text("로딩중")
+                    ZStack {
+                        Spacer() // Push content to the top
+                        ProgressView("Loading…")
+                            .progressViewStyle(CircularProgressViewStyle())
+                        Spacer() // Push content to the bottom
+                    }
+                    .frame(width: 500, height: 500)
                 }
                 }
             }
