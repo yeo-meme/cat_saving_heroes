@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CareDetailListItemCell: View {
+   
+    // var cat:EventCat
     var body: some View {
         VStack{
             ZStack {
@@ -21,6 +23,7 @@ struct CareDetailListItemCell: View {
                         .frame(width: 12, height: 12, alignment: .center)
                         .foregroundColor(Color.primaryColor)
                     
+                 
                     Text("찾음")
                         .font(.footnote)
                         .foregroundColor(Color(UIColor.systemGray2))

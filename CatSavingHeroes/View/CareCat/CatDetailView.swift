@@ -62,6 +62,7 @@ struct CatDetailView: View {
                     //고양이 카드
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing:1){
+                            
                             let aaa = ["1","2","3","4","5"]
                             ForEach(aaa, id: \.self) { message in
                                 CareDetailListItemCell()

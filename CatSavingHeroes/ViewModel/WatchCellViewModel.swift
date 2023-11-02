@@ -33,8 +33,9 @@ class WatchCellViewModel: ObservableObject {
     }
     
     func getFilteredUsercats(){
-        guard let user = AuthViewModel.shared.currentUser?.uid else { return }
+        // guard let user = AuthViewModel.shared.currentUser?.uid else { return }
         
+        let user = UserDefaults.standard.string(forKey: "User")
         print("getFilteredUsercats AuthViewModel : \(user)")
         self.filteredCats.removeAll()
         for userCat in self.arrUsercats {

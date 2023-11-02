@@ -99,3 +99,14 @@ let RAIN = "rain"
 let THUNDERSTORM = "thunderstorm"
 let SNOW = "snow"
 let MIST = "mist"
+
+
+
+//주변 캣 첫 로드 더미
+var coordi_ : [Double] {
+        return [127.029429,37.554297]
+    }
+
+var meter_ : Int {
+        return 500
+    }

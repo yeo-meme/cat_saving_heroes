@@ -57,7 +57,8 @@ struct CareCatView: View {
     // @StateObject var strayModel = StrayCatsALLViewModel()
     @State private var filterGeoCatsEvents: [EventsCat]? // @State로 선언
     
-    @ObservedObject var strayModel=StrayCatsALLViewModel()
+    // @ObservedObject var strayModel=StrayCatsALLViewModel()
+    @ObservedObject var strayModel = StrayCatsALLViewModel()
     
     //데이터 추가 로드시 8개씩
     @State private var strayCatList: [Cats] = [] // 전체 데이터 배열

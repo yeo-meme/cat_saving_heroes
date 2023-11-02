@@ -55,10 +55,10 @@ class InterestCatViewModel: ObservableObject {
             
             let parameters: Parameters = [
                             "_id": validStrings,
-                         ]
+                         ] as [String : Any]
             print("졸려 params : \(parameters)")
             
-            AF.request(GEO_CAT_API_URL, method: .post, parameters: parameters)
+            AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
                        .responseDecodable(of: [Cats].self) { response in
                        switch response.result {
                        case .success(let value):

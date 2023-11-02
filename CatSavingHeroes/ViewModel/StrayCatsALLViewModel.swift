@@ -19,15 +19,26 @@ class StrayCatsALLViewModel: ObservableObject {
     @Published var isDataLoaded:Bool = false
     // @EnvironmentObject var model:AddressManager
     
-    @Published var userInfoArr:[UserInfo]=[]
+    @Published var userInfoArr:[UserInfo]=[]  
+    @Published var eventMatchCat:EventCat?
+ 
+    // let _meterInit:Int?
+    // let coordinatesInit:[Double]?
+    
+    
     init() {
         // var coordi:Array=[0.0,0.0]
         // coordi[0]=model.currentGeoPoint?.longitude ?? 0.0
         // coordi[1]=model.currentGeoPoint?.latitude ?? 0.0
         // print("현재위치. : \(coordi)")
         
-        self.loadStrayAllCatsIfNotLoaded(coordinates: [127.029429,37.554297], meter: 500)
+       
+        // super.init()
+        //
+        self.loadStrayAllCatsIfNotLoaded(coordinates: [127.029429,37.554297] , meter: 1000)
+        
     }
+    
     
     func loadStrayAllCatsIfNotLoaded(coordinates: [Double], meter: Int) {
            if !isDataLoaded { // 데이터가 아직 로드되지 않았을 때만 로드
@@ -128,6 +139,7 @@ class StrayCatsALLViewModel: ObservableObject {
                 print("arrGeoCatsId : \(arrGeoCatsId)")
             }
         }
+   
         
         let parameters: Parameters = [
             "_id": arrGeoCatsId,
@@ -142,21 +154,34 @@ class StrayCatsALLViewModel: ObservableObject {
                 self.filterGeoCatsList = value
                 print("나왔니 다람쥐 : \(self.filterGeoCatsList)")
                 self.isDataLoaded = true
+                self.filterCat()
                 // self.filterCat()
             case .failure(let error):
                 print("실패 나왔니 : \(error)")
             }
         }
+        
+        
     }
     
     func filterCat() {
-        // if let arrGeoCatsList = arrGeoCatsList, let filterGeoCatsList = filterGeoCatsList {
-        //     let matchingItems = arrGeoCatsList.filter { eventCat in
-        //         return filterGeoCatsList.contains { cat in
-        //             return cat.uuid == eventCat.cat_uuid
-        //         }
-        //     }
-    // print("매칭 캣 : \(matchingItems)")
+        //eventCat 이벤트 넘버 디테일 보내기 위해
+        if !filterGeoCatsList.isEmpty {
+            for cat in filterGeoCatsList {
+                if let arrGeoCats = self.arrGeoCatsList {
+                    for arrCat in arrGeoCats {
+                        if arrCat.cat_uuid == cat._id {
+                            print("나와라 이벤트  cat_uuid: \(arrCat.cat_uuid),\(cat._id)")
+                            self.eventMatchCat = arrCat
+                            print("나와라 이벤트 : \(self.eventMatchCat)")
+                            break // 매칭되는 항목을 찾았으면 루프를 종료
+                        }
+                    }
+                }
+            }
+        } else {
+            print("리스트 비워져있음")
+        }
         }
     }
     
