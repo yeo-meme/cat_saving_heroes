@@ -22,6 +22,7 @@ struct InterestCatView: View {
                         if !viewModel.filterCatsList.isEmpty{
                             ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
                                 InterestCellView(viewModel: InterestCatCellViewModel(userCat))
+                                    .padding(5)
                             }
                         } else {
                             ZStack{

@@ -20,6 +20,7 @@ struct TakeCareOfCatView: View {
                         if !viewModel.filterCatsList.isEmpty{
                             ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
                                 TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat))
+                                    .padding(5)
                             }
                         } else {
                             ZStack{

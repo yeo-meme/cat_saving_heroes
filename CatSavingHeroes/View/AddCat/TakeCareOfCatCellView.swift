@@ -27,8 +27,8 @@ struct TakeCareOfCatCellView: View {
                     Text(viewModel.userCat.name)
                         .bold()
                         .foregroundColor(.black)
-                    Text("나는 고양이의 상태")
-                        .foregroundColor(Color(.systemGray))
+                    // Text("나는 고양이의 상태")
+                    //     .foregroundColor(Color(.systemGray))
                 }//:catName
                 Spacer()
             }

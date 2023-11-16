@@ -103,9 +103,10 @@ struct CareCatView: View {
                                         ForEach(strayModel.filterGeoCatsList) { cat in
                                             NavigationLink(destination:CatDetailView(cats:cat, showTopCustomView: $showTopCustomView)) {
                                                 StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))
+                                                    .padding()
                                             }
                                         }
-                                        .padding()
+                                     
                                      
                                     }
                                 }.onAppear{

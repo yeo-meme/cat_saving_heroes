@@ -88,7 +88,7 @@ struct AddEventView: View {
                 //                }
                 
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd)
+                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
@@ -202,6 +202,14 @@ struct AddEventView: View {
                             }
                         }//:else 서치 페이지
                             }//:ZSTACK
+                    .alert(isPresented: $isShowingAlert) {
+                                   Alert(
+                                       title: Text("No Cats Found"),
+                                       message: Text("There are no cats in the search results."),
+                                       dismissButton: .default(Text("OK"))
+                                   )
+                               }
+                    
                             }//:SCROLLVIEW
                         }//: VSTACK
                     }//: NAVIGATIONVIEW
@@ -211,11 +219,14 @@ struct AddEventView: View {
             
             
             struct SearchBar: View {
+                
+                @EnvironmentObject var viewModel: AuthViewModel
                 @Binding var text: String
                 @Binding var isEditing: Bool
                 @Binding var isShowingSearchModal:Bool
                 // @Binding var catRealmArr:[CatRealmModel] //String
                 // @Binding var selectedCat : CatRealmModel?
+                // @Binding var allCatSearchListData:[Cats] //String
                 @Binding var catSearchListData:[Cats] //String
                 @Binding var choiceCat : Cats?
                 @State var isCatArrfinish:Bool = false
@@ -223,7 +234,7 @@ struct AddEventView: View {
                 
                 // @Binding var catSearchListData : [Cats]?
                 // @Binding var catSearchData : Cats?
-                @State private var isShowingAlert = false
+                @Binding var isShowingAlert:Bool
                 
                 var body: some View {
                     HStack {
@@ -257,7 +268,7 @@ struct AddEventView: View {
                             .padding(.trailing, 8)
                         }
                     }
-                
+                 
                 }
                 // func realmCall() {
                 //     let cats = RealmHelper.shared.readCats(withName: text)
@@ -268,7 +279,8 @@ struct AddEventView: View {
                 func catsFilterSearch(){
                     print("고양이 검색어 : \(text)")
                     if self.catSearchListData.isEmpty {
-                      // isShowingAlert = true
+                      isShowingAlert = true
+                        return
                     }
                     for catsData in self.catSearchListData {
                         if catsData.name == text {

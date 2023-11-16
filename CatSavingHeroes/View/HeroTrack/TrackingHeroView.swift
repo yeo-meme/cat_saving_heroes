@@ -150,6 +150,7 @@ struct TrackingHeroView: View {
                     .padding(.leading, 5)
                 
                 Text(model.isLocationTrackingEnabled ? "기록중지" : "기록시작")
+                    .background(model.isLocationTrackingEnabled ? Color.complementColor : Color.primaryColor)
                     .foregroundColor(.white)
                     .frame(width: 70, height: 36)
                 Spacer()

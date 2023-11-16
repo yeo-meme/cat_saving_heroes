@@ -51,6 +51,7 @@ struct WatchCatView: View {
                             if !catModel.filteredCats.isEmpty {
                                 ForEach(catModel.filteredCats) { userCat in //데이터 파생
                                     WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                                        .padding(5)
                                 }
                             } else {
                                 
