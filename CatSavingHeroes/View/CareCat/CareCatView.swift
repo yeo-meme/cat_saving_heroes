@@ -11,6 +11,7 @@ import RealmSwift
 import Kingfisher
 
 struct CareCatView: View {
+    
     @Binding var showTopCustomView:Bool
     @EnvironmentObject var shop: Shop
     // @EnvironmentObject var strayModel: StrayCatsALLViewModel
@@ -77,7 +78,6 @@ struct CareCatView: View {
     var body: some View {
             ZStack(alignment: .bottomTrailing){
                     VStack{
-                        
                         VStack{
                             MapViewCoordinator(locationManager: locationManager, eventAddViewModel: eventAddViewModel)
                                 .frame(height: 300)
@@ -96,8 +96,6 @@ struct CareCatView: View {
                                 //stray!!!!
                                 ScrollView {
                                     if !strayModel.filterGeoCatsList.isEmpty{
-                            
-                                        
                                         
                                         //되는 거
                                         ForEach(strayModel.filterGeoCatsList) { cat in

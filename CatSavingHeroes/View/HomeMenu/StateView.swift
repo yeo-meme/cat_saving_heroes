@@ -113,7 +113,7 @@ struct StateView: View {
                             
                             SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
-                                WatchCatView(showTopCustomView: $showTopCustomView)
+                                AddedCatListView(showTopCustomView: $showTopCustomView)
                             } else if tabIndex == 1 {
                                 InterestCatView()
                             } else if tabIndex == 2 {

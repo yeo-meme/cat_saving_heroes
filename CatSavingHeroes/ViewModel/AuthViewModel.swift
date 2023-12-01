@@ -122,10 +122,10 @@ class AuthViewModel: NSObject, ObservableObject {
             }
     }
     
-    // func uploadProfileImage(_ image: UIImage, completion: @escaping(Bool) -> Void) {
+    //회원가입 정보 저장 시점
     func uploadProfileImage(_ image: UIImage) {
         guard let uid = tempCurrentUser?.uid else {return}
-        
+
         ImageUploader.uploadImage(image: image, folderName: FOLDER_PROFILE_IMAGES, uid: uid) { imageUrl in
             let data: [String: Any] = [KEY_PROFILE_IMAGE_URL : imageUrl]
             
@@ -188,6 +188,7 @@ class AuthViewModel: NSObject, ObservableObject {
         
     }
     
+    //프로필 업로드 후 firestore 저장 후 API - Mongo 저장
     func uploadingUserInfo(jsonData:[String:Any]){
         do {
             AF.request(USER_INFO_ADD, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
@@ -269,7 +270,6 @@ class AuthViewModel: NSObject, ObservableObject {
     
     
     func signOut() {
-        
         self.didAuthenticateUser = false
         self.currentUser = nil
         self.userSession = nil

@@ -13,13 +13,13 @@ import Alamofire
 struct AddEventView: View {
     
     let currentDate = Date()
-     let dateFormatter: DateFormatter = {
-         let formatter = DateFormatter()
-         formatter.dateFormat = "MM.dd"
-         return formatter
-     }()
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM.dd"
+        return formatter
+    }()
     
- 
+    
     @State var isShowingAlert = false
     @Environment(\.presentationMode) var mode
     @EnvironmentObject var addressManager : Model
@@ -96,12 +96,12 @@ struct AddEventView: View {
                         .padding(.trailing, 32)
                         .padding(.leading, 32)
                         .padding(.top , 32)
-               
+                    
                     VStack{
                         if isEditing {
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
                             
-                          
+                            
                         } else {
                             ZStack(alignment:.bottomTrailing) {
                                 
@@ -117,7 +117,7 @@ struct AddEventView: View {
                                     // Other content specific to this VStack
                                     
                                     BrandItemView(selectedEvent: $selectedEvent)
-                                 
+                                    
                                     
                                     
                                     //선택된 고양이
@@ -135,7 +135,7 @@ struct AddEventView: View {
                                             Text("검색을 통해 고양이를 검색해주세요")
                                                 .font(.system(size: 18, weight: .semibold))
                                                 .frame(width: 200, height: 80)
-                                                // .clipShape(Circle())
+                                            // .clipShape(Circle())
                                                 .overlay(RoundedRectangle(cornerRadius: 20) .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])))
                                         }
                                         
@@ -170,9 +170,6 @@ struct AddEventView: View {
                                         //     deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
                                         // )
                                         // Realm.Configuration.defaultConfiguration = config
-                                       
-                                     
-                                        
                                         
                                         if addressManager.isLocationTrackingEnabled {
                                             let locationRecord = LocationRecord()
@@ -201,113 +198,130 @@ struct AddEventView: View {
                                 .padding(.top, 60)
                             }
                         }//:else 서치 페이지
-                            }//:ZSTACK
+                    }//:ZSTACK
                     .alert(isPresented: $isShowingAlert) {
-                                   Alert(
-                                       title: Text("No Cats Found"),
-                                       message: Text("There are no cats in the search results."),
-                                       dismissButton: .default(Text("OK"))
-                                   )
-                               }
+                        Alert(
+                            title: Text("No Cats Found"),
+                            message: Text("There are no cats in the search results."),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
                     
-                            }//:SCROLLVIEW
-                        }//: VSTACK
-                    }//: NAVIGATIONVIEW
+                }//:SCROLLVIEW
+            }//: VSTACK
+        }//: NAVIGATIONVIEW
+    }
+    
+}
+
+
+struct SearchBar: View {
+    
+    @EnvironmentObject var viewModel: AuthViewModel
+    @Binding var text: String
+    @Binding var isEditing: Bool
+    @Binding var isShowingSearchModal:Bool
+    // @Binding var catRealmArr:[CatRealmModel] //String
+    // @Binding var selectedCat : CatRealmModel?
+    // @Binding var allCatSearchListData:[Cats] //String
+    @Binding var catSearchListData:[Cats] //String
+    @Binding var choiceCat : Cats?
+    @State var isCatArrfinish:Bool = false
+    @Binding var isSearchEnd:Bool
+    
+    // @Binding var catSearchListData : [Cats]?
+    // @Binding var catSearchData : Cats?
+    @Binding var isShowingAlert:Bool
+    
+    var body: some View {
+        HStack {
+            TextField("고양이의 이름을 입력하세요", text: $text)
+                .padding(8)
+                .padding(.horizontal, 32)
+                .background(Color(.systemGroupedBackground))
+                .cornerRadius(8)
+                .overlay(
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(Color(.systemGray2))
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 10)
+                )
+                .onSubmit {
+                    catsNameSearchAPI()
+                    
+                    // realmCall()
                 }
-                
+            
+            if isEditing {
+                Button(action: {
+                    isEditing = false
+                    text = ""
+                    // selectedCat = ""
+                    UIApplication.shared.endEditing()
+                }, label: {
+                    Text("Cancel")
+                        .foregroundColor(.black)
+                })
+                .padding(.trailing, 8)
             }
-            
-            
-            struct SearchBar: View {
-                
-                @EnvironmentObject var viewModel: AuthViewModel
-                @Binding var text: String
-                @Binding var isEditing: Bool
-                @Binding var isShowingSearchModal:Bool
-                // @Binding var catRealmArr:[CatRealmModel] //String
-                // @Binding var selectedCat : CatRealmModel?
-                // @Binding var allCatSearchListData:[Cats] //String
-                @Binding var catSearchListData:[Cats] //String
-                @Binding var choiceCat : Cats?
-                @State var isCatArrfinish:Bool = false
-                @Binding var isSearchEnd:Bool
-                
-                // @Binding var catSearchListData : [Cats]?
-                // @Binding var catSearchData : Cats?
-                @Binding var isShowingAlert:Bool
-                
-                var body: some View {
-                    HStack {
-                        TextField("고양이의 이름을 입력하세요", text: $text)
-                            .padding(8)
-                            .padding(.horizontal, 32)
-                            .background(Color(.systemGroupedBackground))
-                            .cornerRadius(8)
-                            .overlay(
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(Color(.systemGray2))
-                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading, 10)
-                            )
-                            .onSubmit {
-                                catsSearch()
-                                    
-                                // realmCall()
-                            }
-                      
-                        if isEditing {
-                            Button(action: {
-                                isEditing = false
-                                text = ""
-                                // selectedCat = ""
-                                UIApplication.shared.endEditing()
-                            }, label: {
-                                Text("Cancel")
-                                    .foregroundColor(.black)
-                            })
-                            .padding(.trailing, 8)
-                        }
-                    }
-                 
-                }
-                // func realmCall() {
-                //     let cats = RealmHelper.shared.readCats(withName: text)
-                //     catRealmArr = cats
-                //     isSearchEnd = true
-                // }
-                
-                func catsFilterSearch(){
-                    print("고양이 검색어 : \(text)")
-                    if self.catSearchListData.isEmpty {
-                      isShowingAlert = true
-                        return
-                    }
-                    for catsData in self.catSearchListData {
-                        if catsData.name == text {
-                            self.catSearchListData.removeAll()
-                            self.catSearchListData.append(catsData)
-                            print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
-                        }
-                    }
-                    isSearchEnd = true
-                }
-                
-                
-                func catsSearch() {
-                    AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
-                        switch response.result {
-                        case .success(let value):
-                            print("성공 디코딩 : \(value)")
-                            self.catSearchListData = value
-                            catsFilterSearch()
-                        case .failure(let error):
-                            print("실패 디코딩 : \(error.localizedDescription)")
-                        }
-                    }
+        }
+        
+    }
+    // func realmCall() {
+    //     let cats = RealmHelper.shared.readCats(withName: text)
+    //     catRealmArr = cats
+    //     isSearchEnd = true
+    // }
+    
+    func catsFilterSearch(){
+        print("고양이 검색어 : \(text)")
+        if self.catSearchListData.isEmpty {
+          isShowingAlert = true
+            return
+        }
+        for catsData in self.catSearchListData {
+                self.catSearchListData.removeAll()
+                self.catSearchListData.append(catsData)
+                print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
+        }
+        isSearchEnd = true
+    }
+    //
+    //
+    // func catsSearch() {
+    //     AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
+    //         switch response.result {
+    //         case .success(let value):
+    //             print("성공 디코딩 : \(value)")
+    //             self.catSearchListData = value
+    //             catsFilterSearch()
+    //         case .failure(let error):
+    //             print("실패 디코딩 : \(error.localizedDescription)")
+    //         }
+    //     }
+    // }
+    
+    func catsNameSearchAPI() {
+        
+        let parameters: [String:Any] = [
+            "findName" : $text,
+        ]
+        
+        AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
+            .responseDecodable(of: [Cats].self) { response in
+                switch response.result {
+                case .success(let value):
+                    print("catsNameSearchAPI 성공 디코딩 : \(value)")
+                    self.catSearchListData = value
+                    catsFilterSearch()
+                case .failure(let error):
+                    print("catsNameSearchAPI 실패 디코딩 : \(error.localizedDescription)")
                 }
             }
-            
-            
-            #Preview {
-                AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catListData: [], catSearchListData: []
-                )}
+    }
+}
+
+
+#Preview {
+    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catListData: [], catSearchListData: []
+    )}

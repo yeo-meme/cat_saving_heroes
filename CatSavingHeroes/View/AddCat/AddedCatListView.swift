@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct WatchCatView: View {
+struct AddedCatListView: View {
     
     // @ObservedObject var viewModel = WatchCellViewModel()
     // @EnvironmentObject var model:AuthViewModel

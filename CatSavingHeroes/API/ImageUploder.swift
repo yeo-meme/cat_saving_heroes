@@ -19,9 +19,14 @@ struct ImageUploader {
         
         print("file path: \(ref)")
         ref.putData(imageData, metadata: nil) { _, error in
-            ref.downloadURL { url, error in
-                guard let imageUrl = url?.absoluteString else { return }
-                completion(imageUrl)
+            
+            if let error = error {
+                print("Error uploading image data: \(error.localizedDescription)")
+            } else {
+                ref.downloadURL { url, error in
+                    guard let imageUrl = url?.absoluteString else { return }
+                    completion(imageUrl)
+                }
             }
         }
     }

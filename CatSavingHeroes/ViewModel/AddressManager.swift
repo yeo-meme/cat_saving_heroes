@@ -20,7 +20,6 @@ class AddressManager: NSObject, ObservableObject, MKMapViewDelegate, CLLocationM
         var mapCoordinates = CLLocationCoordinate2D(latitude: 6.600286, longitude: 16.4377599)
         var mapZoomLevel = MKCoordinateSpan(latitudeDelta: 70.0, longitudeDelta: 70.0)
         var mapRegion = MKCoordinateRegion(center: mapCoordinates, span: mapZoomLevel)
-        
         return mapRegion
     }()
     

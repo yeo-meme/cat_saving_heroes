@@ -52,9 +52,8 @@ let WEATHER_API_KEY = "159e98ac01ffc30824c47cc4c5e9e004"
 
 //DUMMY
 let products: [Product] = Bundle.main.decode("product.json")
-
-
-//mongo
+//-------------------------------------------------------------------------
+//cat-saving-heros.azurewebsites.net/mongo
 let CAT_ADD_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/add"
 let CAT_SELECT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"
 let CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat/delete"
@@ -80,6 +79,34 @@ let USER_INFO_SEE_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/u
 let USER_INFO_CARE_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add/care" //토글 좋아요
 let USER_INFO_INTEREST_CAT_ID_ADD = "https://cat-saving-heros.azurewebsites.net/api/userinfo/add/interest" //토글 좋아요
 
+//------------------------------------------------------------------
+
+//meme-cat.azurewebsites.net
+// let CAT_ADD_API_URL = "https://meme-cat.azurewebsites.net/api/cat/add"
+// let CAT_SELECT_API_URL = "https://meme-cat.azurewebsites.net/api/cat"
+// let CAT_DELETE_API_URL = "https://meme-cat.azurewebsites.net/api/cat/delete"
+// 
+// let CARE_CAT_ADD_API_URL = "https://meme-cat.azurewebsites.net/api/carecat/add"
+// let CARE_CAT_SELECT_API_URL = "https://meme-cat.azurewebsites.net/api/carecat"
+// let CARE_CAT_DELETE_API_URL = "https://meme-cat.azurewebsites.net/api/carecat/delete"
+// 
+// let CARE_CAT_HISTORY_EVENT = "http://meme-cat.azurewebsites.net/api/carecat/history"
+// //geo
+// let GEO_CARE_API_URL = "https://meme-cat.azurewebsites.net/api/carecat/search/geo2"
+// let GEO_CAT_API_URL = "https://meme-cat.azurewebsites.net/api/cat"
+// 
+// //mongo관리자 전체 삭제 -> 포스트맨으로하삼
+// let DELETE_ALL_CAT = "https://meme-cat.azurewebsites.net/api/cat/delete/all/yeomeme1030@!"
+// let DELETE_ALL_CARE = "https://meme-cat.azurewebsites.net/api/carecat/delete/all/yeomeme1030@!"
+// 
+// 
+// //userInfo
+// let USER_INFO_ADD = "https://meme-cat.azurewebsites.net/api/userinfo/add" //회원가입시 업데이트
+// let USER_INFO_ALL_ROAD = "https://meme-cat.azurewebsites.net/api/userinfo" //회원가입시 업데이트
+// let USER_INFO_SEE_CAT_ID_ADD = "https://meme-cat.azurewebsites.net/api/userinfo/add/see" //토글 좋아요
+// let USER_INFO_CARE_CAT_ID_ADD = "https://meme-cat.azurewebsites.net/api/userinfo/add/care" //토글 좋아요
+// let USER_INFO_INTEREST_CAT_ID_ADD = "https://meme-cat.azurewebsites.net/api/userinfo/add/interest" //토글 좋아요
+//----------------------------------------------------
 
 //네비게이션바 높이
 let navigationBarHeight = UINavigationBar(frame: .zero).frame.size.height

@@ -11,6 +11,7 @@ import SwiftUI
 
 
 class StrayCatsALLViewModel: ObservableObject {
+    
     @Published var arrGeoCatsList:[EventCat]?
     @Published var filterGeoCatsList=[Cats]() //최종
     @Published var arrGeoCatsId:[String]=[]
@@ -100,7 +101,7 @@ class StrayCatsALLViewModel: ObservableObject {
             case .success(let value):
                 print("나왔니 다람쥐: \(value)")
                 self.filterGeoCatsList = value
-                print("나왔니 다람쥐 : \(self.filterGeoCatsList)")
+                print("---------> 나왔니 다람쥐 : \(self.filterGeoCatsList)")
                 self.isDataLoaded = true
                 // self.filterCat()
             case .failure(let error):
@@ -152,7 +153,7 @@ class StrayCatsALLViewModel: ObservableObject {
             case .success(let value):
                 print("나왔니 다람쥐: \(value)")
                 self.filterGeoCatsList = value
-                print("나왔니 다람쥐 : \(self.filterGeoCatsList)")
+                print("---------------> 주변 다람쥐 : \(self.filterGeoCatsList)")
                 self.isDataLoaded = true
                 self.filterCat()
                 // self.filterCat()

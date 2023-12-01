@@ -98,11 +98,6 @@ struct SignUpView: View {
                     }
                 })
                 .padding(.bottom, 32)
-                
-                
-              
-                
-                
             }//: 회원가입 완료버튼 BUTTON
             .padding(.horizontal)
             .padding(.vertical, 30)
@@ -116,52 +111,9 @@ struct SignUpView: View {
             // }
             // )
             // .accentColor(Color.black)
-            
     }
     
-    // private func sendVerificationCode() {
-    //     PhoneAuthProvider.provider().verifyPhoneNumber(
-    //         phoneNumber,
-    //         uiDelegate: nil
-    //     ) { verificationID, error in
-    //         if let error = error {
-    //             self.error = error
-    //             return
-    //         }
-    //         UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
-    //         self.isCodeSent = true
-    //     }
-    // }
-    
-    // private func verifyPhoneNumber() {
-    //     let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
-    //     let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationID ?? "", verificationCode: verificationCode)
-    //     
-    //     Auth.auth().signIn(with: credential) { result, error in
-    //         if let error = error {
-    //             self.error = error
-    //             return
-    //         }
-    //         
-    //         if let user = result?.user {
-    //             self.user = user
-    //             saveUserDataToFirestore(user)
-    //         }
-    //     }
-    // }
-    // 
-    // private func saveUserDataToFirestore(_ user: User) {
-    //     let db = Firestore.firestore()
-    //     let userRef = db.collection("users").document(user.uid)
-    //     let userData = ["phone_number": user.phoneNumber ?? ""]
-    //     
-    //     userRef.setData(userData) { error in
-    //         if let error = error {
-    //             self.error = error
-    //         }
-    //     }
-    // }
-    // 
+   
     private func checkSignUpCondition () -> Bool {
         if name.isEmpty ||  email.isEmpty || password.isEmpty {
             return false
@@ -170,6 +122,3 @@ struct SignUpView: View {
     }
 }
 
-// #Preview {
-//     SignUpView()
-// }
