@@ -16,8 +16,12 @@ class EventAddViewModel: ObservableObject {
     private var isLocationTrackingEnabled: Bool = false // Model 인스턴스를 저장하는 프로퍼티 추가
     @Published var annotations: [MKPointAnnotation] = []
     @Published var typeChangeLocation: CLLocation?
+   
+    //알럿
     @Published var isShowingAlert: Bool = false
     @Published var errorMessage: String = ""
+  
+    
     @Published var catSearchListData=[Cats]()
     @Published var isSearchEnd:Bool=false
     @Published var eventCat: Results<CareRealmModel>?
@@ -39,20 +43,18 @@ class EventAddViewModel: ObservableObject {
        //고양이 검색 API 후 필터 2
        func catsFilterSearch(_ temTxsearch:String){
            print("고양이 검색어 tempTx: \(temTxsearch)")
-           if self.catSearchListData.isEmpty {
-             isShowingAlert = true
-               errorMessage = "등록된 고양이가 없습니다"
-               return
-           }
+       
+           self.catSearchListData.removeAll()
+           
            for catsData in self.catSearchListData {
                if catsData.name == temTxsearch {
-                   self.catSearchListData.removeAll()
                    self.catSearchListData.append(catsData)
                    print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
-               } else {
-                   print("해당하는 검색어 없음")
-                   // self.catSearchListData.removeAll()
                }
+           }
+ler           if catSearchListData.isEmpty {
+               isShowingAlert = true
+               errorMessage = "등록된 고양이가 없습니다"
            }
            self.isSearchEnd = true
        }

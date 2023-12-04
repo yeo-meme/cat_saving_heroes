@@ -90,7 +90,7 @@ struct AddEventView: View {
                                         Button(action: {
                                             isEditing.toggle()
                                             self.choiceCat = cats
-                                            mode.wrappedValue.dismiss()
+                                            // mode.wrappedValue.dismiss()
                                         }, label: {
                                             SearchCatCell(cat: cats)
                                         })
@@ -186,6 +186,7 @@ struct AddEventView: View {
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
+        .showErrorMessage(showAlert: $model.isShowingAlert, message: model.errorMessage)
     }
     
 }
@@ -223,6 +224,12 @@ struct SearchBar: View {
                 .onSubmit {
                     tempTx = searchName
                     // catsNameSearchAPI(tempTx)
+                    if tempTx == "" {
+                        model.isShowingAlert = true
+                        model.errorMessage = "고양이 이름을 검색해주세요"
+                        print("고양이 이름을 검색해주세요")
+                        return
+                    }
                     model.catsSearch(tempTx)
                 }
             

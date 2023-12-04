@@ -27,7 +27,6 @@ struct SearchCatCell: View {
                             
                             //TODO
                             VStack(alignment: .leading, spacing: 4) {
-                                
                                 Text(cat.name)
                                     .bold()
                                     .foregroundColor(.black)
