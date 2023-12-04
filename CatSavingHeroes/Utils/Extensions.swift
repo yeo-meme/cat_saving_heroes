@@ -16,6 +16,7 @@ extension UIApplication {
 
 extension View {
     func showErrorMessage(showAlert: Binding<Bool>, message: String) -> some View {
+        //self는 메서드가 호출된 뷰를 나타냄
         self.modifier(ErrorAlertModifier(isPresented: showAlert, message: message))
     }
 }

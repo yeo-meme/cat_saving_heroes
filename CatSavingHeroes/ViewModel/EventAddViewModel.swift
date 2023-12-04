@@ -16,7 +16,11 @@ class EventAddViewModel: ObservableObject {
     private var isLocationTrackingEnabled: Bool = false // Model 인스턴스를 저장하는 프로퍼티 추가
     @Published var annotations: [MKPointAnnotation] = []
     @Published var typeChangeLocation: CLLocation?
-    
+    @Published var isShowingAlert: Bool = false
+    @Published var errorMessage: String = ""
+    @Published var catSearchListData=[Cats]()
+    @Published var isSearchEnd:Bool=false
+    @Published var eventCat: Results<CareRealmModel>?
     var selectedIndex:Int?
     init(model: Model) {  // 생성자에서 Model 인스턴스 주입
         self.model = model
@@ -24,8 +28,78 @@ class EventAddViewModel: ObservableObject {
         print("Where - Event Add ViewModel 초기 isLocationTrackingEnabled: \(model.isLocationTrackingEnabled)")
         
     }
-    @Published var eventCat: Results<CareRealmModel>?
-    // @Published var careModel = Cat()
+ 
+    func filteredCats(_ query: String) -> [Cats] {
+        let lowercasedQuery = query.lowercased()
+        
+        return catSearchListData.filter({
+            $0.name.lowercased().contains(lowercasedQuery)
+        })
+    }
+       //고양이 검색 API 후 필터 2
+       func catsFilterSearch(_ temTxsearch:String){
+           print("고양이 검색어 tempTx: \(temTxsearch)")
+           if self.catSearchListData.isEmpty {
+             isShowingAlert = true
+               errorMessage = "등록된 고양이가 없습니다"
+               return
+           }
+           for catsData in self.catSearchListData {
+               if catsData.name == temTxsearch {
+                   self.catSearchListData.removeAll()
+                   self.catSearchListData.append(catsData)
+                   print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
+               } else {
+                   print("해당하는 검색어 없음")
+                   // self.catSearchListData.removeAll()
+               }
+           }
+           self.isSearchEnd = true
+       }
+
+
+       //고양이 전체 찾은후 검색한 이름으로 비교후 값 내보기
+       func catsSearch(_ temTx:String) {
+           AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
+               switch response.result {
+               case .success(let value):
+                   print("성공 디코딩 : \(value)")
+                   self.catSearchListData = value
+                   self.catsFilterSearch(temTx)
+               case .failure(let error):
+                   print("실패 디코딩 : \(error.localizedDescription)")
+               }
+           }
+       }
+       
+       //고양이 이름 검색 API
+       func catsNameSearchAPI(_ searchWord:String) {
+           // var searchName = $text
+           
+           print("고양이 검색어가 알려줘 : \(searchWord)")
+           let parameters: [String:Any] = [
+               "findName" : searchWord,
+           ]
+           
+           AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
+               .responseDecodable(of: [Cats].self) { response in
+                   switch response.result {
+                   case .success(let value):
+                       if value.isEmpty {
+                           self.catSearchListData.removeAll()
+                       } else {
+                           print("0-------- catsNameSearchAPI 성공 디코딩 : \(value)")
+                           self.catSearchListData.removeAll()
+                           print("0-------- catsNameSearchAPI 성공 디코딩 리스트값!!!! : \( self.catSearchListData)")
+                           self.catSearchListData = value
+                           
+                           // catsFilterSearch()
+                       }
+                   case .failure(let error):
+                       print("catsNameSearchAPI 실패 디코딩 : \(error.localizedDescription)")
+                   }
+               }
+       }
     
     
     //CLLocationCoordinate2D -> CLLocation 변경

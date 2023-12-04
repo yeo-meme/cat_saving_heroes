@@ -19,7 +19,6 @@ struct AddEventView: View {
         return formatter
     }()
     
-    
     @State var isShowingAlert = false
     @Environment(\.presentationMode) var mode
     @EnvironmentObject var addressManager : Model
@@ -56,42 +55,27 @@ struct AddEventView: View {
     
     //몽고 검색관련
     @State var catListData : [Cats]
-    @State var catSearchListData : [Cats]
+    // @State var catSearchListData : [Cats]
     @State var choiceCat : Cats?
-    
     //이벤트 버튼 초이스 인덱스
     var selectedIndex: Int=10
     @State var isLinkActive = false
+    
+    //검색어
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationView{
             VStack {
                 CloseButtonView(isShowingModal: $isShowingModal)
                     .padding(.top, 10)
                 
-                // NavigationLink(destination: SearchCatView( showConversationView: .constant(false)), isActive: $isLinkActive) {
-                //                    Button(action: {
-                //                        self.isLinkActive = true
-                //                    }) {
-                //                        HStack {
-                //                            Image(systemName: "magnifyingglass")
-                //                                .foregroundColor(Color(.systemGray2))
-                //                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                //                                .padding(.leading, 10)
-                //                            Text("Search...")
-                //                                .foregroundColor(Color(.systemGray2))
-                //                            Spacer() // 오른쪽 정렬을 위해 Spacer 추가
-                //                        }
-                //                        .padding()
-                //                        .background(Color(.systemGroupedBackground))
-                //                        .cornerRadius(8)
-                //                    }
-                //                }
-                
                 ScrollView{
-                    SearchBar(isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
+                    SearchBar(model: model, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
+                          
                         }
                         .padding(.trailing, 32)
                         .padding(.leading, 32)
@@ -99,12 +83,23 @@ struct AddEventView: View {
                     
                     VStack{
                         if isEditing {
-                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
-                            
+                            ScrollView {
+                                VStack(spacing: 1) {
+                                    ForEach(searchText.isEmpty ? model.catSearchListData : model.filteredCats(searchText)
+                                    ) { cats in
+                                        Button(action: {
+                                            isEditing.toggle()
+                                            self.choiceCat = cats
+                                            mode.wrappedValue.dismiss()
+                                        }, label: {
+                                            SearchCatCell(cat: cats)
+                                        })
+                                    }
+                                }
+                            }
+                            // SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:model.catSearchListData,choiceCat:$choiceCat)
                         } else {
-                            
                             ZStack(alignment:.bottomTrailing) {
-                                
                                 VStack(spacing: 0) {
                                     Capsule()
                                         .frame(width: 100, height: 50)
@@ -115,10 +110,7 @@ struct AddEventView: View {
                                                 .font(.headline)
                                         )
                                     // Other content specific to this VStack
-                                    
                                     BrandItemView(selectedEvent: $selectedEvent)
-                                    
-                                    
                                     
                                     //선택된 고양이
                                     VStack(spacing: 0) {
@@ -162,15 +154,7 @@ struct AddEventView: View {
                                     //false가 저장하기 텍스트 true가 인디케팅되는 상태
                                     CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
                                         print("이벤트 기록하기 ")
-                                        // model.eventAddCat(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinate: coordinate, address: address, date: date)
-                                        
-                                        // //리얼엠 마이그레이션
-                                        // let config = Realm.Configuration(
-                                        //     schemaVersion: 0, // 스키마 버전을 0으로 설정
-                                        //     deleteRealmIfMigrationNeeded: true // 마이그레이션이 필요한 경우 Realm 삭제
-                                        // )
-                                        // Realm.Configuration.defaultConfiguration = config
-                                        
+                                    
                                         if addressManager.isLocationTrackingEnabled {
                                             let locationRecord = LocationRecord()
                                             locationRecord.latitude = addressManager.lastLocation.latitude
@@ -199,14 +183,6 @@ struct AddEventView: View {
                             }
                         }//:else 서치 페이지
                     }//:ZSTACK
-                    .alert(isPresented: $isShowingAlert) {
-                        Alert(
-                            title: Text("No Cats Found"),
-                            message: Text("There are no cats in the search results."),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
-                    
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
@@ -217,22 +193,18 @@ struct AddEventView: View {
 
 struct SearchBar: View {
     
+    @ObservedObject var model : EventAddViewModel
     @EnvironmentObject var viewModel: AuthViewModel
-    // @Binding var text: String
     @Binding var isEditing: Bool
     @Binding var isShowingSearchModal:Bool
-    // @Binding var catRealmArr:[CatRealmModel] //String
-    // @Binding var selectedCat : CatRealmModel?
-    // @Binding var allCatSearchListData:[Cats] //String
-    @Binding var catSearchListData:[Cats] //String
+
     @Binding var choiceCat : Cats?
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
     
     @State var searchName:String = ""
     @State var tempTx:String = ""
-    // @Binding var catSearchListData : [Cats]?
-    // @Binding var catSearchData : Cats?
+ 
     @Binding var isShowingAlert:Bool
     
     var body: some View {
@@ -248,22 +220,18 @@ struct SearchBar: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 10)
                 )
-                // .onChange(of: searchName) { newValue in
-                //     tempTx = newValue
-                // }
                 .onSubmit {
                     tempTx = searchName
                     // catsNameSearchAPI(tempTx)
-                    catsSearch(tempTx)
+                    model.catsSearch(tempTx)
                 }
-                
             
             if isEditing {
                 Button(action: {
                     isEditing = false
                     tempTx = ""
                     searchName = ""
-                    self.catSearchListData.removeAll()
+                    model.catSearchListData.removeAll()
                     UIApplication.shared.endEditing()
                 }, label: {
                     Text("Cancel")
@@ -274,75 +242,10 @@ struct SearchBar: View {
         }
         
     }
- 
-    //고양이 검색 API 후 필터 2
-    func catsFilterSearch(_ temTxsearch:String){
-        print("고양이 검색어 : \(searchName)")
-        print("고양이 검색어 tempTx: \(temTxsearch)")
-        if self.catSearchListData.isEmpty {
-          isShowingAlert = true
-            return
-        }
-        for catsData in self.catSearchListData {
-            
-            if catsData.name == temTxsearch {
-                self.catSearchListData.removeAll()
-                self.catSearchListData.append(catsData)
-                print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
-            } else {
-                print("해당하는 검색어 없음")
-                self.catSearchListData.removeAll()
-            }
-        }
-        isSearchEnd = true
-    }
 
-
-    //고양이 전체 찾은후 검색한 이름으로 비교후 값 내보기
-    func catsSearch(_ temTx:String) {
-        AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
-            switch response.result {
-            case .success(let value):
-                print("성공 디코딩 : \(value)")
-                self.catSearchListData = value
-                catsFilterSearch(temTx)
-            case .failure(let error):
-                print("실패 디코딩 : \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    //고양이 이름 검색 API
-    func catsNameSearchAPI(_ searchWord:String) {
-        // var searchName = $text
-        
-        print("고양이 검색어가 알려줘 : \(searchWord)")
-        let parameters: [String:Any] = [
-            "findName" : searchWord,
-        ]
-        
-        AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
-            .responseDecodable(of: [Cats].self) { response in
-                switch response.result {
-                case .success(let value):
-                    if value.isEmpty {
-                        self.catSearchListData.removeAll()
-                    } else {
-                        print("0-------- catsNameSearchAPI 성공 디코딩 : \(value)")
-                        self.catSearchListData.removeAll()
-                        print("0-------- catsNameSearchAPI 성공 디코딩 리스트값!!!! : \( self.catSearchListData)")
-                        self.catSearchListData = value
-                        
-                        // catsFilterSearch()
-                    }
-                case .failure(let error):
-                    print("catsNameSearchAPI 실패 디코딩 : \(error.localizedDescription)")
-                }
-            }
-    }
 }
 
 
-#Preview {
-    AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catListData: [], catSearchListData: []
-    )}
+// #Preview {
+//     AddEventView(isShowingModal: .constant(false), model: EventAddViewModel(model: Model(userLocation: .constant(CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871)), locations: .constant([CLLocationCoordinate2D(latitude: 37.551134, longitude: 126.965871), CLLocationCoordinate2D(latitude: 37.552134, longitude: 126.966871)]))),  catModelData: [], catListData: [], catSearchListData: []
+//     )}

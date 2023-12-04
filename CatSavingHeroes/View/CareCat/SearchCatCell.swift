@@ -11,11 +11,11 @@ import Kingfisher
 struct SearchCatCell: View {
     // let user: User
     // @Binding var cats:[String]
-    @Binding var catsSearchedArr:[Cats]
+    let cat:Cats
     
     var body: some View {
                 VStack(spacing: 1) {
-                    ForEach(catsSearchedArr) { cat in
+                    // ForEach(catsSearchedArr) { cat in
                         HStack(spacing: 12) {
                             
                             KFImage(URL(string: cat.cat_photo))
@@ -46,8 +46,6 @@ struct SearchCatCell: View {
                     CustomDivider(leadingSpace: 76)
                 }
     }
-}
 
-#Preview {
-    SearchCatCell(catsSearchedArr: .constant([]))
-}
+
+
