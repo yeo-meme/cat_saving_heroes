@@ -39,7 +39,7 @@ struct AddEventView: View {
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model :EventAddViewModel
     
-    @State private var searchText = ""
+    // @State private var searchText = ""
     @State private var careStateIndex = 0
     @State private var state  = ""
     @State private var memo = ""
@@ -88,7 +88,7 @@ struct AddEventView: View {
                 //                }
                 
                 ScrollView{
-                    SearchBar(text: $searchText, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
+                    SearchBar(isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, catSearchListData: $catSearchListData, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
@@ -101,8 +101,8 @@ struct AddEventView: View {
                         if isEditing {
                             SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:$catSearchListData,choiceCat:$choiceCat)
                             
-                            
                         } else {
+                            
                             ZStack(alignment:.bottomTrailing) {
                                 
                                 VStack(spacing: 0) {
@@ -218,7 +218,7 @@ struct AddEventView: View {
 struct SearchBar: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
-    @Binding var text: String
+    // @Binding var text: String
     @Binding var isEditing: Bool
     @Binding var isShowingSearchModal:Bool
     // @Binding var catRealmArr:[CatRealmModel] //String
@@ -229,13 +229,15 @@ struct SearchBar: View {
     @State var isCatArrfinish:Bool = false
     @Binding var isSearchEnd:Bool
     
+    @State var searchName:String = ""
+    @State var tempTx:String = ""
     // @Binding var catSearchListData : [Cats]?
     // @Binding var catSearchData : Cats?
     @Binding var isShowingAlert:Bool
     
     var body: some View {
         HStack {
-            TextField("고양이의 이름을 입력하세요", text: $text)
+            TextField("고양이의 이름을 입력하세요", text: $searchName)
                 .padding(8)
                 .padding(.horizontal, 32)
                 .background(Color(.systemGroupedBackground))
@@ -246,17 +248,22 @@ struct SearchBar: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 10)
                 )
+                // .onChange(of: searchName) { newValue in
+                //     tempTx = newValue
+                // }
                 .onSubmit {
-                    catsNameSearchAPI()
-                    
-                    // realmCall()
+                    tempTx = searchName
+                    // catsNameSearchAPI(tempTx)
+                    catsSearch(tempTx)
                 }
+                
             
             if isEditing {
                 Button(action: {
                     isEditing = false
-                    text = ""
-                    // selectedCat = ""
+                    tempTx = ""
+                    searchName = ""
+                    self.catSearchListData.removeAll()
                     UIApplication.shared.endEditing()
                 }, label: {
                     Text("Cancel")
@@ -267,53 +274,67 @@ struct SearchBar: View {
         }
         
     }
-    // func realmCall() {
-    //     let cats = RealmHelper.shared.readCats(withName: text)
-    //     catRealmArr = cats
-    //     isSearchEnd = true
-    // }
-    
-    func catsFilterSearch(){
-        print("고양이 검색어 : \(text)")
+ 
+    //고양이 검색 API 후 필터 2
+    func catsFilterSearch(_ temTxsearch:String){
+        print("고양이 검색어 : \(searchName)")
+        print("고양이 검색어 tempTx: \(temTxsearch)")
         if self.catSearchListData.isEmpty {
           isShowingAlert = true
             return
         }
         for catsData in self.catSearchListData {
+            
+            if catsData.name == temTxsearch {
                 self.catSearchListData.removeAll()
                 self.catSearchListData.append(catsData)
                 print("고양이 검색어 catSearchListData : \(self.catSearchListData)")
+            } else {
+                print("해당하는 검색어 없음")
+                self.catSearchListData.removeAll()
+            }
         }
         isSearchEnd = true
     }
-    //
-    //
-    // func catsSearch() {
-    //     AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
-    //         switch response.result {
-    //         case .success(let value):
-    //             print("성공 디코딩 : \(value)")
-    //             self.catSearchListData = value
-    //             catsFilterSearch()
-    //         case .failure(let error):
-    //             print("실패 디코딩 : \(error.localizedDescription)")
-    //         }
-    //     }
-    // }
+
+
+    //고양이 전체 찾은후 검색한 이름으로 비교후 값 내보기
+    func catsSearch(_ temTx:String) {
+        AF.request(CAT_SELECT_API_URL, method: .post).responseDecodable(of: [Cats].self) { response in
+            switch response.result {
+            case .success(let value):
+                print("성공 디코딩 : \(value)")
+                self.catSearchListData = value
+                catsFilterSearch(temTx)
+            case .failure(let error):
+                print("실패 디코딩 : \(error.localizedDescription)")
+            }
+        }
+    }
     
-    func catsNameSearchAPI() {
+    //고양이 이름 검색 API
+    func catsNameSearchAPI(_ searchWord:String) {
+        // var searchName = $text
         
+        print("고양이 검색어가 알려줘 : \(searchWord)")
         let parameters: [String:Any] = [
-            "findName" : $text,
+            "findName" : searchWord,
         ]
         
         AF.request(CAT_SELECT_API_URL, method: .post, parameters: parameters)
             .responseDecodable(of: [Cats].self) { response in
                 switch response.result {
                 case .success(let value):
-                    print("catsNameSearchAPI 성공 디코딩 : \(value)")
-                    self.catSearchListData = value
-                    catsFilterSearch()
+                    if value.isEmpty {
+                        self.catSearchListData.removeAll()
+                    } else {
+                        print("0-------- catsNameSearchAPI 성공 디코딩 : \(value)")
+                        self.catSearchListData.removeAll()
+                        print("0-------- catsNameSearchAPI 성공 디코딩 리스트값!!!! : \( self.catSearchListData)")
+                        self.catSearchListData = value
+                        
+                        // catsFilterSearch()
+                    }
                 case .failure(let error):
                     print("catsNameSearchAPI 실패 디코딩 : \(error.localizedDescription)")
                 }
