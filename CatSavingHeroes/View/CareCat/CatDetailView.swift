@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CatDetailView: View {
-    @EnvironmentObject var shop: Shop    
-    // @ObservedObject var viewModel:StrayCatsItemViewModel
+   
+    @EnvironmentObject var shop: Shop
     @ObservedObject var strayModel = StrayCatsALLViewModel()
     @State var flagInterestCat = false
     @State var flagCareCat = false
@@ -19,18 +19,11 @@ struct CatDetailView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
             
-            // NAVBAR
-            // NavigationBarDetailView()
-            //     .padding(.horizontal)
-            //     // .ignoresSafeArea(.all)
-            // .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-            //     .offset(y:-40)
-            
             // HEADER
             HeaderDateView()
                 .padding(.horizontal)
                 .padding(.top, UIApplication.shared.windows.first?.safeAreaInsets.top)
-                // .offset(y:-30)
+            // .offset(y:-30)
             
             // DETAIL TOP PART
             DetailCatProfileView(cat:cats)
@@ -70,7 +63,7 @@ struct CatDetailView: View {
                                     CareDetailListItemCell(cat: eventCat)
                                         .padding(.top,10)
                                         .padding(.bottom,10)
-                                } 
+                                }
                             }
                         }
                     }.frame(height: 170)
@@ -97,57 +90,12 @@ struct CatDetailView: View {
         )
         .onAppear{
             self.showTopCustomView.toggle()
-            //토글버튼에 들어갈 캣 아이디 업데이트
-            // if let choiceCat = shop.selectedProduct?.catid {
-            
-                let choiceCat = cats._id
-                print("더미 제이슨 choiceCat: \(choiceCat)")
-                UserDefaults.standard.set(choiceCat, forKey: "CatId")
-                
-                strayModel.loadUserInfoLikeButton()
-            
-                if strayModel.isDataLoaded {
-                    let arr = strayModel.userInfoArr
-                    if arr.count > 0 {
-                    var tem = strayModel.matchFinding(cats: cats,userInfo:arr[0] )
-                    flagInterestCat = tem[0] == 1
-                    flagCareCat = tem[1] == 1
-                        print("cacaca33 flagInterestCat : \(flagInterestCat)")
-                        print("cacaca33 flagCareCat : \(flagCareCat)")
-                }
-                
-            }
-            // }
-            // viewModel.
+            let choiceCat = cats._id
+            UserDefaults.standard.set(choiceCat, forKey: "CatId")
         }
         .onDisappear{
             self.showTopCustomView.toggle()
         }
     }
 }
-//
-// #Preview {
-//     CatDetailView(viewModel: StrayCatsItemViewModel($viewModel.strayArrCats))
-// }
 
-// RatingsSizesDetailView()
-//   .padding(.top, -20)
-//   .padding(.bottom, 10)
-
-// DESCRIPTION
-// ScrollView(.vertical, showsIndicators: false, content: {
-//   Text(shop.selectedProduct?.description ?? "sampleProduct.description")
-//     .font(.system(.body, design: .rounded))
-//     .foregroundColor(.gray)
-//     .multilineTextAlignment(.leading)
-// }) //: SCROLL
-
-
-
-// QUANTITY + FAVOURITE
-// QuantityFavouriteDetailView()
-// .padding(.vertical, 10)
-
-// ADD TO CART
-// AddToCartDetailView()
-// .padding(.bottom, 20)

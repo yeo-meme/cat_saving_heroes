@@ -11,14 +11,9 @@ import Alamofire
 class FavouriteDetailViewModel:ObservableObject {
     
     @Published var allUserInfoCatList:[UserInfo]=[]
-    // @Published var userInfoOnlyCatIdList:[UserInfo]=[]
-    // @Published var allUserCatList:[UserInfo]=[]
-    // 
-    // @Published var catMatchList:[Cats]=[]
-    // @Published var catMatchOnlyCatIdList:[Cats]=[]
+    
     
     func seeAdd() {
-        
         
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
         
@@ -115,6 +110,7 @@ class FavouriteDetailViewModel:ObservableObject {
         }
     }
     
+    //좋아요 상태뷰 표시를 위한 데이터 로드
     func dataLoad(finished: @escaping([UserInfo]) -> Void) {
         let uid = AuthViewModel.shared.currentUser?.id ?? ""
         print("compareInterestOwner user uid: \(uid)")
@@ -137,33 +133,12 @@ class FavouriteDetailViewModel:ObservableObject {
                     }
                 }
         } catch {
-            
+            print("FavouriteDetailViewModel error: \(error.localizedDescription)")
         }
     }
-    
-    func catMatchLoad() {
-        
-        
-        // for userInterCat in self.allUserInfoCatList {
-        //     self.userInfoOnlyCatIdList.append(userInterCat.care_cat_ids)
-        //     print("user interest 캣 아이디만! : \(userInfoOnlyCatIdList)")
-        // }
-        
-        // AF.request(GEO_CAT_API_URL,method: .post, parameters: params, encoding: JSONEncoding.default)
-        //     .responseDecodable(of:[Cats].self){ response in
-        //         switch response.result {
-        //         case .success(let info):
-        //             self.catMatchList = info
-        //             print("캣 : \(info)")
-        //             self.checkCommonIds()
-        //         case .failure(let error):
-        //             print("catMatchLoad error : \(error)")
-        //         }
-        //     }
-    }
-    
+
+  
     func checkCommonIds()->Bool {
-        print("checkCommonIds: \(allUserInfoCatList) " )
         return allUserInfoCatList.contains { idArray in
             hasCommonIds(idArray)
         }
@@ -173,10 +148,7 @@ class FavouriteDetailViewModel:ObservableObject {
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
         print("catMatchLoad see Add uid: \(choicecat)")
         
-        
         print("똑같은게 잇는지 : \(userInter.interest_cat_ids.contains(choicecat))")
         return userInter.interest_cat_ids.contains(choicecat)
     }
-    
-    
 }

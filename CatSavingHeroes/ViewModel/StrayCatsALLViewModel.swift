@@ -48,46 +48,46 @@ class StrayCatsALLViewModel: ObservableObject {
        }
     
     
-    func loadUserInfoLikeButton() {
-        
-        
-        let user = AuthViewModel.shared.currentUser?.id ?? ""
-        let parameters: Parameters = [
-            "user_uuid": user,
-         ]
-        
-        AF.request(USER_INFO_ALL_ROAD, method: .post, parameters: parameters ).responseDecodable(of: [UserInfo].self) { response in
-                switch response.result {
-                case .success(let value):
-                    print("성공 디코딩 loadUserInfoLikeButton: \(value)")
-                    self.userInfoArr = value
-                case .failure(let error):
-                    print("실패 디코딩 loadUserInfoLikeButton : \(error.localizedDescription)")
-                }
-            }
-    }
+    // func loadUserInfoLikeButton() {
+    //     
+    //     
+    //     let user = AuthViewModel.shared.currentUser?.id ?? ""
+    //     let parameters: Parameters = [
+    //         "user_uuid": user,
+    //      ]
+    //     
+    //     AF.request(USER_INFO_ALL_ROAD, method: .post, parameters: parameters ).responseDecodable(of: [UserInfo].self) { response in
+    //             switch response.result {
+    //             case .success(let value):
+    //                 print("성공 디코딩 loadUserInfoLikeButton: \(value)")
+    //                 self.userInfoArr = value
+    //             case .failure(let error):
+    //                 print("실패 디코딩 loadUserInfoLikeButton : \(error.localizedDescription)")
+    //             }
+    //         }
+    // }
     
-    func matchFinding(cats: Cats, userInfo:UserInfo)->[Int] {
-        var flagInterest = 0
-        var flagCare = 0
-        
-        for catId in userInfo.interest_cat_ids {
-            if catId == cats._id {
-                flagInterest = 1
-            }
-        }
-       
-        for catId in userInfo.care_cat_ids {
-            if catId == cats._id {
-                flagCare = 1
-            }
-        }
-        
-      
-        
-        return [flagInterest, flagCare]
-    }
-    
+    // func matchFinding(cats: Cats, userInfo:UserInfo)->[Int] {
+    //     var flagInterest = 0
+    //     var flagCare = 0
+    //     
+    //     for catId in userInfo.interest_cat_ids {
+    //         if catId == cats._id {
+    //             flagInterest = 1
+    //         }
+    //     }
+    //    
+    //     for catId in userInfo.care_cat_ids {
+    //         if catId == cats._id {
+    //             flagCare = 1
+    //         }
+    //     }
+    //     
+    //   
+    //     
+    //     return [flagInterest, flagCare]
+    // }
+    // 
     func loadDetail() {
         
         

@@ -15,53 +15,13 @@ struct FavouriteDetailView: View {
     @Binding var isInterestCatBtn :Bool
     @Binding var isCareCatBtn:Bool
  
-    // var userInfo:[UserInfo]
-    // var cats:Cats
-    // @Binding var flagInterestCat:Bool
-    // @Binding var flagCareCat = false
-    
+   
     // MARK: - BODY
     var body: some View {
-        // HStack(alignment: .center, spacing: 6){
-        //     VStack{
-        //         Image(systemName: "lasso.and.sparkles")
-        //             .resizable()
-        //             .foregroundColor(.black)
-        //             .frame(width: 25, height: 25)
-        //         Text("30")
-        //     }.padding(20)
-        //     VStack{
-        //     
-        //         Text("4")
-        //     }.padding(20)
-        //     VStack{
-        //         Image(systemName: "bolt.heart.fill")
-        //             .resizable()
-        //             .foregroundColor(.black)
-        //             .frame(width: 25, height: 25)
-        //         Text("2")
-        //     }.padding(20)
-        //     Spacer()
-        // }
+      
     
         HStack(alignment: .center, spacing: 6, content: {
             Spacer()
-            // VStack{
-            //     Button(action: {
-            //         isSeeCatBtn.toggle()
-            //         viewModel.seeAdd()
-            //     }, label: {
-            //         Image(systemName: "lasso.and.sparkles")
-            //             .resizable()
-            //             .foregroundColor(isSeeCatBtn ?
-            //                 .pink : .gray)
-            //             .frame(width: 40, height: 40)
-            //     })
-            //     Text("추가냥")
-            //         .font(.headline)
-            //         .foregroundColor(Color.black)
-            //     
-            // }.padding(10)
             
             VStack{
                 Button(action: {
@@ -104,7 +64,6 @@ struct FavouriteDetailView: View {
         .onAppear{
             viewModel.dataLoad { _ in
                  isInterestCatBtn = viewModel.checkCommonIds()
-                 print("하트 색상은 : \(isInterestCatBtn)")
             }
         }
     }
