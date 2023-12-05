@@ -9,8 +9,7 @@ import SwiftUI
 
 struct FavouriteDetailView: View {
   
-    @ObservedObject var viewModel:FavouriteDetailViewModel
-    
+    @ObservedObject var viewModel=FavouriteDetailViewModel()
     @State private var counter: Int = 0
     // @State private var isSeeCatBtn = false
     @Binding var isInterestCatBtn :Bool
@@ -98,14 +97,17 @@ struct FavouriteDetailView: View {
                     .font(.headline)
                     .foregroundColor(Color.black)
             }.padding(10)
-         
         }) //: HSTACK
         .font(.system(.title, design: .rounded))
         .foregroundColor(.black)
         .imageScale(.large)
+        .onAppear{
+            viewModel.dataLoad { _ in
+                 isInterestCatBtn = viewModel.checkCommonIds()
+                 print("하트 색상은 : \(isInterestCatBtn)")
+            }
+        }
     }
-        
-    
 }
 
 

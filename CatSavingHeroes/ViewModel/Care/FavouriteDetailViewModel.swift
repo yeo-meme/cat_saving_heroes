@@ -10,13 +10,19 @@ import Alamofire
 
 class FavouriteDetailViewModel:ObservableObject {
     
+    @Published var allUserInfoCatList:[UserInfo]=[]
+    // @Published var userInfoOnlyCatIdList:[UserInfo]=[]
+    // @Published var allUserCatList:[UserInfo]=[]
+    // 
+    // @Published var catMatchList:[Cats]=[]
+    // @Published var catMatchOnlyCatIdList:[Cats]=[]
     
     func seeAdd() {
         
         
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
         
-     
+        
         let uid = AuthViewModel.shared.currentUser?.id ?? ""
         print("see Add choicecat : \(choicecat)")
         print("see Add uid: \(uid)")
@@ -49,7 +55,7 @@ class FavouriteDetailViewModel:ObservableObject {
         
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
         
-     
+        
         let uid = AuthViewModel.shared.currentUser?.id ?? ""
         print("see Add choicecat : \(choicecat)")
         print("see Add uid: \(uid)")
@@ -77,10 +83,10 @@ class FavouriteDetailViewModel:ObservableObject {
         }
     }
     
+    //좋아요
     func interestAdd() {
         let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
         
-     
         let uid = AuthViewModel.shared.currentUser?.id ?? ""
         print("see Add choicecat : \(choicecat)")
         print("see Add uid: \(uid)")
@@ -96,6 +102,7 @@ class FavouriteDetailViewModel:ObservableObject {
                 .responseDecodable(of: UserInfo.self) { response in
                     switch response.result {
                     case .success(let userInfo):
+                        
                         // 성공적으로 데이터를 받았을 때
                         print("allRoadUserInfoAPI POST DEBUG : \(userInfo)")
                     case .failure(let error):
@@ -106,7 +113,69 @@ class FavouriteDetailViewModel:ObservableObject {
         } catch {
             print("디코딩 에러: \(error)")
         }
+    }
+    
+    func dataLoad(finished: @escaping([UserInfo]) -> Void) {
+        let uid = AuthViewModel.shared.currentUser?.id ?? ""
+        print("compareInterestOwner user uid: \(uid)")
         
+        let jsonData = [
+            "user_uuid": uid,
+        ] as [String:Any]
+        
+        do {
+            AF.request(USER_INFO_ALL_ROAD, method: .post, parameters: jsonData, encoding: JSONEncoding.default)
+                .responseDecodable(of:[UserInfo].self) { response in
+                    switch response.result {
+                    case .success(let info):
+                        print("user info 불러오기 성공 : \(info)")
+                        self.allUserInfoCatList=info
+                        finished(info)
+                        
+                    case .failure(let error):
+                        print("userInfo loaded fail : \(error)")
+                    }
+                }
+        } catch {
+            
+        }
+    }
+    
+    func catMatchLoad() {
+        
+        
+        // for userInterCat in self.allUserInfoCatList {
+        //     self.userInfoOnlyCatIdList.append(userInterCat.care_cat_ids)
+        //     print("user interest 캣 아이디만! : \(userInfoOnlyCatIdList)")
+        // }
+        
+        // AF.request(GEO_CAT_API_URL,method: .post, parameters: params, encoding: JSONEncoding.default)
+        //     .responseDecodable(of:[Cats].self){ response in
+        //         switch response.result {
+        //         case .success(let info):
+        //             self.catMatchList = info
+        //             print("캣 : \(info)")
+        //             self.checkCommonIds()
+        //         case .failure(let error):
+        //             print("catMatchLoad error : \(error)")
+        //         }
+        //     }
+    }
+    
+    func checkCommonIds()->Bool {
+        print("checkCommonIds: \(allUserInfoCatList) " )
+        return allUserInfoCatList.contains { idArray in
+            hasCommonIds(idArray)
+        }
+    }
+    
+    func hasCommonIds(_ userInter:UserInfo) -> Bool {
+        let choicecat = UserDefaults.standard.string(forKey: "CatId") ?? ""
+        print("catMatchLoad see Add uid: \(choicecat)")
+        
+        
+        print("똑같은게 잇는지 : \(userInter.interest_cat_ids.contains(choicecat))")
+        return userInter.interest_cat_ids.contains(choicecat)
     }
     
     

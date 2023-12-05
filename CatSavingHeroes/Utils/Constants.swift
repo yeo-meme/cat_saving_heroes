@@ -65,6 +65,7 @@ let CARE_CAT_DELETE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/ca
 let CARE_CAT_HISTORY_EVENT = "http://cat-saving-heros.azurewebsites.net/api/carecat/history"
 //geo
 let GEO_CARE_API_URL = "https://cat-saving-heros.azurewebsites.net/api/carecat/search/geo2"
+//cat Id로 Cats모델에서 검색
 let GEO_CAT_API_URL = "https://cat-saving-heros.azurewebsites.net/api/cat"
 
 //mongo관리자 전체 삭제 -> 포스트맨으로하삼

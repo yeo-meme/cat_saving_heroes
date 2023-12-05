@@ -29,7 +29,7 @@ struct SearchCatView: View {
                                 showConversationView.toggle()
                                 self.choiceCat = choiceCat
                                 isEditing = false
-                                UserDefaults.standard.set(choiceCat.id, forKey: "CatId")
+                                UserDefaults.standard.set(choiceCat.id, forKey: "ChoiceCatId")
                             }, label: {
                                 // SearchCatCell(catsSearchedArr: selectedCatArr)
                             })

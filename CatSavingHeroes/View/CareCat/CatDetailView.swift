@@ -39,6 +39,7 @@ struct CatDetailView: View {
             
             // DETAIL BOTTOM PART
             VStack(alignment: .center, spacing: 0, content: {
+                //좋아요 관심냥
                 FavouriteDetailView(viewModel: FavouriteDetailViewModel(),isInterestCatBtn: $flagInterestCat, isCareCatBtn: $flagCareCat )
                     .padding(.horizontal)// RATINGS + SIZES
                 // .offset(x:-20, y:-30)
@@ -59,7 +60,7 @@ struct CatDetailView: View {
                         .fontWeight(.bold) // 텍스트에 볼드 스타일 추가
                         .offset(x:-115, y:-115)
                     
-                    //고양이 카드
+                    //고양이 활동 일지 카드
                     ScrollView(.vertical, showsIndicators: false) {
                         VStack(spacing:1){
                             
@@ -75,7 +76,7 @@ struct CatDetailView: View {
                     }.frame(height: 170)
                         .padding(.trailing)
                         .padding(.leading)
-                }//: 고양이 카드
+                }//: 고양이 활동 일지 카드 배경
                 // .offset(y:-30)
             }) //: VSTACK
             .padding(.horizontal)
@@ -116,11 +117,7 @@ struct CatDetailView: View {
                 }
                 
             }
-                
             // }
-            
-            
-            
             // viewModel.
         }
         .onDisappear{
