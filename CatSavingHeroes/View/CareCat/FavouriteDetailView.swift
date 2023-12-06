@@ -41,22 +41,23 @@ struct FavouriteDetailView: View {
                     .foregroundColor(Color.black)
             }.padding(10)
             
-            VStack{
-                //bolt.heart
-                Button(action: {
-                    isCareCatBtn.toggle()
-                    viewModel.careAdd()
-                    // feedback.impactOccurred()
-                }, label: {
-                    Image(systemName: "bolt.heart.fill")
-                        .resizable()
-                        .foregroundColor(isCareCatBtn ? .pink : .gray)
-                        .frame(width: 40, height: 40)
-                })
-                Text("돌봄냥")
-                    .font(.headline)
-                    .foregroundColor(Color.black)
-            }.padding(10)
+            //돌봄냥
+            // VStack{
+            //     //bolt.heart
+            //     Button(action: {
+            //         isCareCatBtn.toggle()
+            //         viewModel.careAdd()
+            //         // feedback.impactOccurred()
+            //     }, label: {
+            //         Image(systemName: "bolt.heart.fill")
+            //             .resizable()
+            //             .foregroundColor(isCareCatBtn ? .pink : .gray)
+            //             .frame(width: 40, height: 40)
+            //     })
+            //     Text("돌봄냥")
+            //         .font(.headline)
+            //         .foregroundColor(Color.black)
+            // }.padding(10)
         }) //: HSTACK
         .font(.system(.title, design: .rounded))
         .foregroundColor(.black)

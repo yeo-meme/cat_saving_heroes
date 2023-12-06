@@ -111,14 +111,16 @@ struct StateView: View {
                                     }//:User Profile
                                 // })
                             
-                            SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥","돌봄냥"], selectionBarColor: Color.primaryColor)
+                            SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
                                 AddedCatListView(showTopCustomView: $showTopCustomView)
                             } else if tabIndex == 1 {
                                 InterestCatView()
-                            } else if tabIndex == 2 {
-                               TakeCareOfCatView()
-                            }
+                            } 
+                            //돌봄냥 리스트
+                            // else if tabIndex == 2 {
+                            //    TakeCareOfCatView()
+                            // }
                         }
                         // HStack(alignment: .bottom){
                         //     goToAddViewButton

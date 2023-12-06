@@ -8,6 +8,8 @@
 import SwiftUI
 import RealmSwift
 
+
+//main
 struct MainSideTabView: View {
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
@@ -78,35 +80,31 @@ struct MainSideTabView: View {
                     .tag(2)
                     
                     //showTopCustomView
-                    NavigationView{
-                        VStack {
-                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                            TrackingHeroView(weatherModel: WeatherViewModel())
-                        }
-                    }
-                    .tabItem {
-                        Image(systemName: "location.fill")
-                        Text("영웅기록")
-                    }
-                    .tag(3)
-                    
-                    NavigationView{
-                        VStack {
-                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                            HeroCalendarView()
-                        }
-                    }
-                    .tabItem {
-                        Image(systemName: "calendar")
-                        Text("영웅일지")
-                    }
-                    .tag(4)
-                    
-                    
-                    
+                    // NavigationView{
+                    //     VStack {
+                    //         TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                    //         TrackingHeroView(weatherModel: WeatherViewModel())
+                    //     }
+                    // }
+                    // .tabItem {
+                    //     Image(systemName: "location.fill")
+                    //     Text("영웅기록")
+                    // }
+                    // .tag(3)
+                    // 
+                    // NavigationView{
+                    //     VStack {
+                    //         TopCustomView(presentNavigationBar: $isShowingSideMenu)
+                    //         HeroCalendarView()
+                    //     }
+                    // }
+                    // .tabItem {
+                    //     Image(systemName: "calendar")
+                    //     Text("영웅일지")
+                    // }
+                    // .tag(4)
                 }.onAppear {
                     selectedSideMenuTab = 0 // 초기화면을 설정
-                    
                 }
                 .onChange(of: selectedSideMenuTab) { newTabValue in
                     print("Selected tab is now \(newTabValue)")

@@ -26,7 +26,6 @@ import FirebaseFirestore
     }
    
     var body: some Scene {
-        
         WindowGroup {
             ContentView().environmentObject(AuthViewModel.shared)
                 .environmentObject(AddressManager.shared) // 환경 객체 공유
