@@ -39,7 +39,7 @@ struct AddEventView: View {
     @ObservedObject var model = EventAddViewModel()
     //검색리스트 초기화 모델
     @ObservedObject var searchModel = SearchCatViewModel()
-    
+    @EnvironmentObject var authModel:AuthViewModel
     // @State private var searchText = ""
     @State private var careStateIndex = 0
     @State private var state  = ""
@@ -187,7 +187,10 @@ struct AddEventView: View {
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
-      
+        .onAppear{
+            authModel.showTopCustomView = false
+        }
+       
         .showErrorMessage(showAlert: $model.isShowingAlert, message: model.errorMessage)
     }
     

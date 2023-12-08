@@ -11,7 +11,7 @@ import Kingfisher
 struct AddedCatListView: View {
     
     // @ObservedObject var viewModel = WatchCellViewModel()
-    // @EnvironmentObject var model:AuthViewModel
+    @EnvironmentObject var model:AuthViewModel
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
     @ObservedObject var catModel = WatchCellViewModel()
@@ -96,6 +96,7 @@ struct AddedCatListView: View {
                     .padding(.bottom, 20)
             }
             .onAppear {
+                model.showTopCustomView = true
                 // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
                 catModel.fetchMatchCat()
                 print("임마 : \(catModel.filteredCats)")
@@ -103,7 +104,7 @@ struct AddedCatListView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isLoading = false // Set isLoading to false when data is loaded
                 }
-        }
+            }
     }
 }
 //
