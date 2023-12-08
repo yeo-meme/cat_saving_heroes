@@ -47,6 +47,7 @@
 		FF62881B2AF1257900A5319C /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF62881A2AF1257900A5319C /* Status.swift */; };
 		FF62881D2AF125E100A5319C /* StatusSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF62881C2AF125E100A5319C /* StatusSelectorView.swift */; };
 		FF62881F2AF125F900A5319C /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF62881E2AF125F900A5319C /* StatusCell.swift */; };
+		FF62FC042B205E74006B0584 /* SearchCatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF62FC032B205E74006B0584 /* SearchCatViewModel.swift */; };
 		FF662D172AD77C9600821AB2 /* SearchCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF662D162AD77C9600821AB2 /* SearchCatView.swift */; };
 		FF662D192AD77D8400821AB2 /* CatDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF662D182AD77D8400821AB2 /* CatDetailView.swift */; };
 		FF712A822AE36E5D00A03267 /* CloseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF712A812AE36E5D00A03267 /* CloseButtonView.swift */; };
@@ -110,7 +111,7 @@
 		FFDCEABE2ACE86600020552E /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEABD2ACE86600020552E /* ImagePicker.swift */; };
 		FFDCEAC02ACE86BE0020552E /* CapsuleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEABF2ACE86BE0020552E /* CapsuleButton.swift */; };
 		FFDCEAC22ACE871B0020552E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEAC12ACE871B0020552E /* Extensions.swift */; };
-		FFDCEAC42ACE89710020552E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEAC32ACE89710020552E /* MainTabView.swift */; };
+		FFDCEAC42ACE89710020552E /* MainSideDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEAC32ACE89710020552E /* MainSideDrawer.swift */; };
 		FFDCEAD22ACE9AF10020552E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FFDCEAD12ACE9AF10020552E /* FirebaseAnalytics */; };
 		FFDCEAD42ACE9AF10020552E /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = FFDCEAD32ACE9AF10020552E /* FirebaseAnalyticsOnDeviceConversion */; };
 		FFDCEAD62ACE9AF10020552E /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FFDCEAD52ACE9AF10020552E /* FirebaseAnalyticsSwift */; };
@@ -200,6 +201,7 @@
 		FF62881A2AF1257900A5319C /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		FF62881C2AF125E100A5319C /* StatusSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusSelectorView.swift; sourceTree = "<group>"; };
 		FF62881E2AF125F900A5319C /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
+		FF62FC032B205E74006B0584 /* SearchCatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatViewModel.swift; sourceTree = "<group>"; };
 		FF662D162AD77C9600821AB2 /* SearchCatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatView.swift; sourceTree = "<group>"; };
 		FF662D182AD77D8400821AB2 /* CatDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatDetailView.swift; sourceTree = "<group>"; };
 		FF712A812AE36E5D00A03267 /* CloseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButtonView.swift; sourceTree = "<group>"; };
@@ -264,7 +266,7 @@
 		FFDCEABD2ACE86600020552E /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		FFDCEABF2ACE86BE0020552E /* CapsuleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButton.swift; sourceTree = "<group>"; };
 		FFDCEAC12ACE871B0020552E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		FFDCEAC32ACE89710020552E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		FFDCEAC32ACE89710020552E /* MainSideDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSideDrawer.swift; sourceTree = "<group>"; };
 		FFDCEAC52ACE8C350020552E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FFDCEB112ACEB0910020552E /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		FFDCEB142ACEB0DD0020552E /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 			children = (
 				FFCB848F2AEB50C4001C4D8C /* FavouriteDetailViewModel.swift */,
 				FF5CB0F12AF2445B00EDB2F4 /* CatDeatailViewModel.swift */,
+				FF62FC032B205E74006B0584 /* SearchCatViewModel.swift */,
 			);
 			path = Care;
 			sourceTree = "<group>";
@@ -647,7 +650,7 @@
 				FFDCEAAA2ACE83110020552E /* Elements */,
 				FFDCEABC2ACE864F0020552E /* Photo */,
 				FFDCEAAD2ACE84AA0020552E /* Login */,
-				FFDCEAC32ACE89710020552E /* MainTabView.swift */,
+				FFDCEAC32ACE89710020552E /* MainSideDrawer.swift */,
 				FFDCEB1E2ACEB1BF0020552E /* MainSideTabView.swift */,
 				FFDAC4802AE16ABC00E6CECB /* NavigationBarView.swift */,
 				FF8BC28D2AE222240053B364 /* LogoView.swift */,
@@ -874,6 +877,7 @@
 				FFCB848E2AEB494F001C4D8C /* CareDetailListItemCell.swift in Sources */,
 				FFDCEABB2ACE86140020552E /* ProfilePhotoSelectorView.swift in Sources */,
 				FF62880A2AF1038E00A5319C /* EditusernameCell.swift in Sources */,
+				FF62FC042B205E74006B0584 /* SearchCatViewModel.swift in Sources */,
 				FFDD1D1F2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift in Sources */,
 				FFB8660F2ADD3A58003446BA /* OvalButton.swift in Sources */,
 				FFDAC48B2AE16EEE00E6CECB /* CategoryItemView.swift in Sources */,
@@ -953,7 +957,7 @@
 				FF528C582AE0EFF400042131 /* WeatherViewModel.swift in Sources */,
 				FF82CDF12AD4D9AB0048FD01 /* Trace.swift in Sources */,
 				FF6288002AF0DDE800A5319C /* DetailCatProfileView.swift in Sources */,
-				FFDCEAC42ACE89710020552E /* MainTabView.swift in Sources */,
+				FFDCEAC42ACE89710020552E /* MainSideDrawer.swift in Sources */,
 				FFDD1D1D2AF35B070056AB4B /* TakeCareOfCatCellView.swift in Sources */,
 				FF82CE012AD4DB890048FD01 /* HeroTrackViewWrapper.swift in Sources */,
 			);

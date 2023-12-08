@@ -12,7 +12,7 @@ import Alamofire
 
 class EventAddViewModel: ObservableObject {
     
-    private var model: Model
+    // private var model: Model
     private var isLocationTrackingEnabled: Bool = false // Model 인스턴스를 저장하는 프로퍼티 추가
     @Published var annotations: [MKPointAnnotation] = []
     @Published var typeChangeLocation: CLLocation?
@@ -31,12 +31,12 @@ class EventAddViewModel: ObservableObject {
     @Published var isSearchEnd:Bool=false
     @Published var eventCat: Results<CareRealmModel>?
     var selectedIndex:Int?
-    init(model: Model) {  // 생성자에서 Model 인스턴스 주입
-        self.model = model
-        isLocationTrackingEnabled = model.isLocationTrackingEnabled
-        print("Where - Event Add ViewModel 초기 isLocationTrackingEnabled: \(model.isLocationTrackingEnabled)")
-        
-    }
+    // init(model: Model) {  // 생성자에서 Model 인스턴스 주입
+    //     self.model = model
+    //     isLocationTrackingEnabled = model.isLocationTrackingEnabled
+    //     print("Where - Event Add ViewModel 초기 isLocationTrackingEnabled: \(model.isLocationTrackingEnabled)")
+    //     
+    // }
     
     func filteredCats(_ query: String) -> [Cats] {
         let lowercasedQuery = query.lowercased()

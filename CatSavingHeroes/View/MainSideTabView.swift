@@ -11,6 +11,7 @@ import RealmSwift
 
 //main
 struct MainSideTabView: View {
+    
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
     @State var selectedSideMenuTab = 0
@@ -19,7 +20,6 @@ struct MainSideTabView: View {
     @State private var showTopCustomView = true
     @State private var settingViewShowUP = false
     @State private var shouldShowSettings = false
-    
     
     var goToAddViewButton: some View {
         HStack {
@@ -40,7 +40,7 @@ struct MainSideTabView: View {
     
     var body: some View {
         NavigationView{
-            ZStack{
+            // ZStack{
                 TabView(selection: $selectedSideMenuTab) {
                     NavigationView{
                         VStack {
@@ -64,7 +64,6 @@ struct MainSideTabView: View {
                     //     } .tag(1)
                     // }
                     
-                    
                     NavigationView{
                         VStack{
                             if showTopCustomView {
@@ -73,6 +72,7 @@ struct MainSideTabView: View {
                             StateView(presentSideMenu: $isShowingSideMenu, showTopCustomView: showTopCustomView)
                         }
                     }
+              
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이들")
@@ -103,7 +103,8 @@ struct MainSideTabView: View {
                     //     Text("영웅일지")
                     // }
                     // .tag(4)
-                }.onAppear {
+                }
+                .onAppear {
                     selectedSideMenuTab = 0 // 초기화면을 설정
                 }
                 .onChange(of: selectedSideMenuTab) { newTabValue in
@@ -121,19 +122,14 @@ struct MainSideTabView: View {
                 
                 SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu, weatherManager: WeatherManager())))
                 
-                
-            }
+            // }
         }
-        
-        
-        
         
     }
   
     func mainView(for selectedTab: SideMenuRowType) -> some View {
               switch selectedTab {
               case .home:
-                  
                   return AnyView(CareCatView(showTopCustomView: .constant(false), presentSideMenu: .constant(true)))
               case .mypage:
                   return AnyView(SettingsView(model.currentUser ?? MOCK_USER))

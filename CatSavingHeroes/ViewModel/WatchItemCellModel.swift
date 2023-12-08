@@ -8,7 +8,8 @@
 import Foundation
 
 class WatchItemCellModel: ObservableObject{
-    @Published var userCat:Cats
+   
+    @Published var userCat:Cats?
     
     init(_ userCat: Cats) {
             self.userCat = userCat

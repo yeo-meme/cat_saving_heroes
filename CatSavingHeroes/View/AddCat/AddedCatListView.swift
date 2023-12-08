@@ -18,8 +18,10 @@ struct AddedCatListView: View {
     @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
     @State private var isLoading = true // 딜레이
-
     
+    @State private var selectedCat: Cats?
+    // @State private var showAddEventView = false
+    //냥이 추가 btn
     var goToAddViewButton: some View {
         NavigationLink(
             destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
@@ -48,10 +50,17 @@ struct AddedCatListView: View {
                 if !isLoading {
                     VStack{
                         VStack(spacing: 1) {
+                            if let selectedCat = selectedCat {
+                                NavigationLink(
+                                    destination: AddEventView(showTopCustomView: $showTopCustomView),
+                                    label: {}
+                                )
+                            }
                             if !catModel.filteredCats.isEmpty {
                                 ForEach(catModel.filteredCats) { userCat in //데이터 파생
                                     WatchCatCell(viewModel: WatchItemCellModel(userCat))
                                         .padding(5)
+                                        
                                 }
                             } else {
                                 
@@ -73,7 +82,7 @@ struct AddedCatListView: View {
                             }
                         }
                         
-                      
+                        
                     }
                 }else {
                     ZStack {
@@ -84,11 +93,11 @@ struct AddedCatListView: View {
                     }
                     .frame(width: 500, height: 500)
                 }
-              
+                
             }
             
             goToAddViewButton
-        .padding(.bottom, 20)
+                .padding(.bottom, 20)
         }
         .onAppear {
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
@@ -96,8 +105,8 @@ struct AddedCatListView: View {
             print("임마 : \(catModel.filteredCats)")
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                           isLoading = false // Set isLoading to false when data is loaded
-                       }
+                isLoading = false // Set isLoading to false when data is loaded
+            }
         }
     }
 }

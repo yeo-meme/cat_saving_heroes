@@ -89,13 +89,10 @@ struct CatDetailView: View {
             ).ignoresSafeArea(.all, edges: .all)
         )
         .onAppear{
-            self.showTopCustomView.toggle()
             let choiceCat = cats._id
             UserDefaults.standard.set(choiceCat, forKey: "CatId")
         }
-        .onDisappear{
-            self.showTopCustomView.toggle()
-        }
+     
     }
 }
 

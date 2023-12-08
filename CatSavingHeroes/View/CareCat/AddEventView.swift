@@ -19,24 +19,26 @@ struct AddEventView: View {
         return formatter
     }()
     
-    @State var isShowingAlert = false
-    @Environment(\.presentationMode) var mode
-    @EnvironmentObject var addressManager : Model
-    @Binding var isShowingModal:Bool
-    @State var isShowingSearchModal = false
-    @State var isSearchEnd = false
+    // @State var isShowingAlert = false
+    // @Environment(\.presentationMode) var mode
+    // @EnvironmentObject var addressManager : Model
+    @Binding var showTopCustomView:Bool
+    // @State var isShowingSearchModal = false
+    // @State var isSearchEnd = false
     //Alamofire 컴플리트 핸들러
-    @State var completeAction = false
+    // @State var completeAction = false
     @State private var selectedEvent: String="" //선택된이벤트 저장
     //이벤트
-    @State private var isButtonClicked1 = false
-    @State private var isButtonClicked2 = false
-    @State private var isButtonClicked3 = false
-    @State private var isButtonClicked4 = false
-    @State private var isButtonClicked5 = false
-    @State var buttonStates: [Bool] = [false, false, false, false, false]
+    // @State private var isButtonClicked1 = false
+    // @State private var isButtonClicked2 = false
+    // @State private var isButtonClicked3 = false
+    // @State private var isButtonClicked4 = false
+    // @State private var isButtonClicked5 = false
+    // @State var buttonStates: [Bool] = [false, false, false, false, false]
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
-    @ObservedObject var model :EventAddViewModel
+    @ObservedObject var model = EventAddViewModel()
+    //검색리스트 초기화 모델
+    @ObservedObject var searchModel = SearchCatViewModel()
     
     // @State private var searchText = ""
     @State private var careStateIndex = 0
@@ -50,11 +52,11 @@ struct AddEventView: View {
     @State private var isEditing = false
     
     //realm 검색관련
-    @State var catModelData:[CatRealmModel]
-    @State var selectedCat : CatRealmModel?
+    // @State var catModelData:[CatRealmModel]
+    // @State var selectedCat : CatRealmModel?
     
     //몽고 검색관련
-    @State var catListData : [Cats]
+    // @State var catListData : [Cats]
     // @State var catSearchListData : [Cats]
     @State var choiceCat : Cats?
     //이벤트 버튼 초이스 인덱스
@@ -67,11 +69,10 @@ struct AddEventView: View {
     var body: some View {
         NavigationView{
             VStack {
-                CloseButtonView(isShowingModal: $isShowingModal)
-                    .padding(.top, 10)
-                
+                // CloseButtonView()
+                //     .padding(.top, 10)
                 ScrollView{
-                    SearchBar(model: model, isEditing: $isEditing, isShowingSearchModal: $isShowingSearchModal, choiceCat: $choiceCat, isSearchEnd: $isSearchEnd, isShowingAlert: $isShowingAlert)
+                    SearchBar(model: model, isEditing: $isEditing)
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
@@ -155,28 +156,28 @@ struct AddEventView: View {
                                     CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
                                         print("이벤트 기록하기 ")
                                     
-                                        if addressManager.isLocationTrackingEnabled {
-                                            let locationRecord = LocationRecord()
-                                            locationRecord.latitude = addressManager.lastLocation.latitude
-                                            locationRecord.longitude = addressManager.lastLocation.longitude
-                                            let coordinates = [locationRecord.longitude,locationRecord.latitude]
-                                            
-                                            
-                                            model.isRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinates: coordinates, address: address,completeAction: completeAction)
-                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
-                                            
-                                        } else {
-                                            let locationRecord = LocationRecord()
-                                            locationRecord.latitude = addressManager.lastLocation.latitude
-                                            locationRecord.longitude = addressManager.lastLocation.longitude
-                                            let coordinates = [locationRecord.longitude,locationRecord.latitude]
-                                            
-                                            model.notRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, address: address, date: date, coordinates:coordinates)
-                                            print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
-                                        }
-                                        
-                                        mode.wrappedValue.dismiss()
-                                        print("모달 닫기 ")
+                                        // if addressManager.isLocationTrackingEnabled {
+                                        //     let locationRecord = LocationRecord()
+                                        //     locationRecord.latitude = addressManager.lastLocation.latitude
+                                        //     locationRecord.longitude = addressManager.lastLocation.longitude
+                                        //     let coordinates = [locationRecord.longitude,locationRecord.latitude]
+                                        //     
+                                        //     
+                                        //     model.isRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, coordinates: coordinates, address: address,completeAction: completeAction)
+                                        //     print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                        //     
+                                        // } else {
+                                        //     let locationRecord = LocationRecord()
+                                        //     locationRecord.latitude = addressManager.lastLocation.latitude
+                                        //     locationRecord.longitude = addressManager.lastLocation.longitude
+                                        //     let coordinates = [locationRecord.longitude,locationRecord.latitude]
+                                        //     
+                                        //     model.notRuningCatWalkEventAdd(state: state, user_id: user_id, cat_id: cat_id, memo: memo, address: address, date: date, coordinates:coordinates)
+                                        //     print("isRunningCatWalk send : \(locationRecord.latitude), \(locationRecord.longitude)")
+                                        // }
+                                        // 
+                                        // mode.wrappedValue.dismiss()
+                                        // print("모달 닫기 ")
                                     }//: 캡슐버튼
                                 }//:VSTACK
                                 .padding(.top, 60)
@@ -186,6 +187,9 @@ struct AddEventView: View {
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
+        .onAppear{
+            showTopCustomView = false
+        }
         .showErrorMessage(showAlert: $model.isShowingAlert, message: model.errorMessage)
     }
     
@@ -195,18 +199,18 @@ struct AddEventView: View {
 struct SearchBar: View {
     
     @ObservedObject var model : EventAddViewModel
-    @EnvironmentObject var viewModel: AuthViewModel
+    // @EnvironmentObject var viewModel: AuthViewModel
     @Binding var isEditing: Bool
-    @Binding var isShowingSearchModal:Bool
+    // @Binding var isShowingSearchModal:Bool
 
-    @Binding var choiceCat : Cats?
+    // @Binding var choiceCat : Cats?
     @State var isCatArrfinish:Bool = false
-    @Binding var isSearchEnd:Bool
+    // @Binding var isSearchEnd:Bool
     
     @State var searchName:String = ""
     @State var tempTx:String = ""
  
-    @Binding var isShowingAlert:Bool
+    // @Binding var isShowingAlert:Bool
     
     var body: some View {
         HStack {
@@ -221,17 +225,17 @@ struct SearchBar: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 10)
                 )
-                .onSubmit {
-                    tempTx = searchName
-                    // catsNameSearchAPI(tempTx)
-                    if tempTx == "" {
-                        model.isShowingAlert = true
-                        model.errorMessage = "고양이 이름을 검색해주세요"
-                        print("고양이 이름을 검색해주세요")
-                        return
-                    }
-                    model.catsSearch(tempTx)
-                }
+                // .onSubmit {
+                //     tempTx = searchName
+                //     // catsNameSearchAPI(tempTx)
+                //     if tempTx == "" {
+                //         model.isShowingAlert = true
+                //         model.errorMessage = "고양이 이름을 검색해주세요"
+                //         print("고양이 이름을 검색해주세요")
+                //         return
+                //     }
+                //     model.catsSearch(tempTx)
+                // }
             
             if isEditing {
                 Button(action: {

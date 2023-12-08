@@ -10,7 +10,7 @@ import MapKit
 import Alamofire
 import Kingfisher
 
-struct MainTabView: View {
+struct MainSideDrawer: View {
     @State var presentSideMenu: Bool
     @State private var showSheet = false
     @ObservedObject var weatherModel = WeatherManager()

@@ -14,7 +14,7 @@ class WatchCellViewModel: ObservableObject {
     @Published var arrUsercats=[Cats]()
     @Published var isDataLoaded = false
     @Published  var filteredCats:[Cats] = []
-    
+   
     init() {
         fetchMatchCat()
     }

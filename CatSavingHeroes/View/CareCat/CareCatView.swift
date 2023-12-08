@@ -29,16 +29,7 @@ struct CareCatView: View {
     
     //dummy data test
     let gridItems = [GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16), GridItem(.flexible(minimum: 100, maximum: 200), spacing: 16)]
-    let testData: [String] = [
-        "아이폰 13 Pro",
-        "맥북 프로",
-        "아이패드 프로",
-        "애플 워치",
-        "에어팟 프로",
-        "애플 펜슬",
-        "맥 미니",
-        "홈팟 미니"
-    ]
+ 
     
     //네비게이션아이템
     @State var presentNavigationBar: Bool=false //네비게이션바아이템
@@ -103,6 +94,7 @@ struct CareCatView: View {
                                                 
                                                 StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))
                                                     .padding()
+                                                  
                                             }
                                         }
                                      
@@ -118,10 +110,10 @@ struct CareCatView: View {
                                 }
                             }
                             .padding(.bottom, 10)
-                            .sheet(isPresented: $isShowingModal) {
-                                // 모달이 표시되면 addEvent 뷰가 열립니다.
-                                AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [])
-                            }
+                            // .sheet(isPresented: $isShowingModal) {
+                            //     // 모달이 표시되면 addEvent 뷰가 열립니다.
+                            //     AddEventView(isShowingModal: $isShowingModal, completeAction: false, model: eventAddViewModel, catModelData: [], catListData: [])
+                            // }
                             
                         }
                         .onChange(of: selectedSegment) { value in
@@ -155,19 +147,20 @@ struct CareCatView: View {
                         }
                         //.animation(Animation.easeInOut(duration: 2).repeatForever(autoreverses: true))
                         
-                        Button(action: {
-                            self.isShowingModal.toggle()
-                        }) {
-                            Image(systemName: "plus.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .background(Circle().fill(Color("ColorBase")))
-                                .frame(width: 48, height: 48, alignment: .center)
-                        } //: BUTTON
-                        .accentColor(Color.primaryColor)
-                        .onAppear(perform: {
-                            self.animatingButton.toggle()
-                        })
+                        //Floting Button
+                        // Button(action: {
+                        //     self.isShowingModal.toggle()
+                        // }) {
+                        //     Image(systemName: "plus.circle.fill")
+                        //         .resizable()
+                        //         .scaledToFit()
+                        //         .background(Circle().fill(Color("ColorBase")))
+                        //         .frame(width: 48, height: 48, alignment: .center)
+                        // } //: BUTTON
+                        // .accentColor(Color.primaryColor)
+                        // .onAppear(perform: {
+                        //     self.animatingButton.toggle()
+                        // })
                     } //: ZSTACK
                     .padding(.bottom, 15)
                     .padding(.trailing, 15)

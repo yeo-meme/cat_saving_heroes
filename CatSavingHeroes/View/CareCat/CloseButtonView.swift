@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CloseButtonView: View {
-    @Binding var isShowingModal:Bool
+    // @Binding var isShowingModal:Bool
     
     var body: some View {
         HStack {
             Button {
-                self.isShowingModal.toggle()
+                // self.isShowingModal.toggle()
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 30)) // 원하는 크기로 조정
@@ -27,5 +27,5 @@ struct CloseButtonView: View {
 }
 
 #Preview {
-    CloseButtonView(isShowingModal: .constant(false))
+    CloseButtonView()
 }
