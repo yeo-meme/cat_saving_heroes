@@ -17,7 +17,7 @@ struct MainSideTabView: View {
     @State var selectedSideMenuTab = 0
     @EnvironmentObject var model : AuthViewModel
     @EnvironmentObject var locationManager: AddressManager
-    @State private var showTopCustomView = true
+    // @State private var showTopCustomView = true
     @State private var settingViewShowUP = false
     @State private var shouldShowSettings = false
     
@@ -40,15 +40,17 @@ struct MainSideTabView: View {
     
     var body: some View {
         NavigationView{
-            // ZStack{
+            ZStack{
                 TabView(selection: $selectedSideMenuTab) {
-                    NavigationView{
-                        VStack {
-                            if showTopCustomView {
-                                TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                            }
-                            CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
+                    VStack {
+                        if model.showTopCustomView {
+                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
+                    // NavigationView{
+                        
+                            // CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
+                        CareCatView(presentSideMenu: $isShowingSideMenu)
+                        // }
                     }
                     .tabItem {
                         Image(systemName: "heart.fill")
@@ -63,16 +65,14 @@ struct MainSideTabView: View {
                     //         }
                     //     } .tag(1)
                     // }
-                    
-                    NavigationView{
-                        VStack{
-                            if showTopCustomView {
-                                TopCustomView(presentNavigationBar: $isShowingSideMenu)
-                            }
-                            StateView(presentSideMenu: $isShowingSideMenu, showTopCustomView: showTopCustomView)
+                    VStack {
+                        if model.showTopCustomView {
+                            TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
+                    // NavigationView{
+                            StateView(presentSideMenu: $isShowingSideMenu)
+                        // }
                     }
-              
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이들")
@@ -122,7 +122,7 @@ struct MainSideTabView: View {
                 
                 SideMenu(isShowing: $isShowingSideMenu, content: AnyView(SideMenuView(selectedSideMenuTab: $selectedSideMenuTab, presentSideMenu: $isShowingSideMenu, weatherManager: WeatherManager())))
                 
-            // }
+            }
         }
         
     }
@@ -130,7 +130,7 @@ struct MainSideTabView: View {
     func mainView(for selectedTab: SideMenuRowType) -> some View {
               switch selectedTab {
               case .home:
-                  return AnyView(CareCatView(showTopCustomView: .constant(false), presentSideMenu: .constant(true)))
+                  return AnyView(CareCatView( presentSideMenu: .constant(true)))
               case .mypage:
                   return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
               // case .logout:

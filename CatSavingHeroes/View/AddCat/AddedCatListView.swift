@@ -15,7 +15,7 @@ struct AddedCatListView: View {
     // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
     @ObservedObject var catModel = WatchCellViewModel()
-    @Binding var showTopCustomView: Bool
+    // @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
     @State private var isLoading = true // 딜레이
     
@@ -24,7 +24,7 @@ struct AddedCatListView: View {
     //냥이 추가 btn
     var goToAddViewButton: some View {
         NavigationLink(
-            destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
+            destination: AddCatView( catViewModel: AddCatViewModel())) {
                 
                 HStack {
                     Image(systemName: "waveform.path.badge.plus")
@@ -45,68 +45,64 @@ struct AddedCatListView: View {
             }}
     
     var body: some View {
-        ZStack(alignment:.bottom){
-            ScrollView{
-                if !isLoading {
-                    VStack{
-                        VStack(spacing: 1) {
-                            if let selectedCat = selectedCat {
-                                NavigationLink(
-                                    destination: AddEventView(showTopCustomView: $showTopCustomView),
-                                    label: {}
-                                )
-                            }
-                            if !catModel.filteredCats.isEmpty {
-                                ForEach(catModel.filteredCats) { userCat in //데이터 파생
-                                    WatchCatCell(viewModel: WatchItemCellModel(userCat))
-                                        .padding(5)
-                                        
+            ZStack(alignment:.bottom){
+                ScrollView{
+                    if !isLoading {
+                        VStack{
+                            VStack(spacing: 1) {
+                                if let selectedCat = selectedCat {
+                                    NavigationLink(
+                                        destination: AddEventView(),
+                                        label: {}
+                                    )
                                 }
-                            } else {
-                                
-                                ZStack{
-                                    Image("illustration-no1")
-                                        .resizable()
-                                        .frame(width: .infinity , height: 400)
-                                    Text("아직 저장된 고양이가 없네요 \n 고양이 추가로 \n 나만의 고양이 보관함을 만들어 보세요")
-                                        .font(.footnote)
-                                        .padding(5)
-                                        .background(Color.primaryColor)
-                                        .cornerRadius(12)
-                                        .foregroundColor(.white)
-                                        .multilineTextAlignment(.center)
+                                if !catModel.filteredCats.isEmpty {
+                                    ForEach(catModel.filteredCats) { userCat in //데이터 파생
+                                        WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                                            .padding(5)
+                                        
+                                    }
+                                } else {
                                     
-                                }.padding(.top, 20)
-                                
-                                
+                                    ZStack{
+                                        Image("illustration-no1")
+                                            .resizable()
+                                            .frame(width: .infinity , height: 400)
+                                        Text("아직 저장된 고양이가 없네요 \n 고양이 추가로 \n 나만의 고양이 보관함을 만들어 보세요")
+                                            .font(.footnote)
+                                            .padding(5)
+                                            .background(Color.primaryColor)
+                                            .cornerRadius(12)
+                                            .foregroundColor(.white)
+                                            .multilineTextAlignment(.center)
+                                        
+                                    }.padding(.top, 20)
+                                }
                             }
                         }
-                        
-                        
+                    }else {
+                        ZStack {
+                            Spacer() // Push content to the top
+                            ProgressView("Loading…")
+                                .progressViewStyle(CircularProgressViewStyle())
+                            Spacer() // Push content to the bottom
+                        }
+                        .frame(width: 500, height: 500)
                     }
-                }else {
-                    ZStack {
-                        Spacer() // Push content to the top
-                        ProgressView("Loading…")
-                            .progressViewStyle(CircularProgressViewStyle())
-                        Spacer() // Push content to the bottom
-                    }
-                    .frame(width: 500, height: 500)
+                    
                 }
                 
+                goToAddViewButton
+                    .padding(.bottom, 20)
             }
-            
-            goToAddViewButton
-                .padding(.bottom, 20)
-        }
-        .onAppear {
-            // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
-            catModel.fetchMatchCat()
-            print("임마 : \(catModel.filteredCats)")
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                isLoading = false // Set isLoading to false when data is loaded
-            }
+            .onAppear {
+                // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
+                catModel.fetchMatchCat()
+                print("임마 : \(catModel.filteredCats)")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isLoading = false // Set isLoading to false when data is loaded
+                }
         }
     }
 }

@@ -76,7 +76,7 @@ struct SideMenuView: View {
                                     //             Label("새로운 화면", systemImage: "plus")
                                     //         }
                                     
-                                    NavigationLink(destination: CareCatView(showTopCustomView: .constant(false), presentSideMenu: $presentSideMenu)) {
+                                    NavigationLink(destination: CareCatView( presentSideMenu: $presentSideMenu)) {
                                                             Label(row.title, systemImage: "plus")
                                                         }
                                 } else if row.rawValue == 1 {

@@ -24,34 +24,11 @@ struct StateView: View {
     @EnvironmentObject var viewModel : AuthViewModel
     @State var tag:Int? = nil
     
-    @State var showTopCustomView: Bool = false
+    // @State var showTopCustomView: Bool = false
     @State var isDataLoaded = false
-    // @ObservedObject var catModel = WatchCellViewModel()
-    
-    // var goToAddViewButton: some View {
-    //     
-    //     NavigationLink(
-    //         destination: AddCatView(showTopCustomView: $showTopCustomView, catViewModel: AddCatViewModel())) {
-    //             HStack {
-    //                 Image(systemName: "waveform.path.badge.plus")
-    //                     .foregroundColor(.white)
-    //                     .padding(.leading,5)
-    //                 
-    //                 Text("냥이추가")
-    //                     .foregroundColor(.white)
-    //                     .padding(.leading,5)
-    //                     .frame(width: 70, height: 36)
-    //             }
-    //             .background(
-    //                 Capsule()
-    //                     .fill(Color.primaryColor)
-    //             )
-    //             .padding(.bottom, 10)
-    //             
-    //         }}
-    
+ 
+
     var body: some View {
-        NavigationView{
             ZStack(alignment:.bottomTrailing){
                 VStack{
                     // if !catModel.isDataLoaded {
@@ -113,7 +90,7 @@ struct StateView: View {
                             
                             SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥"], selectionBarColor: Color.primaryColor)
                             if tabIndex == 0 {
-                                AddedCatListView(showTopCustomView: $showTopCustomView)
+                                AddedCatListView()
                             } else if tabIndex == 1 {
                                 InterestCatView()
                             } 
@@ -137,7 +114,6 @@ struct StateView: View {
              
                 
             }
-        }
     }
 }
 

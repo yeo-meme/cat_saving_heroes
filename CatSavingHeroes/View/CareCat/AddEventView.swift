@@ -22,7 +22,7 @@ struct AddEventView: View {
     // @State var isShowingAlert = false
     // @Environment(\.presentationMode) var mode
     // @EnvironmentObject var addressManager : Model
-    @Binding var showTopCustomView:Bool
+    // @Binding var showTopCustomView:Bool
     // @State var isShowingSearchModal = false
     // @State var isSearchEnd = false
     //Alamofire 컴플리트 핸들러
@@ -187,9 +187,7 @@ struct AddEventView: View {
                 }//:SCROLLVIEW
             }//: VSTACK
         }//: NAVIGATIONVIEW
-        .onAppear{
-            showTopCustomView = false
-        }
+      
         .showErrorMessage(showAlert: $model.isShowingAlert, message: model.errorMessage)
     }
     

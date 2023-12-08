@@ -15,7 +15,7 @@ struct CatDetailView: View {
     @State var flagCareCat = false
     
     var cats :Cats
-    @Binding var showTopCustomView : Bool
+    // @Binding var showTopCustomView : Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 5, content: {
             

@@ -15,7 +15,7 @@ struct AddCatView: View {
     
     @Environment(\.presentationMode) var mode
     @EnvironmentObject var locationManager: AddressManager
-    @Binding var showTopCustomView: Bool
+    // @Binding var showTopCustomView: Bool
     
     // @Binding var presentSideMenu: Bool
     @State private var catName = ""
@@ -152,10 +152,10 @@ struct AddCatView: View {
                
             }
         }.onAppear{
-            self.showTopCustomView = false
+            viewModel.showTopCustomView = false
         }
         .onDisappear{
-            self.showTopCustomView = true
+            viewModel.showTopCustomView = true
         }
     }
     
@@ -169,5 +169,5 @@ struct AddCatView: View {
 
 
 #Preview {
-    AddCatView( showTopCustomView: .constant(false), catViewModel: AddCatViewModel())
+    AddCatView(catViewModel: AddCatViewModel())
 }

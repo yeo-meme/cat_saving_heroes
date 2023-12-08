@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     // @Binding var presentSideMenu: Bool
+   
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var presentSideMenu = false // 상태 변수 추가
     let isLoggedIn: Bool = UserDefaults.standard.object(forKey: "User") as? Bool ?? false

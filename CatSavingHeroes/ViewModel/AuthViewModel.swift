@@ -31,6 +31,7 @@ class AuthViewModel: NSObject, ObservableObject {
     static let shared = AuthViewModel()
     @Published var didAuthenticateUser = false
     @Published var didLoginState = false //메인변경ㅂㅍ
+    @Published var showTopCustomView = true
     
     
     override init() {

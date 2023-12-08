@@ -12,7 +12,7 @@ import Kingfisher
 
 struct CareCatView: View {
     
-    @Binding var showTopCustomView:Bool
+    // @Binding var showTopCustomView:Bool
     @EnvironmentObject var shop: Shop
     // @EnvironmentObject var strayModel: StrayCatsALLViewModel
     
@@ -90,7 +90,7 @@ struct CareCatView: View {
                                         
                                         //되는 거
                                         ForEach(strayModel.filterGeoCatsList) { cat in
-                                            NavigationLink(destination:CatDetailView(cats:cat, showTopCustomView: $showTopCustomView)) {
+                                            NavigationLink(destination:CatDetailView(cats:cat)) {
                                                 
                                                 StrayCatsItemView2(viewModel: StrayCatsItemViewModel(cat))
                                                     .padding()

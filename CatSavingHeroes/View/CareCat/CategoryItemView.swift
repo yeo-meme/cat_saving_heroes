@@ -41,7 +41,7 @@ struct CategoryItemView: View {
     }) //: BUTTON
     .sheet(isPresented: $isShowingModal) {
         // 모달이 표시되면 addEvent 뷰가 열립니다.
-        AddEventView(showTopCustomView: .constant(false))
+        AddEventView()
     }
   }
   

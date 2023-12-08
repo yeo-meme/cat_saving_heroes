@@ -10,11 +10,13 @@ import Kingfisher
 
 struct WatchCatCell: View {
     @ObservedObject var viewModel: WatchItemCellModel
+    @EnvironmentObject var model: AuthViewModel
+    // @Binding var showTopCustomView: Bool
     
     var body: some View {
         
         if let userCat = viewModel.userCat {
-            NavigationLink(destination: AddEventView(showTopCustomView: .constant(false))
+            NavigationLink(destination: AddEventView()
             ) {
                 VStack(spacing: 1) {
                     HStack(spacing: 12) {
@@ -41,7 +43,6 @@ struct WatchCatCell: View {
                             .overlay(
                                 Capsule().stroke(Color(UIColor.systemGray2), lineWidth: 0.75)
                             )
-                        
 
                     }
                     // frame(height: 80)
