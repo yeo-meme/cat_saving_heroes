@@ -27,7 +27,7 @@ struct StateView: View {
     
     
     var body: some View {
-        NavigationView{
+        // NavigationView{
             ZStack(alignment:.bottomTrailing){
                 VStack{
                     // NavigationLink(
@@ -99,7 +99,7 @@ struct StateView: View {
                     viewModel.fetchUser()
                 }
             }
-        }
+        // }
     }
 }
 

@@ -148,7 +148,7 @@
 		FFDCEB1A2ACEB0DD0020552E /* LocationFollowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB162ACEB0DD0020552E /* LocationFollowView.swift */; };
 		FFDCEB1B2ACEB0DD0020552E /* AddCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB172ACEB0DD0020552E /* AddCatView.swift */; };
 		FFDCEB1D2ACEB0EC0020552E /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB1C2ACEB0EC0020552E /* SideMenuView.swift */; };
-		FFDCEB1F2ACEB1BF0020552E /* MainSideTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB1E2ACEB1BF0020552E /* MainSideTabView.swift */; };
+		FFDCEB1F2ACEB1BF0020552E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB1E2ACEB1BF0020552E /* MainTabView.swift */; };
 		FFDCEB212ACF04EC0020552E /* SaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDCEB202ACF04EC0020552E /* SaveView.swift */; };
 		FFDCEB242ACF0CD50020552E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FFDCEB232ACF0CD50020552E /* Kingfisher */; };
 		FFDD1D152AF32CB60056AB4B /* InterestCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */; };
@@ -274,7 +274,7 @@
 		FFDCEB162ACEB0DD0020552E /* LocationFollowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationFollowView.swift; sourceTree = "<group>"; };
 		FFDCEB172ACEB0DD0020552E /* AddCatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCatView.swift; sourceTree = "<group>"; };
 		FFDCEB1C2ACEB0EC0020552E /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
-		FFDCEB1E2ACEB1BF0020552E /* MainSideTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSideTabView.swift; sourceTree = "<group>"; };
+		FFDCEB1E2ACEB1BF0020552E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		FFDCEB202ACF04EC0020552E /* SaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveView.swift; sourceTree = "<group>"; };
 		FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCellView.swift; sourceTree = "<group>"; };
 		FFDD1D182AF32D490056AB4B /* InterestCatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCatCellViewModel.swift; sourceTree = "<group>"; };
@@ -651,7 +651,7 @@
 				FFDCEABC2ACE864F0020552E /* Photo */,
 				FFDCEAAD2ACE84AA0020552E /* Login */,
 				FFDCEAC32ACE89710020552E /* MainSideDrawer.swift */,
-				FFDCEB1E2ACEB1BF0020552E /* MainSideTabView.swift */,
+				FFDCEB1E2ACEB1BF0020552E /* MainTabView.swift */,
 				FFDAC4802AE16ABC00E6CECB /* NavigationBarView.swift */,
 				FF8BC28D2AE222240053B364 /* LogoView.swift */,
 			);
@@ -945,7 +945,7 @@
 				FFDD1D1B2AF359140056AB4B /* TakeCareOfCatViewModel.swift in Sources */,
 				FF6288102AF112A400A5319C /* SettingsCellViewModel.swift in Sources */,
 				FF8BC2902AE2414F0053B364 /* SearchBar.swift in Sources */,
-				FFDCEB1F2ACEB1BF0020552E /* MainSideTabView.swift in Sources */,
+				FFDCEB1F2ACEB1BF0020552E /* MainTabView.swift in Sources */,
 				FFDAC4872AE16BE100E6CECB /* StrayCatsItemView.swift in Sources */,
 				FF027D3A2AD66E4F00071BA7 /* EventAddViewModel.swift in Sources */,
 				FF73D4222AD004D400CBDC82 /* HeroCalendarViewController.swift in Sources */,

@@ -10,7 +10,7 @@ import RealmSwift
 
 
 //main
-struct MainSideTabView: View {
+struct MainTabView: View {
     
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
@@ -46,11 +46,7 @@ struct MainSideTabView: View {
                         if model.showTopCustomView {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
-                    // NavigationView{
-                        
-                            // CareCatView(showTopCustomView: $showTopCustomView,presentSideMenu: $isShowingSideMenu)
                         CareCatView(presentSideMenu: $isShowingSideMenu)
-                        // }
                     }
                     .tabItem {
                         Image(systemName: "heart.fill")
@@ -58,20 +54,11 @@ struct MainSideTabView: View {
                     }
                     .tag(0)
                     
-                    // if selectedSideMenuTab == 1 {
-                    //     NavigationView{
-                    //         VStack {
-                    //             SettingsView(model.currentUser ?? MOCK_USER)
-                    //         }
-                    //     } .tag(1)
-                    // }
                     VStack {
                         if model.showTopCustomView {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
-                    // NavigationView{
-                            StateView(presentSideMenu: $isShowingSideMenu)
-                        // }
+                        StateView(presentSideMenu: $isShowingSideMenu)
                     }
                     .tabItem {
                         Image(systemName: "message.fill")
@@ -126,20 +113,20 @@ struct MainSideTabView: View {
         }
         
     }
-  
+    
     func mainView(for selectedTab: SideMenuRowType) -> some View {
-              switch selectedTab {
-              case .home:
-                  return AnyView(CareCatView( presentSideMenu: .constant(true)))
-              case .mypage:
-                  return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
-              // case .logout:
-                  // 로그아웃 로직
-                  // return AuthViewModel.shared.signOut()
-              case .logout:
-                  return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
-              }
-}
+        switch selectedTab {
+        case .home:
+            return AnyView(CareCatView( presentSideMenu: .constant(true)))
+        case .mypage:
+            return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
+            // case .logout:
+            // 로그아웃 로직
+            // return AuthViewModel.shared.signOut()
+        case .logout:
+            return AnyView(SettingsView(model.currentUser ?? MOCK_USER))
+        }
+    }
     
     
     struct TopCustomView: View {

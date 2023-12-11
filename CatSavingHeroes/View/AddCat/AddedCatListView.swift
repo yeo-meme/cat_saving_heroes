@@ -10,17 +10,13 @@ import Kingfisher
 
 struct AddedCatListView: View {
     
-    // @ObservedObject var viewModel = WatchCellViewModel()
     @EnvironmentObject var model:AuthViewModel
-    // @State var arrOfCats:[CatRealmModel] = []
     @State private var isDataLoaded = false
     @ObservedObject var catModel = WatchCellViewModel()
-    // @Binding var showTopCustomView: Bool
     var watchCatList:[Cats]?
     @State private var isLoading = true // 딜레이
-    
     @State private var selectedCat: Cats?
-    // @State private var showAddEventView = false
+
     //냥이 추가 btn
     var goToAddViewButton: some View {
         NavigationLink(
@@ -60,10 +56,8 @@ struct AddedCatListView: View {
                                     ForEach(catModel.filteredCats) { userCat in //데이터 파생
                                         WatchCatCell(viewModel: WatchItemCellModel(userCat))
                                             .padding(5)
-                                        
                                     }
                                 } else {
-                                    
                                     ZStack{
                                         Image("illustration-no1")
                                             .resizable()
@@ -75,7 +69,6 @@ struct AddedCatListView: View {
                                             .cornerRadius(12)
                                             .foregroundColor(.white)
                                             .multilineTextAlignment(.center)
-                                        
                                     }.padding(.top, 20)
                                 }
                             }

@@ -18,12 +18,11 @@ struct ContentView: View {
     var body: some View {
         Group {
             if viewModel.didLoginState {
-                MainSideTabView()
+                MainTabView()
             } else {
                 LoginView()
                     .padding(.top, 30)
             }
-            // LoginView()
         }
     }
 }
