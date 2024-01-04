@@ -12,7 +12,7 @@ import Kingfisher
 
 struct CareCatView: View {
     
-    // @Binding var showTopCustomView:Bool
+   
     @EnvironmentObject var shop: Shop
     // @EnvironmentObject var strayModel: StrayCatsALLViewModel
     

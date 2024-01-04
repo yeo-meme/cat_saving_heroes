@@ -18,35 +18,18 @@ struct AddEventView: View {
         formatter.dateFormat = "MM.dd"
         return formatter
     }()
-    
-    // @State var isShowingAlert = false
-    // @Environment(\.presentationMode) var mode
-    // @EnvironmentObject var addressManager : Model
-    // @Binding var showTopCustomView:Bool
-    // @State var isShowingSearchModal = false
-    // @State var isSearchEnd = false
-    //Alamofire 컴플리트 핸들러
-    // @State var completeAction = false
+
     @State private var selectedEvent: String="" //선택된이벤트 저장
-    //이벤트
-    // @State private var isButtonClicked1 = false
-    // @State private var isButtonClicked2 = false
-    // @State private var isButtonClicked3 = false
-    // @State private var isButtonClicked4 = false
-    // @State private var isButtonClicked5 = false
-    // @State var buttonStates: [Bool] = [false, false, false, false, false]
     let catState = ["찾음", "밥줌", "인사", "놀이", "아픔"]
     @ObservedObject var model = EventAddViewModel()
     //검색리스트 초기화 모델
     @ObservedObject var searchModel = SearchCatViewModel()
     @EnvironmentObject var authModel:AuthViewModel
-    // @State private var searchText = ""
     @State private var careStateIndex = 0
     @State private var state  = ""
     @State private var memo = ""
     let user_id = "User ID"
     let cat_id = "Cat ID"
-    // @State var coordinate = "Coordinates"
     @State var address = "Address"
     @State var date = Date()
     @State private var isEditing = false
@@ -67,7 +50,7 @@ struct AddEventView: View {
     @State private var searchText = ""
     
     var body: some View {
-        NavigationView{
+        // NavigationView{
             VStack {
                 // CloseButtonView()
                 //     .padding(.top, 10)
@@ -76,7 +59,6 @@ struct AddEventView: View {
                         .onTapGesture {
                             isEditing.toggle()
                             print("토글 : \(isEditing)")
-                          
                         }
                         .padding(.trailing, 32)
                         .padding(.leading, 32)
@@ -85,18 +67,18 @@ struct AddEventView: View {
                     VStack{
                         if isEditing {
                             ScrollView {
-                                VStack(spacing: 1) {
-                                    ForEach(searchText.isEmpty ? model.catSearchListData : model.filteredCats(searchText)
-                                    ) { cats in
-                                        Button(action: {
-                                            isEditing.toggle()
-                                            self.choiceCat = cats
-                                            // mode.wrappedValue.dismiss()
-                                        }, label: {
-                                            SearchCatCell(cat: cats)
-                                        })
-                                    }
-                                }
+                                // VStack(spacing: 1) {
+                                //     ForEach(searchText.isEmpty ? model.catSearchListData : model.filteredCats(searchText)
+                                //     ) { cats in
+                                //         Button(action: {
+                                //             isEditing.toggle()
+                                //             self.choiceCat = cats
+                                //             // mode.wrappedValue.dismiss()
+                                //         }, label: {
+                                //             SearchCatCell(cat: cats)
+                                //         })
+                                //     }
+                                // }
                             }
                             // SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:model.catSearchListData,choiceCat:$choiceCat)
                         } else {
@@ -186,7 +168,8 @@ struct AddEventView: View {
                     }//:ZSTACK
                 }//:SCROLLVIEW
             }//: VSTACK
-        }//: NAVIGATIONVIEW
+            // .navigationBarHidden(true)
+        // }//: NAVIGATIONVIEW
         .onAppear{
             authModel.showTopCustomView = false
         }

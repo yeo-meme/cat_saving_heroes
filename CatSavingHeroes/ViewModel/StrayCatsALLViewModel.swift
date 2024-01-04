@@ -36,6 +36,7 @@ class StrayCatsALLViewModel: ObservableObject {
        
         // super.init()
         //
+        print("StrayCatsALLViewModel INIT!!!!")
         self.loadStrayAllCatsIfNotLoaded(coordinates: [127.029429,37.554297] , meter: 1000)
         
     }
@@ -44,6 +45,7 @@ class StrayCatsALLViewModel: ObservableObject {
     func loadStrayAllCatsIfNotLoaded(coordinates: [Double], meter: Int) {
            if !isDataLoaded { // 데이터가 아직 로드되지 않았을 때만 로드
                loadStrayAllCats(coordinates: coordinates, meter: meter)
+               print("loadStrayAllCatsIfNotLoaded------")
            }
        }
     
@@ -172,9 +174,9 @@ class StrayCatsALLViewModel: ObservableObject {
                 if let arrGeoCats = self.arrGeoCatsList {
                     for arrCat in arrGeoCats {
                         if arrCat.cat_uuid == cat._id {
-                            print("나와라 이벤트  cat_uuid: \(arrCat.cat_uuid),\(cat._id)")
+                            print("나와라 이벤트------>filterCat  cat_uuid: \(arrCat.cat_uuid),\(cat._id)")
                             self.eventMatchCat = arrCat
-                            print("나와라 이벤트 : \(self.eventMatchCat)")
+                            print("나와라 이벤트------>filterCat : \(self.eventMatchCat)")
                             break // 매칭되는 항목을 찾았으면 루프를 종료
                         }
                     }

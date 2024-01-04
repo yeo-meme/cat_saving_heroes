@@ -84,6 +84,7 @@
 		FFB8660B2ADD1DFA003446BA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB8660A2ADD1DFA003446BA /* Global.swift */; };
 		FFB8660F2ADD3A58003446BA /* OvalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB8660E2ADD3A58003446BA /* OvalButton.swift */; };
 		FFB866112ADD4821003446BA /* DropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB866102ADD4821003446BA /* DropdownButton.swift */; };
+		FFC2AA872B30358200489A51 /* EventAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC2AA862B30358200489A51 /* EventAddView.swift */; };
 		FFC65FF72AE88AB700CCAADE /* Cats.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC65FF62AE88AB700CCAADE /* Cats.swift */; };
 		FFC65FFB2AE8F84100CCAADE /* StateCatButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC65FFA2AE8F84100CCAADE /* StateCatButtonView.swift */; };
 		FFCB848E2AEB494F001C4D8C /* CareDetailListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCB848D2AEB494F001C4D8C /* CareDetailListItemCell.swift */; };
@@ -238,6 +239,7 @@
 		FFB8660A2ADD1DFA003446BA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		FFB8660E2ADD3A58003446BA /* OvalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalButton.swift; sourceTree = "<group>"; };
 		FFB866102ADD4821003446BA /* DropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownButton.swift; sourceTree = "<group>"; };
+		FFC2AA862B30358200489A51 /* EventAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAddView.swift; sourceTree = "<group>"; };
 		FFC65FF62AE88AB700CCAADE /* Cats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cats.swift; sourceTree = "<group>"; };
 		FFC65FFA2AE8F84100CCAADE /* StateCatButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateCatButtonView.swift; sourceTree = "<group>"; };
 		FFCB848D2AEB494F001C4D8C /* CareDetailListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareDetailListItemCell.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				FFCB848D2AEB494F001C4D8C /* CareDetailListItemCell.swift */,
 				FF6287FF2AF0DDE800A5319C /* DetailCatProfileView.swift */,
 				FF6288012AF0ECFF00A5319C /* BrandItemView.swift */,
+				FFC2AA862B30358200489A51 /* EventAddView.swift */,
 			);
 			path = CareCat;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				FFDCEA622ACE7C4E0020552E /* AuthViewModel.swift in Sources */,
 				FFB8660B2ADD1DFA003446BA /* Global.swift in Sources */,
 				FF027D492AD6B65800071BA7 /* Cat.swift in Sources */,
+				FFC2AA872B30358200489A51 /* EventAddView.swift in Sources */,
 				FF44A3312AE91F2F00F9EDF4 /* StrayCatsALLViewModel.swift in Sources */,
 				FFDCEA542ACE77C70020552E /* ContentView.swift in Sources */,
 				FF82CE092AD50CBC0048FD01 /* TrackingHeroView.swift in Sources */,

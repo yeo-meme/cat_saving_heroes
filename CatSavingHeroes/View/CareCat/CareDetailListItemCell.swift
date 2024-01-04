@@ -23,8 +23,6 @@ struct CareDetailListItemCell: View {
                     Circle()
                         .frame(width: 12, height: 12, alignment: .center)
                         .foregroundColor(Color.primaryColor)
-                    
-                 
                    
                     Text(eventText)
                         .font(.footnote)

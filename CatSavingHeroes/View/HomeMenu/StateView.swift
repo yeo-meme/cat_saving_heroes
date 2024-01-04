@@ -12,27 +12,32 @@ import Alamofire
 
 
 struct StateView: View {
-    
     // @ObservedObject var viewModel: EditProfileViewModel
-    @State private var showSheet = false
+    // @Binding var presentNavigationBar: Bool
     
     @Environment(\.presentationMode) var mode
-    @Binding var presentSideMenu: Bool
-    // @Binding var presentNavigationBar: Bool
-    @State private var tabIndex = 0
     @EnvironmentObject var viewModel : AuthViewModel
-    @State var tag:Int? = nil
     
+    @Binding var path:[CatsNavigation]
+    @Binding var presentSideMenu: Bool
+    
+    @State private var showSheet = false
+    @State private var tabIndex = 0
+    @State var tag:Int? = nil
     @State var isDataLoaded = false
+    @State private var selectedTabIndex = 0
+    @State private var showingEventAddView = false
+    @State private var selectedNavigation: CatsNavigation?
     
     
     var body: some View {
-        // NavigationView{
+        NavigationView{
             ZStack(alignment:.bottomTrailing){
                 VStack{
                     // NavigationLink(
                     //     destination: SettingsView(viewModel.currentUser ?? MOCK_USER),
                     //     label: {
+                    //:User Profile
                     VStack(spacing: 1) {
                         HStack(spacing: 12) {
                             if let imageUrl = viewModel.currentUser?.profileImageUrl {
@@ -73,7 +78,6 @@ struct StateView: View {
                                         .bold()
                                         .foregroundColor(.black)
                                 }
-                                
                             }
                             Spacer()
                         }
@@ -83,23 +87,119 @@ struct StateView: View {
                     }//:User Profile
                     // })
                     
-                    SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥"], selectionBarColor: Color.primaryColor)
-                    if tabIndex == 0 {
-                        AddedCatListView()
-                    } else if tabIndex == 1 {
-                        InterestCatView()
+                    
+                    
+                    //custom tabbar 시작
+                    SlidingTabBar(tabs: ["Tab1","Tab2"], selectedTabIndex: $selectedTabIndex)
+                        .background(Color.gray.opacity(0.1))
+                    
+                    Spacer()
+                    
+                    switch selectedTabIndex{
+                    case 0:
+                        AddedCatListView(path: $path,showingEventAddView: $showingEventAddView)
+                    case 1:
+                        Text("돌봄냥")
+                    default:
+                        Text("default")
                     }
+                    Spacer()
+                    //custom tabbar 끝
+                    //custom tabbar
+                    
+                    
+                    // NavigationLink를 SlidingTabBar 바깥으로 이동
+                    NavigationStack(path: $path) {
+                        EmptyView()
+                    }
+                    NavigationLink(value: CatsNavigation.care) {
+                      EmptyView()
+                    }.hidden()
+                    // .navigationDestination(for: CatsNavigation.self) { screen in
+                    //   switch screen {
+                    //   case .care: EventAddView()
+                    //   }
+                    // }
+                    
+                    // NavigationLink(destination:EventAddView(),value: CatsNavigation.care,
+                    //                isActive:$showingEventAddView) {
+                    //         EmptyView()
+                    //     }.hidden()
+                            // .navigationDestination(for: CatsNavigation.self) { screen in
+                            //     //for: HomeNavigation.self 어떤값이 주어져야 하는지 결정
+                            //     switch screen {
+                            //     case .care : EventAddView()
+                            // 
+                            //     }
+                            // }
+                  
+                    // NavigationLink(destination:EventAddView(),value: CatsNavigation.care,
+                    //                isActive:$showingEventAddView) {
+                    //         EmptyView()
+                    //     }.hidden()
+                   
+                    NavigationLink(destination: EventAddView(),
+                                   isActive:$showingEventAddView) {
+                        EmptyView()
+                    }.hidden()
+                    
+                    
+                    //SlidingTabView 라이브러리 시작
+                    // SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥"], selectionBarColor: Color.primaryColor)
+                    // if tabIndex == 0 {
+                    //     AddedCatListView(path: $path)
+                    // } else if tabIndex == 1 {
+                    //     InterestCatView()
+                    // }
+                    //SlidingTabView 라이브러리 끝
+                    
                     //돌봄냥 리스트
                     // else if tabIndex == 2 {
                     //    TakeCareOfCatView()
                     // }
                 }
+                
                 .onAppear {
                     // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
                     viewModel.fetchUser()
                 }
             }
-        // }
+        }
+    }
+}
+
+struct SlidingTabBar:View {
+    
+    let tabs:[String]
+    @Binding var selectedTabIndex: Int
+    @State private var tabBarOffset: CGFloat = 0
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 20) {
+                    ForEach(0..<tabs.count, id:\.self) { index in
+                        Text(tabs[index])
+                            .font(.headline)
+                            .foregroundColor(selectedTabIndex == index ? .blue : .black)
+                            .onTapGesture {
+                                withAnimation{
+                                    selectedTabIndex = index
+                                    tabBarOffset = UIScreen.main.bounds.width / CGFloat(tabs.count) * CGFloat(index)
+                                }
+                            }
+                    }
+                }
+                .frame(height:44)
+                .padding()
+            }
+            
+            Rectangle()
+                .fill(Color.blue)
+                .frame(width: UIScreen.main.bounds.width / CGFloat(tabs.count),height: 3)
+                .offset(x: tabBarOffset)
+                .animation(.easeInOut)
+        }
     }
 }
 

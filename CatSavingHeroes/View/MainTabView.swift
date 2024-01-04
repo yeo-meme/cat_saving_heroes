@@ -9,8 +9,20 @@ import SwiftUI
 import RealmSwift
 
 
+enum Tab {
+    case home, cats
+}
+
+enum CatsNavigation: Hashable{
+    case care
+}
+
 //main
 struct MainTabView: View {
+    
+    @State private var selectedTab: Tab = .home
+    @State private var catNavigationStack: [CatsNavigation] = []
+    
     
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
@@ -41,7 +53,8 @@ struct MainTabView: View {
     var body: some View {
         NavigationView{
             ZStack{
-                TabView(selection: $selectedSideMenuTab) {
+                // TabView(selection: $selectedSideMenuTab) {
+                TabView(selection: tabSelection()) {
                     VStack {
                         if model.showTopCustomView {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
@@ -52,19 +65,20 @@ struct MainTabView: View {
                         Image(systemName: "heart.fill")
                         Text("주변돌봄")
                     }
-                    .tag(0)
+                    .tag(Tab.home)
                     
                     VStack {
                         if model.showTopCustomView {
                             TopCustomView(presentNavigationBar: $isShowingSideMenu)
                         }
-                        StateView(presentSideMenu: $isShowingSideMenu)
+                            StateView(path: $catNavigationStack, presentSideMenu: $isShowingSideMenu)
+                            // AddEventView()
                     }
                     .tabItem {
                         Image(systemName: "message.fill")
                         Text("냥이들")
                     }
-                    .tag(2)
+                    .tag(Tab.cats)
                     
                     //showTopCustomView
                     // NavigationView{
@@ -149,6 +163,26 @@ struct MainTabView: View {
             }) {
                 Image(systemName: "line.horizontal.3")
             }
+        }
+    }
+}
+
+
+
+extension MainTabView {
+    private func tabSelection() -> Binding<Tab> {
+        Binding {
+            self.selectedTab
+        } set: { tappedTab in
+            if tappedTab == self.selectedTab { //같다면 다시 탭한걸로 추정한다
+                if catNavigationStack.isEmpty {
+                    print("catNavigationStack.isEmpty")
+                } else {
+                    print("catNavigationStack. NOT!!!! Empty")
+                    catNavigationStack = []
+                }
+            }
+            self.selectedTab = tappedTab
         }
     }
 }
