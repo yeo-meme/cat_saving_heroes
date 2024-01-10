@@ -23,7 +23,6 @@ struct MainTabView: View {
     @State private var selectedTab: Tab = .home
     @State private var catNavigationStack: [CatsNavigation] = []
     
-    
     @Environment(\.presentationMode) var mode
     @State var isShowingSideMenu = false
     @State var selectedSideMenuTab = 0
@@ -37,12 +36,10 @@ struct MainTabView: View {
         HStack {
             Image(systemName: "waveform.path.badge.plus")
                 .foregroundColor(.white)
-            
             Text("냥이추가")
                 .foregroundColor(.white)
                 .padding(.all, 5)
                 .frame(width: 55, height: 40)
-            
         }
         .background(
             Capsule()

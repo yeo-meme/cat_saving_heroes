@@ -50,11 +50,8 @@ struct AddEventView: View {
     @State private var searchText = ""
     
     var body: some View {
-        // NavigationView{
             VStack {
-                // CloseButtonView()
-                //     .padding(.top, 10)
-                ScrollView{
+                // ScrollView{
                     SearchBar(model: model, isEditing: $isEditing)
                         .onTapGesture {
                             isEditing.toggle()
@@ -62,25 +59,25 @@ struct AddEventView: View {
                         }
                         .padding(.trailing, 32)
                         .padding(.leading, 32)
-                        .padding(.top , 32)
+                  
                     
                     VStack{
                         if isEditing {
                             ScrollView {
-                                // VStack(spacing: 1) {
-                                //     ForEach(searchText.isEmpty ? model.catSearchListData : model.filteredCats(searchText)
-                                //     ) { cats in
-                                //         Button(action: {
-                                //             isEditing.toggle()
-                                //             self.choiceCat = cats
-                                //             // mode.wrappedValue.dismiss()
-                                //         }, label: {
-                                //             SearchCatCell(cat: cats)
-                                //         })
-                                //     }
-                                // }
+                                VStack(spacing: 1) {
+                                    ForEach(searchText.isEmpty ? model.catSearchListData : model.filteredCats(searchText)
+                                    ) { cats in
+                                        Button(action: {
+                                            isEditing.toggle()
+                                            self.choiceCat = cats
+                                            // mode.wrappedValue.dismiss()
+                                        }, label: {
+                                            SearchCatCell(cat: cats)
+                                        })
+                                    }
+                                }
                             }
-                            // SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:model.catSearchListData,choiceCat:$choiceCat)
+                            SearchCatView(showConversationView: .constant(false), isEditing: $isEditing,selectedCatArr:model.catSearchListData,choiceCat:$choiceCat)
                         } else {
                             ZStack(alignment:.bottomTrailing) {
                                 VStack(spacing: 0) {
@@ -162,11 +159,10 @@ struct AddEventView: View {
                                         // print("모달 닫기 ")
                                     }//: 캡슐버튼
                                 }//:VSTACK
-                                .padding(.top, 60)
                             }
                         }//:else 서치 페이지
                     }//:ZSTACK
-                }//:SCROLLVIEW
+                // }//:SCROLLVIEW
             }//: VSTACK
             // .navigationBarHidden(true)
         // }//: NAVIGATIONVIEW

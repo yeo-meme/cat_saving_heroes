@@ -31,7 +31,7 @@ struct StateView: View {
     
     
     var body: some View {
-        NavigationView{
+        NavigationStack(path: $path){
             ZStack(alignment:.bottomTrailing){
                 VStack{
                     // NavigationLink(
@@ -93,7 +93,7 @@ struct StateView: View {
                     SlidingTabBar(tabs: ["Tab1","Tab2"], selectedTabIndex: $selectedTabIndex)
                         .background(Color.gray.opacity(0.1))
                     
-                    Spacer()
+                    // Spacer()
                     
                     switch selectedTabIndex{
                     case 0:
@@ -104,61 +104,14 @@ struct StateView: View {
                         Text("default")
                     }
                     Spacer()
-                    //custom tabbar 끝
-                    //custom tabbar
+            
                     
-                    
-                    // NavigationLink를 SlidingTabBar 바깥으로 이동
-                    NavigationStack(path: $path) {
-                        EmptyView()
-                    }
-                    NavigationLink(value: CatsNavigation.care) {
-                      EmptyView()
-                    }.hidden()
-                    // .navigationDestination(for: CatsNavigation.self) { screen in
-                    //   switch screen {
-                    //   case .care: EventAddView()
-                    //   }
-                    // }
-                    
-                    // NavigationLink(destination:EventAddView(),value: CatsNavigation.care,
-                    //                isActive:$showingEventAddView) {
-                    //         EmptyView()
-                    //     }.hidden()
-                            // .navigationDestination(for: CatsNavigation.self) { screen in
-                            //     //for: HomeNavigation.self 어떤값이 주어져야 하는지 결정
-                            //     switch screen {
-                            //     case .care : EventAddView()
-                            // 
-                            //     }
-                            // }
-                  
-                    // NavigationLink(destination:EventAddView(),value: CatsNavigation.care,
-                    //                isActive:$showingEventAddView) {
-                    //         EmptyView()
-                    //     }.hidden()
-                   
-                    NavigationLink(destination: EventAddView(),
-                                   isActive:$showingEventAddView) {
-                        EmptyView()
-                    }.hidden()
-                    
-                    
-                    //SlidingTabView 라이브러리 시작
-                    // SlidingTabView(selection: $tabIndex, tabs: ["추가냥","관심냥"], selectionBarColor: Color.primaryColor)
-                    // if tabIndex == 0 {
-                    //     AddedCatListView(path: $path)
-                    // } else if tabIndex == 1 {
-                    //     InterestCatView()
-                    // }
-                    //SlidingTabView 라이브러리 끝
                     
                     //돌봄냥 리스트
                     // else if tabIndex == 2 {
                     //    TakeCareOfCatView()
                     // }
                 }
-                
                 .onAppear {
                     // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.
                     viewModel.fetchUser()

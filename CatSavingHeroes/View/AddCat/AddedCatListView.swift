@@ -49,24 +49,20 @@ struct AddedCatListView: View {
         // ZStack(alignment:.bottom){
         VStack{
             if !isLoading {
-                // VStack(spacing: 1) {
-                // NavigationStack(path: $path) {
                     ForEach(catModel.filteredCats) { userCat in //데이터 파생
-                  
-                        // NavigationLink(value: CatsNavigation.care, label: {
+                        NavigationLink(value: CatsNavigation.care, label: {
                             WatchCatCell(viewModel: WatchItemCellModel(userCat))
                                 .padding(5)
                                 .onTapGesture {
                                     showingEventAddView = true
+                                    path.append(CatsNavigation.care)
                                 }
-                               
-                        // })
-                        // .navigationDestination(for: CatsNavigation.self) { screen in
-                        //     switch screen {
-                        //     case .care: EventAddView()
-                        //     }
-                        // }
-                    // }
+                        })
+                        .navigationDestination(for: CatsNavigation.self) { screen in
+                            switch screen {
+                            case .care: EventAddView()
+                            }
+                        }
                 }
                 // if !catModel.filteredCats.isEmpty {
                 //
