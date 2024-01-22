@@ -9,18 +9,18 @@ import SwiftUI
 import Kingfisher
 
 struct AddedCatListView: View {
-  
+    
+    @ObservedObject var viewModel = TakeCareOfCatViewModel()
     @EnvironmentObject var model:AuthViewModel
     @ObservedObject var catModel = WatchCellViewModel()
     
-    @Binding var path:[CatsNavigation]
-    @Binding var showingEventAddView:Bool
+    // @Binding var path:[CatsNavigation]
     
     @State private var isDataLoaded = false
     @State private var isLoading = true // 딜레이
     @State private var selectedCat: Cats?
     @State private var selectedNavigation: CatsNavigation? = .care
-    
+    @State private var showEventAddView = false
    
     
     var watchCatList:[Cats]?
@@ -47,27 +47,19 @@ struct AddedCatListView: View {
     
     var body: some View {
         
-        // ZStack(alignment:.bottom){
         VStack{
             if !isLoading {
                 ForEach(catModel.filteredCats) { userCat in //데이터 파생
-                    NavigationLink(value: CatsNavigation.care, label: {
                     WatchCatCell(viewModel: WatchItemCellModel(userCat))
                         .padding(5)
                         .onTapGesture {
-                            showingEventAddView = true
-                            path.append(CatsNavigation.care)
+                            showEventAddView = true
                         }
-                        })
-                        .navigationDestination(for: CatsNavigation.self) { screen in
-                            switch screen {
-                            case .care: CatInfoDetailView()
-                            // case .care: AddEventView()
-                            }
-                        }
+               
+                  
                 }
                 // if !catModel.filteredCats.isEmpty {
-                //
+                // 
                 // } else {
                 //     noCatsView
                 // }
@@ -79,7 +71,16 @@ struct AddedCatListView: View {
             goToAddViewButton
                 .padding(.bottom, 20)
         }
-
+        
+        .sheet(isPresented: $showEventAddView){
+            EventAddView(viewModel: viewModel, isLoading: $isLoading)
+            // .onDisappear{
+            //     viewModel.matchUserInterestCatLoad()
+            //     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            //                    isLoading = false // Set isLoading to false when data is loaded
+            //     }
+            // }
+        }
         .onAppear {
             model.showTopCustomView = true
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.

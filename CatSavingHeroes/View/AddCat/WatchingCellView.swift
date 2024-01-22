@@ -8,9 +8,9 @@
 import SwiftUI
 import Kingfisher
 
-struct TakeCareOfCatCellView: View {
+struct WatchingCellView: View {
     
-    @ObservedObject var viewModel: TakeCareOfCatCellViewModel
+    @ObservedObject var viewModel: WatchingCellViewModel
     @Binding var isLoading:Bool
     
     var body: some View {
@@ -32,14 +32,7 @@ struct TakeCareOfCatCellView: View {
                 }//:catName
                 Spacer()
                 
-                Text("이벤트추가")
-                    .font(.footnote)
-                    .foregroundColor(Color(UIColor.systemGray2))
-                    .padding(3)
-                    .frame(minWidth: 62)
-                    .overlay(
-                        Capsule().stroke(Color(UIColor.systemGray2), lineWidth: 0.75)
-                    )
+             
             }
             // frame(height: 80)
             //     .background(Color.white)

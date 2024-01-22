@@ -72,7 +72,7 @@
 		FFA926FF2AE635A800CC9052 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA926FE2AE635A800CC9052 /* StateView.swift */; };
 		FFA927032AE6757000CC9052 /* AddedCatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA927022AE6757000CC9052 /* AddedCatListView.swift */; };
 		FFA927052AE6757B00CC9052 /* InterestCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA927042AE6757B00CC9052 /* InterestCatView.swift */; };
-		FFA927072AE675AB00CC9052 /* TakeCareOfCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA927062AE675AB00CC9052 /* TakeCareOfCatView.swift */; };
+		FFA927072AE675AB00CC9052 /* WatchingCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA927062AE675AB00CC9052 /* WatchingCatView.swift */; };
 		FFA927092AE6A07F00CC9052 /* WatchCatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA927082AE6A07F00CC9052 /* WatchCatCell.swift */; };
 		FFAABDEC2AE39DCD006D8C90 /* NavigationBarDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAABDEB2AE39DCD006D8C90 /* NavigationBarDetailView.swift */; };
 		FFAABDEE2AE39E04006D8C90 /* HeaderDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAABDED2AE39E04006D8C90 /* HeaderDateView.swift */; };
@@ -156,8 +156,8 @@
 		FFDD1D152AF32CB60056AB4B /* InterestCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */; };
 		FFDD1D192AF32D490056AB4B /* InterestCatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D182AF32D490056AB4B /* InterestCatCellViewModel.swift */; };
 		FFDD1D1B2AF359140056AB4B /* TakeCareOfCatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D1A2AF359140056AB4B /* TakeCareOfCatViewModel.swift */; };
-		FFDD1D1D2AF35B070056AB4B /* TakeCareOfCatCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D1C2AF35B070056AB4B /* TakeCareOfCatCellView.swift */; };
-		FFDD1D1F2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D1E2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift */; };
+		FFDD1D1D2AF35B070056AB4B /* WatchingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D1C2AF35B070056AB4B /* WatchingCellView.swift */; };
+		FFDD1D1F2AF35B8E0056AB4B /* WatchingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD1D1E2AF35B8E0056AB4B /* WatchingCellViewModel.swift */; };
 		FFE99EB22AE77C000038723F /* WatchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE99EB12AE77C000038723F /* WatchCellViewModel.swift */; };
 		FFE99EB42AE78B7E0038723F /* WatchItemCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE99EB32AE78B7E0038723F /* WatchItemCellModel.swift */; };
 /* End PBXBuildFile section */
@@ -228,7 +228,7 @@
 		FFA926FE2AE635A800CC9052 /* StateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		FFA927022AE6757000CC9052 /* AddedCatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedCatListView.swift; sourceTree = "<group>"; };
 		FFA927042AE6757B00CC9052 /* InterestCatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCatView.swift; sourceTree = "<group>"; };
-		FFA927062AE675AB00CC9052 /* TakeCareOfCatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeCareOfCatView.swift; sourceTree = "<group>"; };
+		FFA927062AE675AB00CC9052 /* WatchingCatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingCatView.swift; sourceTree = "<group>"; };
 		FFA927082AE6A07F00CC9052 /* WatchCatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCatCell.swift; sourceTree = "<group>"; };
 		FFAABDEB2AE39DCD006D8C90 /* NavigationBarDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarDetailView.swift; sourceTree = "<group>"; };
 		FFAABDED2AE39E04006D8C90 /* HeaderDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderDateView.swift; sourceTree = "<group>"; };
@@ -283,8 +283,8 @@
 		FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCellView.swift; sourceTree = "<group>"; };
 		FFDD1D182AF32D490056AB4B /* InterestCatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCatCellViewModel.swift; sourceTree = "<group>"; };
 		FFDD1D1A2AF359140056AB4B /* TakeCareOfCatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeCareOfCatViewModel.swift; sourceTree = "<group>"; };
-		FFDD1D1C2AF35B070056AB4B /* TakeCareOfCatCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeCareOfCatCellView.swift; sourceTree = "<group>"; };
-		FFDD1D1E2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeCareOfCatCellViewModel.swift; sourceTree = "<group>"; };
+		FFDD1D1C2AF35B070056AB4B /* WatchingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingCellView.swift; sourceTree = "<group>"; };
+		FFDD1D1E2AF35B8E0056AB4B /* WatchingCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchingCellViewModel.swift; sourceTree = "<group>"; };
 		FFE99EB12AE77C000038723F /* WatchCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCellViewModel.swift; sourceTree = "<group>"; };
 		FFE99EB32AE78B7E0038723F /* WatchItemCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchItemCellModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -412,7 +412,7 @@
 				FF5CB0F62AF2B31900EDB2F4 /* InterestCatViewModel.swift */,
 				FFDD1D182AF32D490056AB4B /* InterestCatCellViewModel.swift */,
 				FFDD1D1A2AF359140056AB4B /* TakeCareOfCatViewModel.swift */,
-				FFDD1D1E2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift */,
+				FFDD1D1E2AF35B8E0056AB4B /* WatchingCellViewModel.swift */,
 			);
 			path = Add;
 			sourceTree = "<group>";
@@ -514,10 +514,10 @@
 			children = (
 				FFA927022AE6757000CC9052 /* AddedCatListView.swift */,
 				FFA927042AE6757B00CC9052 /* InterestCatView.swift */,
-				FFA927062AE675AB00CC9052 /* TakeCareOfCatView.swift */,
+				FFA927062AE675AB00CC9052 /* WatchingCatView.swift */,
 				FFA927082AE6A07F00CC9052 /* WatchCatCell.swift */,
 				FFC65FFA2AE8F84100CCAADE /* StateCatButtonView.swift */,
-				FFDD1D1C2AF35B070056AB4B /* TakeCareOfCatCellView.swift */,
+				FFDD1D1C2AF35B070056AB4B /* WatchingCellView.swift */,
 				FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */,
 				FFAD7CF72B56114600009A3D /* CatInfoDetailView.swift */,
 			);
@@ -885,7 +885,7 @@
 				FFDCEABB2ACE86140020552E /* ProfilePhotoSelectorView.swift in Sources */,
 				FF62880A2AF1038E00A5319C /* EditusernameCell.swift in Sources */,
 				FF62FC042B205E74006B0584 /* SearchCatViewModel.swift in Sources */,
-				FFDD1D1F2AF35B8E0056AB4B /* TakeCareOfCatCellViewModel.swift in Sources */,
+				FFDD1D1F2AF35B8E0056AB4B /* WatchingCellViewModel.swift in Sources */,
 				FFB8660F2ADD3A58003446BA /* OvalButton.swift in Sources */,
 				FFDAC48B2AE16EEE00E6CECB /* CategoryItemView.swift in Sources */,
 				FF712A822AE36E5D00A03267 /* CloseButtonView.swift in Sources */,
@@ -933,7 +933,7 @@
 				FFDCEAA62ACE81970020552E /* ImageUploder.swift in Sources */,
 				FF027D322AD63D7700071BA7 /* AddCatViewModel.swift in Sources */,
 				FFDCEABE2ACE86600020552E /* ImagePicker.swift in Sources */,
-				FFA927072AE675AB00CC9052 /* TakeCareOfCatView.swift in Sources */,
+				FFA927072AE675AB00CC9052 /* WatchingCatView.swift in Sources */,
 				FF82CDF42AD4D9F90048FD01 /* TrackingViewController.swift in Sources */,
 				FFDAC4892AE16D3800E6CECB /* CodableBundleExtension.swift in Sources */,
 				FF82CDFB2AD4DA9B0048FD01 /* ShowViewController.swift in Sources */,
@@ -966,7 +966,7 @@
 				FF82CDF12AD4D9AB0048FD01 /* Trace.swift in Sources */,
 				FF6288002AF0DDE800A5319C /* DetailCatProfileView.swift in Sources */,
 				FFDCEAC42ACE89710020552E /* MainSideDrawer.swift in Sources */,
-				FFDD1D1D2AF35B070056AB4B /* TakeCareOfCatCellView.swift in Sources */,
+				FFDD1D1D2AF35B070056AB4B /* WatchingCellView.swift in Sources */,
 				FF82CE012AD4DB890048FD01 /* HeroTrackViewWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

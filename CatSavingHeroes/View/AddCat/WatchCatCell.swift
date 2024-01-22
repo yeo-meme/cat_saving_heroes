@@ -19,8 +19,6 @@ struct WatchCatCell: View {
             // NavigationLink(destination: AddEventView()
             // )
             // {
-            
-          
                     VStack(spacing: 1) {
                         HStack(spacing: 12) {
                             KFImage(URL(string:userCat.cat_photo))
@@ -37,6 +35,15 @@ struct WatchCatCell: View {
                             // }//:catName
                           
                             Spacer()
+                            
+                            Text("이벤트추가")
+                                .font(.footnote)
+                                .foregroundColor(Color(UIColor.systemGray2))
+                                .padding(3)
+                                .frame(minWidth: 62)
+                                .overlay(
+                                    Capsule().stroke(Color(UIColor.systemGray2), lineWidth: 0.75)
+                                )
                         }
                         // frame(height: 80)
                         //     .background(Color.white)

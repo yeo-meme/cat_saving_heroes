@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct TakeCareOfCatView: View {
+struct WatchingCatView: View {
     // @State private var isDataLoaded = false
     @ObservedObject var viewModel = TakeCareOfCatViewModel()
     // var watchCatList:[Cats]?
     @State private var isLoading = true // 딜레이
-    @State private var showingEventView = false
+    
+    @Binding var showingEventAddView : Bool
+    @Binding var path:[CatsNavigation]
     var body: some View {
         ZStack{
             ScrollView{
@@ -20,12 +22,21 @@ struct TakeCareOfCatView: View {
                     VStack(spacing: 1) {
                         if !viewModel.filterCatsList.isEmpty{
                             VStack{
-                                ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
-                                    TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat), isLoading: $isLoading)
-                                        .padding(5)
+                                ForEach(viewModel.filterCatsList) { userCat in
+                                    NavigationLink(value: CatsNavigation.care) {
+                                        WatchingCellView(viewModel: WatchingCellViewModel(userCat), isLoading: $isLoading)
+                                            .padding(5)
+                                            .onTapGesture {
+                                                showingEventAddView = true
+                                                path.append(CatsNavigation.care)
+                                            }
+                                    }
+                                    .navigationDestination(for: CatsNavigation.self) { screen in
+                                        switch screen {
+                                        case .care: CatInfoDetailView()
+                                        }
+                                    }
                                 }
-                            }.onTapGesture {
-                                showingEventView = true
                             }
                         } else {
                             ZStack{
@@ -55,15 +66,7 @@ struct TakeCareOfCatView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingEventView){
-            EventAddView(viewModel: viewModel, isLoading: $isLoading)
-            // .onDisappear{
-            //     viewModel.matchUserInterestCatLoad()
-            //     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            //                    isLoading = false // Set isLoading to false when data is loaded
-            //     }
-            // }
-        }
+  
         .onAppear{
             viewModel.matchUserInterestCatLoad()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -71,8 +74,4 @@ struct TakeCareOfCatView: View {
             }
         }
     }
-}
-
-#Preview {
-    TakeCareOfCatView()
 }

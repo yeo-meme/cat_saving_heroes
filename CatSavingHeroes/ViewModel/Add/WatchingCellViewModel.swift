@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class TakeCareOfCatCellViewModel: ObservableObject{
+class WatchingCellViewModel: ObservableObject{
     @Published var userCat:Cats
     
     init(_ userCat: Cats) {
