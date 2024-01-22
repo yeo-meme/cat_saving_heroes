@@ -12,15 +12,20 @@ struct TakeCareOfCatView: View {
     @ObservedObject var viewModel = TakeCareOfCatViewModel()
     // var watchCatList:[Cats]?
     @State private var isLoading = true // 딜레이
+    @State private var showingEventView = false
     var body: some View {
         ZStack{
             ScrollView{
                 if !isLoading {
                     VStack(spacing: 1) {
                         if !viewModel.filterCatsList.isEmpty{
-                            ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
-                                TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat))
-                                    .padding(5)
+                            VStack{
+                                ForEach(viewModel.filterCatsList) { userCat in //데이터 파생
+                                    TakeCareOfCatCellView(viewModel: TakeCareOfCatCellViewModel(userCat), isLoading: $isLoading)
+                                        .padding(5)
+                                }
+                            }.onTapGesture {
+                                showingEventView = true
                             }
                         } else {
                             ZStack{
@@ -48,17 +53,25 @@ struct TakeCareOfCatView: View {
                     }
                     .frame(width: 500, height: 500)
                 }
-                }
             }
+        }
+        .sheet(isPresented: $showingEventView){
+            EventAddView(viewModel: viewModel, isLoading: $isLoading)
+            // .onDisappear{
+            //     viewModel.matchUserInterestCatLoad()
+            //     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            //                    isLoading = false // Set isLoading to false when data is loaded
+            //     }
+            // }
+        }
         .onAppear{
             viewModel.matchUserInterestCatLoad()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                           isLoading = false // Set isLoading to false when data is loaded
-                       }
+                isLoading = false // Set isLoading to false when data is loaded
+            }
         }
-        }
-      
     }
+}
 
 #Preview {
     TakeCareOfCatView()

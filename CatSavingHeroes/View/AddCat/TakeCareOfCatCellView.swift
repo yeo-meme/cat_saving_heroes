@@ -11,7 +11,7 @@ import Kingfisher
 struct TakeCareOfCatCellView: View {
     
     @ObservedObject var viewModel: TakeCareOfCatCellViewModel
-    
+    @Binding var isLoading:Bool
     
     var body: some View {
         VStack(spacing: 1) {
@@ -31,6 +31,15 @@ struct TakeCareOfCatCellView: View {
                     //     .foregroundColor(Color(.systemGray))
                 }//:catName
                 Spacer()
+                
+                Text("이벤트추가")
+                    .font(.footnote)
+                    .foregroundColor(Color(UIColor.systemGray2))
+                    .padding(3)
+                    .frame(minWidth: 62)
+                    .overlay(
+                        Capsule().stroke(Color(UIColor.systemGray2), lineWidth: 0.75)
+                    )
             }
             // frame(height: 80)
             //     .background(Color.white)

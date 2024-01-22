@@ -38,8 +38,6 @@ class TakeCareOfCatViewModel: ObservableObject {
             }
     }
     
-    
-    
     func fileterCat() {
         if let interestCatList = careCatList {
             allCareCatList.removeAll()

@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct AddedCatListView: View {
+  
     @EnvironmentObject var model:AuthViewModel
     @ObservedObject var catModel = WatchCellViewModel()
     
@@ -49,18 +50,19 @@ struct AddedCatListView: View {
         // ZStack(alignment:.bottom){
         VStack{
             if !isLoading {
-                    ForEach(catModel.filteredCats) { userCat in //데이터 파생
-                        NavigationLink(value: CatsNavigation.care, label: {
-                            WatchCatCell(viewModel: WatchItemCellModel(userCat))
-                                .padding(5)
-                                .onTapGesture {
-                                    showingEventAddView = true
-                                    path.append(CatsNavigation.care)
-                                }
+                ForEach(catModel.filteredCats) { userCat in //데이터 파생
+                    NavigationLink(value: CatsNavigation.care, label: {
+                    WatchCatCell(viewModel: WatchItemCellModel(userCat))
+                        .padding(5)
+                        .onTapGesture {
+                            showingEventAddView = true
+                            path.append(CatsNavigation.care)
+                        }
                         })
                         .navigationDestination(for: CatsNavigation.self) { screen in
                             switch screen {
-                            case .care: EventAddView()
+                            case .care: CatInfoDetailView()
+                            // case .care: AddEventView()
                             }
                         }
                 }
@@ -77,6 +79,7 @@ struct AddedCatListView: View {
             goToAddViewButton
                 .padding(.bottom, 20)
         }
+
         .onAppear {
             model.showTopCustomView = true
             // 여기서 모델 호출 또는 다른 초기화 작업을 수행합니다.

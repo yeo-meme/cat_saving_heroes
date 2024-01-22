@@ -81,6 +81,7 @@
 		FFAABDF42AE39EE4006D8C90 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAABDF32AE39EE4006D8C90 /* CustomShape.swift */; };
 		FFAABDF62AE3A9AB006D8C90 /* SearchCatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAABDF52AE3A9AB006D8C90 /* SearchCatCell.swift */; };
 		FFAABDF82AE3AA09006D8C90 /* CustomDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAABDF72AE3AA09006D8C90 /* CustomDivider.swift */; };
+		FFAD7CF82B56114600009A3D /* CatInfoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAD7CF72B56114600009A3D /* CatInfoDetailView.swift */; };
 		FFB8660B2ADD1DFA003446BA /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB8660A2ADD1DFA003446BA /* Global.swift */; };
 		FFB8660F2ADD3A58003446BA /* OvalButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB8660E2ADD3A58003446BA /* OvalButton.swift */; };
 		FFB866112ADD4821003446BA /* DropdownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB866102ADD4821003446BA /* DropdownButton.swift */; };
@@ -236,6 +237,7 @@
 		FFAABDF32AE39EE4006D8C90 /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		FFAABDF52AE3A9AB006D8C90 /* SearchCatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatCell.swift; sourceTree = "<group>"; };
 		FFAABDF72AE3AA09006D8C90 /* CustomDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDivider.swift; sourceTree = "<group>"; };
+		FFAD7CF72B56114600009A3D /* CatInfoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatInfoDetailView.swift; sourceTree = "<group>"; };
 		FFB8660A2ADD1DFA003446BA /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		FFB8660E2ADD3A58003446BA /* OvalButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OvalButton.swift; sourceTree = "<group>"; };
 		FFB866102ADD4821003446BA /* DropdownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownButton.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				FFC65FFA2AE8F84100CCAADE /* StateCatButtonView.swift */,
 				FFDD1D1C2AF35B070056AB4B /* TakeCareOfCatCellView.swift */,
 				FFDD1D142AF32CB60056AB4B /* InterestCellView.swift */,
+				FFAD7CF72B56114600009A3D /* CatInfoDetailView.swift */,
 			);
 			path = AddCat;
 			sourceTree = "<group>";
@@ -923,6 +926,7 @@
 				FF5CB0F22AF2445B00EDB2F4 /* CatDeatailViewModel.swift in Sources */,
 				FF62881D2AF125E100A5319C /* StatusSelectorView.swift in Sources */,
 				FFAABDF62AE3A9AB006D8C90 /* SearchCatCell.swift in Sources */,
+				FFAD7CF82B56114600009A3D /* CatInfoDetailView.swift in Sources */,
 				FF6288082AF1035B00A5319C /* EditProfileCell.swift in Sources */,
 				FF82CDF62AD4DA210048FD01 /* TrackData.swift in Sources */,
 				FF3EEC9A2AEA29EB00594E44 /* StrayCatsItemViewModel.swift in Sources */,

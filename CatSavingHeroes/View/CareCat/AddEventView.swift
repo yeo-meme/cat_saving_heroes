@@ -25,6 +25,9 @@ struct AddEventView: View {
     //검색리스트 초기화 모델
     @ObservedObject var searchModel = SearchCatViewModel()
     @EnvironmentObject var authModel:AuthViewModel
+    
+    
+    
     @State private var careStateIndex = 0
     @State private var state  = ""
     @State private var memo = ""

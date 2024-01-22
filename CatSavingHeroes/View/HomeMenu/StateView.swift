@@ -90,7 +90,7 @@ struct StateView: View {
                     
                     
                     //custom tabbar 시작
-                    SlidingTabBar(tabs: ["Tab1","Tab2"], selectedTabIndex: $selectedTabIndex)
+                    SlidingTabBar(tabs: ["추가냥","돌봄냥"], selectedTabIndex: $selectedTabIndex)
                         .background(Color.gray.opacity(0.1))
                     
                     // Spacer()
@@ -99,7 +99,7 @@ struct StateView: View {
                     case 0:
                         AddedCatListView(path: $path,showingEventAddView: $showingEventAddView)
                     case 1:
-                        Text("돌봄냥")
+                        TakeCareOfCatView()
                     default:
                         Text("default")
                     }
