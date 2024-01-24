@@ -10,7 +10,7 @@ import SwiftUI
 struct CatEventView: View {
     // MARK: - PROPERTY
     @Binding var selectedEvent: String // 선택된 이벤트 식별자를 저장하는 상태 변수
-    
+    @State private var isIndicatorAnimating = false
     
     // MARK: - BODY
     let columnSpacing: CGFloat = 10
@@ -39,11 +39,26 @@ struct CatEventView: View {
     @State var isGoodHealthChecked = false
     @State var isHealthConcernChecked = false
     
+    //카테고리접이
     @State var isMealFoldPressed = false
     @State var isConditionFoldPressed = false
     @State var isHealthFoldPressed = false
     
+    //기타
+    @State var etcText:String=""
+    @State var isEmptyETC:Bool=false
+    
     var body: some View {
+        
+        HStack{
+            Text("일지로 어떤 내용을 남기고 싶으신가요?")
+                .font(.title3)
+                .bold()
+                .padding()
+            
+            Spacer()
+        }
+            
         
         VStack{
             HStack{
@@ -61,16 +76,19 @@ struct CatEventView: View {
                             .frame(width: 20, height: 20)
                     }
                 }
+                
+                Image("openmoji_black-cat")
+                    .resizable()
+                    .frame(width: 48, height: 45)
                 Text("목격")
                     
                 Spacer()
-            }.padding(.leading, 35)
+            }
             
             HStack{
                 Text("식사")
                     .font(.system(size: 24))
                     .bold()
-                    .padding()
                 Spacer()
                 
                 Image(isMealFoldPressed ? "down_fold":"up_fold")
@@ -78,11 +96,10 @@ struct CatEventView: View {
                     .frame(width: 15, height: 15)
                     .onTapGesture {
                         hadleMealTap()
-                    }.padding(.trailing, 25)
+                    }
                 
                 
             }
-            
             VStack{
                 if isMealFoldPressed {
                     HStack{
@@ -124,15 +141,12 @@ struct CatEventView: View {
                 } else {
                     EmptyView()
                 }
-            }.padding(.leading,35)//:식사
-            
-            
+            }//:식사
             
             HStack{
                 Text("컨디션")
                     .font(.system(size: 24))
                     .bold()
-                    .padding()
                 Spacer()
                 
                 Image(isConditionFoldPressed ? "down_fold":"up_fold")
@@ -140,10 +154,9 @@ struct CatEventView: View {
                     .frame(width: 15, height: 15)
                     .onTapGesture {
                         hadleConditionTap()
-                    }.padding(.trailing, 25)
-                
-                
+                    }
             }
+            .padding(.top,20)
             VStack{
                 if isConditionFoldPressed {
                     HStack{
@@ -203,14 +216,13 @@ struct CatEventView: View {
                 } else {
                     EmptyView()
                 }
-            }.padding(.leading,35)//:컨디션
+            }//:컨디션
             
             
             HStack{
                 Text("건강상태")
                     .font(.system(size: 24))
                     .bold()
-                    .padding()
                 Spacer()
                 
                 Image(isHealthFoldPressed ? "down_fold":"up_fold")
@@ -218,10 +230,8 @@ struct CatEventView: View {
                     .frame(width: 15, height: 15)
                     .onTapGesture {
                         handleHealthTap()
-                    }.padding(.trailing, 25)
-                
-                
-            }
+                    }
+            }.padding(.top,20)
             VStack{
                 if isHealthFoldPressed {
                     HStack{
@@ -299,8 +309,40 @@ struct CatEventView: View {
                 } else {
                     EmptyView()
                 }
-            }.padding(.leading,35)//:건강상태
+            }//:건강상태
+            
+            
+            VStack{
+                HStack{
+                    Text("기타")
+                        .font(.system(size: 24))
+                        .bold()
+                    Spacer()
+                }.padding(.top,20)
+                
+                
+                CustomTextField(imageName: "OIGG",
+                                placeholder: "나만의 메모를 남겨보세요",
+                                isSecureField: false,
+                                text: $etcText)
+                .onChange(of: etcText) { text in
+                    isEmptyETC = !text.isEmpty
+                }
+                .padding(.top, 10)
+                
+                
+                
+                // TextField("", text:$etcText)
+                //     .textFieldStyle(RoundedBorderTextFieldStyle())
+                //     .lineLimit(nil)
+                //     .multilineTextAlignment(.leading)
+                //     .onChange(of: etcText) { text in
+                //         isEmptyETC = !text.isEmpty
+                //     }
+            }
         }
+        .padding(.leading, 40)
+        .padding(.trailing, 40)
     }
     
     func hadleMealTap() {
@@ -313,6 +355,18 @@ struct CatEventView: View {
     
     func handleHealthTap() {
         isHealthFoldPressed.toggle()
+    }
+    
+    func isCheckedValue() -> Bool {
+        
+        let isAnyCheckboxChecked = isCheckboxChecked ||
+                                  isLookChecked ||
+                                  isMealChecked || isSnackChecked ||
+                                  isConditionDownChecked || isConditionStableChecked || isConditionUpChecked ||
+                                  isSickChecked || isRecoverChecked || isGoodHealthChecked || isHealthConcernChecked ||
+                                  isMealFoldPressed || isConditionFoldPressed || isHealthFoldPressed || isEmptyETC
+        
+        return isAnyCheckboxChecked
     }
 }
 

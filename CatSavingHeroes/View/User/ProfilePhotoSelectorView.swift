@@ -14,6 +14,7 @@ struct ProfilePhotoSelectorView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var isIndicatorAnimating = false
     
+    
     var body: some View {
         VStack{
             Spacer()

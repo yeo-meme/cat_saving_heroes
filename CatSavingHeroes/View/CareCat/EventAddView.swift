@@ -57,44 +57,36 @@ struct EventAddView: View {
                         CatEventView(selectedEvent: $selectedEvent)
                         
                         //선택된 고양이
-                        VStack(spacing: 0) {
-                            if let cat = choiceCat {
-                                Capsule()
-                                    .frame(width: 100, height: 50)
-                                    .foregroundColor(Color.complementColor)
-                                    .overlay(
-                                        Text(cat.name)
-                                            .foregroundColor(.white)
-                                            .font(.headline)
-                                    )
-                            } else {
-                                Text("검색을 통해 고양이를 검색해주세요")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .frame(width: 200, height: 80)
-                                // .clipShape(Circle())
-                                    .overlay(RoundedRectangle(cornerRadius: 20) .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])))
-                            }
-                            
-                            // Capsule()
-                            //     .frame(width: 100, height: 50)
-                            //     .foregroundColor(Color.primaryColor)
-                            //     .overlay(
-                            //         Text(selectedCat?.name ?? "")
-                            //             .foregroundColor(.white)
-                            //             .font(.headline)
-                            //     )
-                            // Other content specific to this VStack
-                        }//:Date
+                        // VStack(spacing: 0) {
+                        //     if let cat = choiceCat {
+                        //         Capsule()
+                        //             .frame(width: 100, height: 50)
+                        //             .foregroundColor(Color.complementColor)
+                        //             .overlay(
+                        //                 Text(cat.name)
+                        //                     .foregroundColor(.white)
+                        //                     .font(.headline)
+                        //             )
+                        //     } else {
+                        //         Text("검색을 통해 고양이를 검색해주세요")
+                        //             .font(.system(size: 18, weight: .semibold))
+                        //             .frame(width: 200, height: 80)
+                        //         // .clipShape(Circle())
+                        //             .overlay(RoundedRectangle(cornerRadius: 20) .stroke(style: StrokeStyle(lineWidth: 2, dash: [5])))
+                        //     }
+                        //     
+                        //     // Capsule()
+                        //     //     .frame(width: 100, height: 50)
+                        //     //     .foregroundColor(Color.primaryColor)
+                        //     //     .overlay(
+                        //     //         Text(selectedCat?.name ?? "")
+                        //     //             .foregroundColor(.white)
+                        //     //             .font(.headline)
+                        //     //     )
+                        //     // Other content specific to this VStack
+                        // }//:Date
                         
-                        
-                        CustomTextField(imageName: "OIGG",
-                                        placeholder: "나만의 메모를 남겨보세요",
-                                        isSecureField: false,
-                                        text: $memo)
-                        .padding(.trailing, 32)
-                        .padding(.leading, 32)
-                        .padding(.top, 30)
-                        
+                      
                         //false가 저장하기 텍스트 true가 인디케팅되는 상태
                         CapsuleButton(text: "저장하기", disabled: false, isAnimating: false) {
                             print("이벤트 기록하기 ")
