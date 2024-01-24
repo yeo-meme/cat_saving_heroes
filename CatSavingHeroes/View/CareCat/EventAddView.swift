@@ -32,9 +32,8 @@ struct EventAddView: View {
     var body: some View {
         VStack{
             ScrollView{
-                ZStack(alignment:.bottomTrailing) {
                     VStack(spacing: 0) {
-                        Capsule()
+                        // Capsule()
                             // .frame(width: 100, height: 50)
                             // .foregroundColor(Color.primaryColor)
                             // .overlay(
@@ -115,7 +114,6 @@ struct EventAddView: View {
                             // print("모달 닫기 ")
                         }//: 캡슐버튼
                     }//:VSTACK
-                }
                 // catSearchBar(searchName: $searchName)
                 //     .onSubmit {
                 //         ForEach(searchName.isEmpty ? model.catSearchListData : model.filteredCats(searchName)) { cats in

@@ -45,7 +45,6 @@ struct AddedCatListView: View {
             }}
     
     var body: some View {
-        
         VStack{
             if !isLoading {
                 ForEach(catModel.filteredCats) { userCat in //데이터 파생
@@ -73,6 +72,8 @@ struct AddedCatListView: View {
         
         .sheet(isPresented: $showEventAddView){
             EventAddView(viewModel: viewModel, isLoading: $isLoading)
+                .presentationDetents([.large, .large])
+                .presentationCornerRadius(21)
             // .onDisappear{
             //     viewModel.matchUserInterestCatLoad()
             //     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
