@@ -54,7 +54,7 @@ struct EventAddView: View {
                           }
                             Spacer()
                         }
-                        BrandItemView(selectedEvent: $selectedEvent)
+                        CatEventView(selectedEvent: $selectedEvent)
                         
                         //선택된 고양이
                         VStack(spacing: 0) {

@@ -32,7 +32,14 @@ struct WatchingCellView: View {
                 }//:catName
                 Spacer()
                 
-             
+                Text("냥이정보")
+                    .font(.footnote)
+                    .foregroundColor(Color(UIColor.systemGray2))
+                    .padding(3)
+                    .frame(minWidth: 62)
+                    .overlay(
+                        Capsule().stroke(Color(UIColor.systemGray2), lineWidth: 0.75)
+                    )
             }
             // frame(height: 80)
             //     .background(Color.white)

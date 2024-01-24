@@ -32,8 +32,7 @@ struct AddedCatListView: View {
                     Image(systemName: "waveform.path.badge.plus")
                         .foregroundColor(.white)
                         .padding(.leading,5)
-                    
-                    Text("냥이추가")
+                    Text("새로운냥이등록")
                         .foregroundColor(.white)
                         .padding(.leading,5)
                         .frame(width: 70, height: 36)

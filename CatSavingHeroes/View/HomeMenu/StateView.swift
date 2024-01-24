@@ -90,7 +90,7 @@ struct StateView: View {
                     
                     
                     //custom tabbar 시작
-                    SlidingTabBar(tabs: ["추가냥","왓치냥"], selectedTabIndex: $selectedTabIndex)
+                    SlidingTabBar(tabs: ["나의발견냥들","나의관심냥들"], selectedTabIndex: $selectedTabIndex)
                         .background(Color.gray.opacity(0.1))
                     
                     // Spacer()
